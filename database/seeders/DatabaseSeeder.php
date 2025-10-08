@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             WriterSeeder::class,
             CategorySeeder::class,
+            StorySeeder::class,
         ]);
     }
 }

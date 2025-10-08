@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Enums\Story;
+
+use App\Traits\EnumToArray;
+use Filament\Support\Contracts\HasLabel;
+use Illuminate\Contracts\Support\Htmlable;
+
+enum RatingEnum: string implements HasLabel
+{
+    use EnumToArray;
+
+    case EVERYONE = 'everyone';
+    case TEEN = 'teen';
+    case YOUNG_ADULT = 'young_adult';
+    case MATURE = 'mature';
+
+    public function getLabel(): string|Htmlable|null
+    {
+        return match ($this) {
+            self::EVERYONE => 'Everyone (All Ages)',
+            self::TEEN => 'Teen (13+)',
+            self::YOUNG_ADULT => 'Young Adult (16+)',
+            self::MATURE => 'Mature (18+)',
+        };
+    }
+}
