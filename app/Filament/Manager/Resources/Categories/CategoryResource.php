@@ -28,16 +28,19 @@ final class CategoryResource extends Resource
         return (string) self::getEloquentQuery()->count();
     }
 
+    #[\Override]
     public static function form(Schema $schema): Schema
     {
         return CategoryForm::configure($schema);
     }
 
+    #[\Override]
     public static function table(Table $table): Table
     {
         return CategoriesTable::configure($table);
     }
 
+    #[\Override]
     public static function getRelations(): array
     {
         return [
