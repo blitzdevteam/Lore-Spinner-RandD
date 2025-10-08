@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Manager>
  */
-class ManagerFactory extends Factory
+class UserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,6 +21,9 @@ class ManagerFactory extends Factory
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => 'password',
+            'username' => fake()->username(),
+            'bio' => fake()->paragraph(),
+            'is_active' => fake()->boolean(),
         ];
     }
 }
