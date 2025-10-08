@@ -4,10 +4,12 @@ namespace App\Filament\Manager\Resources\Stories\Schemas;
 
 use App\Enums\Story\RatingEnum;
 use App\Enums\Story\StatusEnum;
+use App\Models\Writer;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
 class StoryForm
@@ -16,24 +18,29 @@ class StoryForm
     {
         return $schema
             ->components([
-                Select::make('category_id')
-                    ->relationship('category', 'title')
-                    ->required(),
-                Select::make('writer_id')
-                    ->relationship('writer', 'id')
-                    ->required(),
+                Grid::make(3)
+                    ->schema([
+                        Select::make('category_id')
+                            ->searchable()
+                            ->preload()
+                            ->relationship('category', 'title')
+                            ->required(),
+                        Select::make('writer_id')
+                            ->searchable()
+                            ->preload()
+                            ->relationship('writer')
+                            ->getOptionLabelFromRecordUsing(fn (Writer $record) => $record->full_name),
+                        Select::make('rating')
+                            ->options(RatingEnum::class)
+                            ->required(),
+                    ])
+                    ->columnSpanFull(),
                 TextInput::make('title')
-                    ->required(),
+                    ->required()
+                    ->columnSpanFull(),
                 Textarea::make('description')
                     ->required()
                     ->columnSpanFull(),
-                Select::make('status')
-                    ->options(StatusEnum::class)
-                    ->required(),
-                Select::make('rating')
-                    ->options(RatingEnum::class)
-                    ->required(),
-                DateTimePicker::make('published_at'),
             ]);
     }
 }
