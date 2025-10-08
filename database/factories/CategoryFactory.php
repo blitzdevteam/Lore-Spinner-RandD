@@ -40,7 +40,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->randomElement($this->genres),
+            'title' => fake()->unique()->randomElement($this->genres),
         ];
     }
 }
