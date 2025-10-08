@@ -19,7 +19,7 @@ class WriterResource extends Resource
 {
     protected static ?string $model = Writer::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
 
     protected static string|UnitEnum|null $navigationGroup = 'Entities';
 
