@@ -27,6 +27,11 @@ class WritersTable
                 IconColumn::make('is_active')
                     ->sortable()
                     ->boolean(),
+                TextColumn::make('stories_count')
+                    ->counts('stories')
+                    ->badge()
+                    ->color('primary')
+                    ->sortable(),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),

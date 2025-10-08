@@ -22,7 +22,7 @@ final class User extends Authenticatable
         'full_name',
     ];
 
-    public function casts(): array
+    protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',

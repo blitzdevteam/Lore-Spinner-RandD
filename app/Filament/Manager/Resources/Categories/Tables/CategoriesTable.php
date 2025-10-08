@@ -18,6 +18,11 @@ final class CategoriesTable
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
+                TextColumn::make('stories_count')
+                    ->counts('stories')
+                    ->badge()
+                    ->color('primary')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),

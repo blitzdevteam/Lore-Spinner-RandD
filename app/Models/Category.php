@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class Category extends Model
 {
@@ -15,8 +16,14 @@ final class Category extends Model
 
     protected function casts(): array
     {
-        return [
-            '',
-        ];
+        return [];
+    }
+
+    /**
+     * @return HasMany<$this, Story>
+     */
+    public function stories(): HasMany
+    {
+        return $this->hasMany(Story::class);
     }
 }
