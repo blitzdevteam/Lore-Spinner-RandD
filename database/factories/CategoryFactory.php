@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Collection;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
@@ -30,7 +29,7 @@ class CategoryFactory extends Factory
         'Wilderness Exploration',
         'Court Drama',
         'War Campaign',
-        'Heist & Espionage'
+        'Heist & Espionage',
     ];
 
     /**
@@ -44,5 +43,4 @@ class CategoryFactory extends Factory
             'title' => fake()->randomElement($this->genres),
         ];
     }
-
 }

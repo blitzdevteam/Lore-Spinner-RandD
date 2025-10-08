@@ -29,4 +29,3 @@ class WriterFactory extends Factory
         ];
     }
 }
-

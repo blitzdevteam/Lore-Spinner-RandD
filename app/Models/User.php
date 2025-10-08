@@ -11,15 +11,15 @@ final class User extends Authenticatable
     use HasFactory;
 
     protected $guarded = [
-        'id', 'created_at', 'updated_at'
+        'id', 'created_at', 'updated_at',
     ];
 
     protected $hidden = [
-        'password', 'remember_token'
+        'password', 'remember_token',
     ];
 
     protected $appends = [
-        'full_name'
+        'full_name',
     ];
 
     public function casts(): array
@@ -38,9 +38,7 @@ final class User extends Authenticatable
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn(): string => $this->first_name . ' ' . $this->last_name
+            get: fn (): string => $this->first_name.' '.$this->last_name
         );
     }
 }
-
-
