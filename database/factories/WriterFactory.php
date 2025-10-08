@@ -19,9 +19,10 @@ class WriterFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
+            'nickname' => fake()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => 'password',
-            'username' => fake()->username(),
+            'username' => fake()->userName(),
             'bio' => fake()->paragraph(),
             'is_active' => fake()->boolean(),
             'email_verified_at' => fake()->dateTime(),

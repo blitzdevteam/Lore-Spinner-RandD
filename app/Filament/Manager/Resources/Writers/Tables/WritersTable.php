@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Manager\Resources\Users\Tables;
+namespace App\Filament\Manager\Resources\Writers\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -9,7 +9,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class UsersTable
+class WritersTable
 {
     public static function configure(Table $table): Table
     {
