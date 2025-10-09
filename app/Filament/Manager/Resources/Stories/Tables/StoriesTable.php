@@ -19,6 +19,11 @@ class StoriesTable
             ->columns([
                 TextColumn::make('category.title')
                     ->searchable(),
+                TextColumn::make('chapters_count')
+                    ->counts('chapters')
+                    ->badge()
+                    ->color('primary')
+                    ->sortable(),
                 TextColumn::make('writer.full_name')
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('title')
