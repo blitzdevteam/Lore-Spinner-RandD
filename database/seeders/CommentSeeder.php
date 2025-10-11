@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Comment;
 use App\Models\Story;
 use App\Models\User;
+use App\Models\Writer;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,11 +18,23 @@ class CommentSeeder extends Seeder
     {
         $stories = Story::select('id')->pluck('id');
         $users = User::select('id')->pluck('id');
+        $writers = User::select('id')->pluck('id');
+
         Comment::factory()
-            ->count(rand(100, 150))
+            ->count(rand(25, 75))
             ->afterMaking(function (Comment $comment) use ($users, $stories) {
                 $comment->author_id = $users->random();
                 $comment->author_type = User::class;
+                $comment->commentable_id = $stories->random();
+                $comment->commentable_type = Story::class;
+            })
+            ->create();
+
+        Comment::factory()
+            ->count(rand(25, 75))
+            ->afterMaking(function (Comment $comment) use ($writers, $stories) {
+                $comment->author_id = $writers->random();
+                $comment->author_type = Writer::class;
                 $comment->commentable_id = $stories->random();
                 $comment->commentable_type = Story::class;
             })

@@ -13,23 +13,9 @@ class CommentForm
     {
         return $schema
             ->components([
-                TextInput::make('author_type')
-                    ->required(),
-                TextInput::make('author_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('commentable_type')
-                    ->required(),
-                TextInput::make('commentable_id')
-                    ->required()
-                    ->numeric(),
                 Textarea::make('content')
                     ->required()
                     ->columnSpanFull(),
-                TextInput::make('status')
-                    ->required()
-                    ->default('pending'),
-                DateTimePicker::make('approved_at'),
             ]);
     }
 }

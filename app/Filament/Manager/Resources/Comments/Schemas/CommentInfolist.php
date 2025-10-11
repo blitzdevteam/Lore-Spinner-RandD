@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources\Comments\Schemas;
 
+use App\Enums\Comment\StatusEnum;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -11,15 +12,29 @@ class CommentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('author_type'),
-                TextEntry::make('author_id')
-                    ->numeric(),
-                TextEntry::make('commentable_type'),
-                TextEntry::make('commentable_id')
-                    ->numeric(),
+                TextEntry::make('author_type')
+                    ->formatStateUsing(function ($record) {
+                        return class_basename($record->author_type);
+                    })
+                    ->badge()
+                    ->color(fn ($record) => match (class_basename($record->author_type)) {
+                        'User' => 'success',
+                        'Writer' => 'info',
+                        default => 'secondary',
+                    }),
+                TextEntry::make('author.full_name'),
+                TextEntry::make('commentable.title')
+                    ->columnSpanFull()
+                    ->limit(50),
                 TextEntry::make('content')
                     ->columnSpanFull(),
-                TextEntry::make('status'),
+                TextEntry::make('status')
+                    ->badge()
+                    ->color(fn (StatusEnum $state): string => match ($state) {
+                        StatusEnum::PENDING => 'warning',
+                        StatusEnum::APPROVED => 'info',
+                        StatusEnum::DECLINED => 'danger',
+                    }),
                 TextEntry::make('approved_at')
                     ->dateTime()
                     ->placeholder('-'),
