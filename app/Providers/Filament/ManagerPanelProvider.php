@@ -27,6 +27,7 @@ class ManagerPanelProvider extends PanelProvider
             ->id('manager')
             ->path('manager')
             ->login()
+            ->loginRouteSlug('authentication/login')
             ->colors([
                 'primary' => Color::Purple,
             ])
