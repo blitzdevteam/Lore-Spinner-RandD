@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->morphs('guard');
+            $table->morphs('author');
             $table->morphs('commentable');
             $table->text('content');
             $table->string('status')->default(\App\Enums\Comment\StatusEnum::PENDING);

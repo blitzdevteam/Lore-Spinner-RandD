@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Comment\StatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -13,6 +14,13 @@ class Comment extends Model
     protected $guarded = [
         'id', 'created_at', 'updated_at'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'status' => StatusEnum::class
+        ];
+    }
 
     /**
      * @return MorphTo<$this>

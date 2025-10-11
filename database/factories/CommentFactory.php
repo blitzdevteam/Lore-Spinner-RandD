@@ -1,0 +1,44 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Enums\Comment\StatusEnum;
+use App\Models\Comment;
+use Closure;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
+ */
+class CommentFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'content' => fake()->paragraph(),
+            'status' => fake()->randomElement(StatusEnum::values()),
+        ];
+    }
+
+    /**
+     * Configure the model factory.
+     * @return CommentFactory|Factory
+     */
+    public function configure(): CommentFactory|Factory
+    {
+        return $this->afterMaking(function (Comment $comment) {
+            if ($comment->status === StatusEnum::APPROVED) {
+                $dateThisMonth = fake()->dateTimeThisMonth();
+                $comment->approved_at = $dateThisMonth;
+                $comment->updated_at = $dateThisMonth;
+                $comment->created_at = Carbon::make($dateThisMonth)->subDays(7);
+            }
+        });
+    }
+}
