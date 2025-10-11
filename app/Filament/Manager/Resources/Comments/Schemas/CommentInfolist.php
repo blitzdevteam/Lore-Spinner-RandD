@@ -11,8 +11,8 @@ class CommentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('guard_type'),
-                TextEntry::make('guard_id')
+                TextEntry::make('author_type'),
+                TextEntry::make('author_id')
                     ->numeric(),
                 TextEntry::make('commentable_type'),
                 TextEntry::make('commentable_id')

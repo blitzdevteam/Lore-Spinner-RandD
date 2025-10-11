@@ -15,9 +15,9 @@ class CommentsTable
     {
         return $table
             ->columns([
-                TextColumn::make('guard_type')
+                TextColumn::make('author_type')
                     ->searchable(),
-                TextColumn::make('guard_id')
+                TextColumn::make('author_id')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('commentable_type')

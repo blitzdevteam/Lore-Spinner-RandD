@@ -13,9 +13,9 @@ class CommentForm
     {
         return $schema
             ->components([
-                TextInput::make('guard_type')
+                TextInput::make('author_type')
                     ->required(),
-                TextInput::make('guard_id')
+                TextInput::make('author_id')
                     ->required()
                     ->numeric(),
                 TextInput::make('commentable_type')
