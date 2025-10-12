@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources\Comments;
 
+use App\Enums\Comment\StatusEnum;
 use App\Filament\Manager\Resources\Comments\Pages\CreateComment;
 use App\Filament\Manager\Resources\Comments\Pages\EditComment;
 use App\Filament\Manager\Resources\Comments\Pages\ListComments;
@@ -24,6 +25,16 @@ class CommentResource extends Resource
     protected static string|UnitEnum|null $navigationGroup = 'Moderation';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleBottomCenterText;
+
+    public static function getNavigationBadge(): string
+    {
+        return (string) self::getEloquentQuery()->where('status', StatusEnum::PENDING)->count();
+    }
+
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return 'warning';
+    }
 
     public static function form(Schema $schema): Schema
     {
