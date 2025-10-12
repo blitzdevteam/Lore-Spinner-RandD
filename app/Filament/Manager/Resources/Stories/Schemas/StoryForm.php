@@ -38,9 +38,8 @@ class StoryForm
                                 ->panelLayout('grid')
                                 ->reorderable()
                                 ->columnSpanFull(),
-                        ])
-                        ->description('Upload cover and gallery images for the story.'),
-                    Step::make('details')
+                        ]),
+                    Step::make('Details')
                         ->schema([
                             Grid::make(3)
                                 ->schema([
