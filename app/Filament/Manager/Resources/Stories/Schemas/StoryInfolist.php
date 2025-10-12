@@ -4,6 +4,7 @@ namespace App\Filament\Manager\Resources\Stories\Schemas;
 
 use App\Enums\Story\RatingEnum;
 use App\Enums\Story\StatusEnum;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
@@ -14,6 +15,14 @@ class StoryInfolist
     {
         return $schema
             ->components([
+                ImageEntry::make('cover')
+                    ->label('Cover Image')
+                    ->placeholder('No cover image')
+                    ->columnSpanFull(),
+                ImageEntry::make('gallery')
+                    ->label('Gallery')
+                    ->placeholder('No gallery images')
+                    ->columnSpanFull(),
                 Grid::make(4)
                     ->schema([
                         TextEntry::make('category.title')

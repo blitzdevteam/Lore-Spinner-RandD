@@ -5,6 +5,7 @@ namespace App\Filament\Manager\Resources\Writers;
 use App\Filament\Manager\Resources\Writers\Pages\CreateWriter;
 use App\Filament\Manager\Resources\Writers\Pages\EditWriter;
 use App\Filament\Manager\Resources\Writers\Pages\ListWriters;
+use App\Filament\Manager\Resources\Writers\RelationManagers\StoriesRelationManager;
 use App\Filament\Manager\Resources\Writers\Schemas\WriterForm;
 use App\Filament\Manager\Resources\Writers\Tables\WritersTable;
 use App\Models\Writer;
@@ -44,7 +45,7 @@ class WriterResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            StoriesRelationManager::class
         ];
     }
 

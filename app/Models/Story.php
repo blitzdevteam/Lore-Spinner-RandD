@@ -32,7 +32,6 @@ final class Story extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('cover')
-            ->acceptsFile(fn ($file) => $file->getSize() <= 1024 * 1024 * 5)
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
             ->singleFile();
 
