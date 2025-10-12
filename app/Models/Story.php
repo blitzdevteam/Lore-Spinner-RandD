@@ -36,8 +36,7 @@ final class Story extends Model implements HasMedia
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
             ->singleFile();
 
-        $this->addMediaCollection('gallery')
-            ->singleFile();
+        $this->addMediaCollection('gallery');
     }
 
     /**

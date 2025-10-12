@@ -25,7 +25,7 @@ class StoryForm
                             SpatieMediaLibraryFileUpload::make('cover')
                                 ->imageEditor()
                                 ->imageCropAspectRatio('16:9')
-                                ->collection('covers')
+                                ->collection('cover')
                                 ->image()
                                 ->required()
                                 ->columnSpanFull(),
