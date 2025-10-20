@@ -7,3 +7,24 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Landing background utilities */
+.ls-landing-gradient {
+    background: linear-gradient(115deg, #2b3b8a 0%, #6f6e88 45%, #1f212a 100%);
+}
+
+.ls-landing-lights {
+    background:
+        radial-gradient(1200px 400px at 30% 15%, rgba(248, 197, 122, 0.16), transparent 60%),
+        radial-gradient(900px 300px at 75% 5%, rgba(255, 255, 255, 0.08), transparent 60%);
+    mix-blend-mode: screen;
+}
+
+.ls-landing-grid {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px, 56px 56px;
+    background-position: -1px -1px;
+    opacity: 0.25;
+}
