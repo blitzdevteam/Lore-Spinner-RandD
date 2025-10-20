@@ -11,12 +11,10 @@ Route::get('/about', function () {
     return Inertia::render('about');
 })->name('about');
 
-Route::get('/contact', function () {
-    return Inertia::render('contact');
-})->name('contact');
-
 Route::get('/investors', function () {
     return Inertia::render('investors');
 })->name('investors');
 
-
+Route::get('/contact', function () {
+    return Inertia::render('contact');
+})->name('contact');
