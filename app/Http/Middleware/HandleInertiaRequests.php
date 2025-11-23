@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -43,7 +44,7 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'error' => $request->session()->get('error') ? Arr::wrap($request->session()->get('error')) : null,
                 'success' => $request->session()->get('success') ? Arr::wrap($request->session()->get('success')) : null,
-                'contrast' => $request->session()->get('contrast') ? Arr::wrap($request->session()->get('contrast')) : null,
+                'warning' => $request->session()->get('warning') ? Arr::wrap($request->session()->get('warning')) : null,
             ],
         ];
     }

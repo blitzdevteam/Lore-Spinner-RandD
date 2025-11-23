@@ -9,7 +9,7 @@ class LoginController extends Controller
 {
     public function create()
     {
-        return inertia('user/authentication/Login');
+        return inertia('user/authentication/Login')->with('flash.success', ['this is a test message']);
     }
 
     public function store()
