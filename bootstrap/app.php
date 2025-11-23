@@ -13,10 +13,39 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        /**
+         * Append custom middleware to the "web" middleware group
+         */
         $middleware->web(append: [
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
+
+        /**
+         * Custom redirects for guests and authenticated users
+         */
+        $middleware->redirectGuestsTo(function (Request $request): string {
+            if ($request->is('user/*')) {
+                return route('user.authentication.login.create');
+            }
+
+            return route('home');
+        });
+
+        /**
+         * Custom redirects for authenticated users
+         */
+        $middleware->redirectUsersTo(function (Request $request): string {
+            if ($request->user('user')) {
+                return route('user.dashboard.index');
+            } else if ($request->user('writer')) {
+                return route('writer.dashboard.index');
+            } else if ($request->user('manager')) {
+                dd(":| YOU ARE MANAGER AND TRYING TO DO A FUCKING LOGIN INTO ANOTHER GUARD ACCOUNTS :|||||||| WTF DUDE!!!!!! GET BACK TO UR PANEL");
+            }
+
+            return route('home');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

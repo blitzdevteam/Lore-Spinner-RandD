@@ -1,5 +1,6 @@
 // CSS
 import '../css/app.css';
+import '../css/fonts/sf-pro-display/sf-pro-display.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';

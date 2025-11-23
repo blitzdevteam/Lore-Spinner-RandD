@@ -1,8 +1,5 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    dd(1);
-});
+require __DIR__ . '/routes/user.php';

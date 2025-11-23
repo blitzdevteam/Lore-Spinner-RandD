@@ -1,18 +1,11 @@
 @import 'tailwindcss';
-
 @import 'tw-animate-css';
-
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-sans:
-        Instrument Sans, ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
-
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
@@ -59,34 +52,6 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
-}
-
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-    *,
-    ::after,
-    ::before,
-    ::backdrop,
-    ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
-    }
-}
-
-@layer utilities {
-    body,
-    html {
-        --font-sans:
-            'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-            'Noto Color Emoji';
-    }
 }
 
 :root {
@@ -162,32 +127,8 @@
     --sidebar: hsl(240 5.9% 10%);
 }
 
-@layer base {
-    * {
-        @apply border-border outline-ring/50;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
-}
-
-/* Landing background utilities */
-.ls-landing-gradient {
-    background: linear-gradient(115deg, #2b3b8a 0%, #6f6e88 45%, #1f212a 100%);
-}
-
-.ls-landing-lights {
-    background:
-        radial-gradient(1200px 400px at 30% 15%, rgba(248, 197, 122, 0.16), transparent 60%),
-        radial-gradient(900px 300px at 75% 5%, rgba(255, 255, 255, 0.08), transparent 60%);
-    mix-blend-mode: screen;
-}
-
-.ls-landing-grid {
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 56px 56px, 56px 56px;
-    background-position: -1px -1px;
-    opacity: 0.25;
+html, body {
+    font-family: "SFProDisplay", Inter, sans-serif;
+    direction: ltr;
+    text-align: left;
 }
