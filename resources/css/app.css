@@ -91,6 +91,18 @@
     --color-gray-800: #454545;
     --color-gray-900: #353535;
     --color-gray-950: #262626;
+
+    --color-red-50: #fff0f0;
+    --color-red-100: #ffdede;
+    --color-red-200: #ffc2c2;
+    --color-red-300: #ff9898;
+    --color-red-400: #ff5d5d;
+    --color-red-500: #ff2a2a;
+    --color-red-600: #f81818;
+    --color-red-700: #d10404;
+    --color-red-800: #ac0808;
+    --color-red-900: #8e0e0e;
+    --color-red-950: #4e0101;
 }
 
 :root {

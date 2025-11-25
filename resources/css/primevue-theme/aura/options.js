@@ -8,8 +8,7 @@ export default {
     theme: {
         preset: customPreset,
         options: {
-
-            darkModeSelector: 'dark',
+            darkModeSelector: '.dark',
         },
     },
     inputVariant: 'filled',
