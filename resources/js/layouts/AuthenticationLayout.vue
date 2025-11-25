@@ -7,6 +7,7 @@
                 <div class="flex flex-col gap-4">
                     <img src="@/assets/logo.svg" class="w-72" alt="">
                     <div class="flex items-center gap-4">
+                        <PrimeInputText />
                     </div>
                 </div>
             </div>
@@ -16,7 +17,6 @@
 
 <script setup lang="ts">
 import App from '@/layouts/App.vue';
-import { Button } from '@/components/ui/button';
 </script>
 
 <style scoped></style>
