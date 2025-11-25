@@ -75,7 +75,7 @@ const getComponentClass = computed((): string => {
     const notAllowedClass =
         props.type === 'button' && (props.disabled || props.processing)
             ? 'cursor-not-allowed opacity-60 outline-none'
-            : 'cursor-pointer outline-0 opacity-100 hover:outline-4';
+            : 'cursor-pointer outline-0 opacity-100 hover:outline-4 focus:outline-4';
 
     return `relative font-medium justify-center flex items-center transition-all rounded-md h-12 ${severityClass} ${roundedClass} ${notAllowedClass}`;
 });

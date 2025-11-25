@@ -335,9 +335,9 @@ export default {
             },
             borderRadius: '{border.radius.md}',
             focusRing: {
-                width: '0',
-                style: 'none',
-                color: 'transparent',
+                width: '4px',
+                style: 'solid',
+                color: 'color-mix(in srgb, {primary.400}, transparent 85%)',
                 offset: '0',
                 shadow: 'none',
             },
