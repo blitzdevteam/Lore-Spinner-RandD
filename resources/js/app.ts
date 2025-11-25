@@ -7,6 +7,10 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 
+// Primevue custom preset and options
+import PrimeVue from 'primevue/config';
+import customPresetOptions from '../css/primevue-theme/aura/options';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -19,6 +23,9 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+
+            .use(PrimeVue, customPresetOptions)
+
             .mount(el);
     },
 });
