@@ -6,6 +6,24 @@
             <div class="z-10 w-full max-w-116">
                 <div class="flex flex-col gap-8 items-center w-full">
                     <img src="@/assets/logo.svg" class="w-68" alt="">
+                    <div class="flex items-center gap-4 w-full">
+                        <BaseButton
+                            type="internal-link"
+                            :href="login.create.url()"
+                            severity="secondary-muted-outline"
+                            class="flex-1"
+                        >
+                            Log In
+                        </BaseButton>
+                        <BaseButton
+                            type="internal-link"
+                            severity="muted"
+                            :href="register.create.url()"
+                            class="hover:text-secondary-300 flex-1"
+                        >
+                            Sign Up
+                        </BaseButton>
+                    </div>
                     <slot></slot>
                 </div>
             </div>
@@ -15,6 +33,9 @@
 
 <script setup lang="ts">
 import App from '@/layouts/App.vue';
+import BaseButton from '@/components/BaseButton.vue';
+import login from '@/wayfinder/routes/user/authentication/login';
+import register from '@/wayfinder/routes/user/authentication/register';
 </script>
 
 <style scoped></style>

@@ -4,7 +4,9 @@
             <Asterisk v-if="required" class="w-4 text-red-500" />
             <p class="text-white text-base">{{ label }}</p>
         </div>
-        <slot></slot>
+        <div class="w-full" id="children">
+            <slot></slot>
+        </div>
         <div v-if="error">
             <p class="text-xs text-red-500">{{ error }}</p>
         </div>
@@ -28,4 +30,8 @@ withDefaults(
 );
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped>
+#children :deep(.p-component) {
+    width: 100%;
+}
+</style>

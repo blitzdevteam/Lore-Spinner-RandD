@@ -18,6 +18,7 @@ import InputMask from 'primevue/inputmask';
 import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
+import Password from 'primevue/password';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -42,6 +43,7 @@ createInertiaApp({
             .component('PrimeCheckbox', Checkbox)
             .component('PrimeSelect', Select)
             .component('PrimeDivider', Divider)
+            .component('PrimePassword', Password)
 
             .mount(el);
     },
