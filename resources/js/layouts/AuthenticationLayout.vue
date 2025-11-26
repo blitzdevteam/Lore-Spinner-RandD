@@ -10,16 +10,18 @@
                         <BaseButton
                             type="internal-link"
                             :href="login.create.url()"
-                            severity="secondary-muted-outline"
+                            :severity="currentRouteSeverity(login.create.url())"
                             class="flex-1"
                         >
                             Log In
                         </BaseButton>
                         <BaseButton
                             type="internal-link"
-                            severity="muted"
                             :href="register.create.url()"
-                            class="hover:text-secondary-300 flex-1"
+                            :severity="currentRouteSeverity(register.create.url())"
+                            :class="[
+                                'flex-1', currentRouteClass(register.create.url())
+                            ]"
                         >
                             Sign Up
                         </BaseButton>
@@ -36,6 +38,15 @@ import App from '@/layouts/App.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import login from '@/wayfinder/routes/user/authentication/login';
 import register from '@/wayfinder/routes/user/authentication/register';
+
+const currentRouteClass = (routeUrl: string): string => {
+    return routeUrl === window.location.pathname ? 'hover:text-secondary-300' : '';
+}
+
+const currentRouteSeverity = (routeUrl: string): 'secondary-muted-outline' | 'muted' => {
+    return routeUrl === window.location.pathname ? 'secondary-muted-outline' : 'muted';
+}
+
 </script>
 
 <style scoped></style>
