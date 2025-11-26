@@ -16,19 +16,15 @@ import Checkbox from 'primevue/checkbox';
 import Divider from 'primevue/divider';
 import InputMask from 'primevue/inputmask';
 import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
-import Password from 'primevue/password';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
-    resolve: (name) =>
-        resolvePageComponent(
-            `./pages/${name}.vue`,
-            import.meta.glob<DefineComponent>('./pages/**/*.vue'),
-        ),
+    resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)

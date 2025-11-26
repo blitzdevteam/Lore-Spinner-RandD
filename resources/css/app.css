@@ -178,17 +178,18 @@
     --sidebar: oklch(0.216 0.006 56.043);
 }
 
-html, body {
-    font-family: "SFProDisplay", Inter, sans-serif;
+html,
+body {
+    font-family: 'SFProDisplay', Inter, sans-serif;
     direction: ltr;
     text-align: left;
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
 }

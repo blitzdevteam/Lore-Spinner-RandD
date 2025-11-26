@@ -7,9 +7,7 @@
         @click="emitHandleClick"
         @submit="type === 'button' ? emitHandleSubmit : undefined"
     >
-        <template v-if="processing">
-            Processing [FIX IT]
-        </template>
+        <template v-if="processing"> Processing [FIX IT] </template>
         <template v-else>
             <slot></slot>
         </template>
@@ -22,11 +20,7 @@ import { computed } from 'vue';
 
 const props = withDefaults(
     defineProps<{
-        severity?:
-            | 'primary'
-            | 'secondary'
-            | 'secondary-muted-outline'
-            | 'muted'
+        severity?: 'primary' | 'secondary' | 'secondary-muted-outline' | 'muted';
         iconOnly?: boolean;
         type?: 'internal-link' | 'external-link' | 'button' | 'span';
         href?: string;
@@ -66,7 +60,8 @@ const getComponentClass = computed((): string => {
     const severityClass = {
         primary: 'bg-primary-400 text-black font-light outline-primary-200/20',
         secondary: 'bg-secondary-400 text-black font-light outline-secondary-400/30',
-        'secondary-muted-outline': 'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 font-light outline-secondary-200/20',
+        'secondary-muted-outline':
+            'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 font-light outline-secondary-200/20',
         muted: 'bg-gray-900 text-gray-300 font-light outline-gray-500/15',
     }[props.severity];
 

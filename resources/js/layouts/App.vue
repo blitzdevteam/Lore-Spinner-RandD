@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
 import { computed, nextTick, onMounted, watch } from 'vue';
-import { Toaster, toast } from 'vue-sonner'
+import { Toaster, toast } from 'vue-sonner';
 import 'vue-sonner/style.css';
 
 const page = usePage();
@@ -14,7 +14,6 @@ const page = usePage();
 const flash = computed(() => page.props.flash);
 
 onMounted(() => {
-
     watch(
         flash,
         () => {

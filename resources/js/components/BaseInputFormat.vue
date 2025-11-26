@@ -2,7 +2,7 @@
     <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2" v-if="label">
             <Asterisk v-if="required" class="w-4 text-red-500" />
-            <p class="text-white text-base">{{ label }}</p>
+            <p class="text-base text-white">{{ label }}</p>
         </div>
         <div class="w-full" id="children">
             <slot></slot>
