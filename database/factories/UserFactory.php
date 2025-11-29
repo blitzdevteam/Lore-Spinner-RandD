@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\GenderEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,9 +21,10 @@ class UserFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'nickname' => fake()->userName(),
+            'username' => fake()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => 'password',
-            'username' => fake()->userName(),
+            'gender' => fake()->randomElement(GenderEnum::values()),
             'bio' => fake()->paragraph(),
             'is_active' => fake()->boolean(),
             'email_verified_at' => fake()->dateTime(),
