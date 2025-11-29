@@ -5,16 +5,37 @@ declare(strict_types=1);
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Testing\TestResponse;
 use Inertia\Testing\AssertableInertia as Assert;
 
-function createUser($payload = []): User
+const TEST_EMAIL = 'john@example.com';
+const TEST_PASSWORD = 'password';
+
+function createUser(array $payload = []): User
 {
     return User::factory()->create($payload);
 }
 
-function startUserRegistration($payload = []): Illuminate\Testing\TestResponse
+function startUserRegistration(array $payload = []): TestResponse
 {
     return test()->post(route('user.authentication.register.store'), $payload);
+}
+
+function getRegistrationPayload(array $overrides = []): array
+{
+    return array_merge([
+        'email' => TEST_EMAIL,
+        'password' => TEST_PASSWORD,
+        'password_confirmation' => TEST_PASSWORD,
+    ], $overrides);
+}
+
+function getLoginPayload(array $overrides = []): array
+{
+    return array_merge([
+        'email' => TEST_EMAIL,
+        'password' => TEST_PASSWORD,
+    ], $overrides);
 }
 
 describe('registration', function () {
@@ -22,43 +43,26 @@ describe('registration', function () {
         $this
             ->get(route('user.authentication.register.create'))
             ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page->component('User/Authentication/Register'));
+            ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/Register'));
     });
 
     test('user can not do register action with duplicate email', function () {
-        $payload = [
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ];
+        createUser(['email' => TEST_EMAIL]);
 
-        createUser([
-            'email' => $payload['email'],
-        ]);
-
-        startUserRegistration($payload)
-            ->assertSessionHasErrors([
-                'email',
-            ])
+        startUserRegistration(getRegistrationPayload())
+            ->assertSessionHasErrors('email')
             ->assertRedirectBack();
     });
 
     test('user can do register action and redirect to email verification route', function () {
-        $payload = [
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ];
-
-        startUserRegistration($payload)
+        startUserRegistration(getRegistrationPayload())
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('user.authentication.verify.index'));
 
-        $this
-            ->assertDatabaseHas('users', [
-                'email' => $payload['email'],
-                'email_verified_at' => null,
-            ]);
+        $this->assertDatabaseHas('users', [
+            'email' => TEST_EMAIL,
+            'email_verified_at' => null,
+        ]);
     });
 });
 
@@ -67,38 +71,23 @@ describe('login', function () {
         $this
             ->get(route('user.authentication.login.create'))
             ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page->component('User/Authentication/Login'));
+            ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/Login'));
     });
 
     test('user can not do login action with wrong email or password', function () {
-        $payload = [
-            'email' => 'john@example.com',
-            'password' => 'password',
-        ];
-
-        createUser($payload);
+        createUser(['email' => TEST_EMAIL, 'password' => bcrypt(TEST_PASSWORD)]);
 
         $this
-            ->post(route('user.authentication.login.store'), [
-                ...$payload,
-                'password' => 'wrong-password',
-            ])
-            ->assertSessionHasErrors([
-                'email',
-            ])
+            ->post(route('user.authentication.login.store'), getLoginPayload(['password' => 'wrong-password']))
+            ->assertSessionHasErrors('email')
             ->assertRedirectBack();
     });
 
     test('user can do login action', function () {
-        $payload = [
-            'email' => 'john@example.com',
-            'password' => 'password',
-        ];
-
-        createUser($payload);
+        createUser(['email' => TEST_EMAIL, 'password' => bcrypt(TEST_PASSWORD)]);
 
         $this
-            ->post(route('user.authentication.login.store'), $payload)
+            ->post(route('user.authentication.login.store'), getLoginPayload())
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('user.dashboard.index'));
     });
@@ -106,33 +95,20 @@ describe('login', function () {
 
 describe('verification', function () {
     it('verification page can render', function () {
-        startUserRegistration([
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ]);
+        startUserRegistration(getRegistrationPayload());
 
         $this
             ->get(route('user.authentication.verify.index'))
             ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page->component('User/Authentication/Verify'));
+            ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/Verify'));
     });
 
     test('user can do verify action and redirect to user dashboard page', function () {
         Notification::fake();
 
-        $payload = [
-            'email' => 'john@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ];
+        startUserRegistration(getRegistrationPayload());
+        $user = User::where('email', TEST_EMAIL)->first();
 
-        startUserRegistration($payload);
-
-        // Get the user and extract the verification URL from the notification
-        $user = User::where('email', $payload['email'])->first();
-
-        // Get the verification URL from the notification
         $verifyUrl = null;
         Notification::assertSentTo($user, VerifyEmail::class, function (VerifyEmail $notification) use ($user, &$verifyUrl) {
             $verifyUrl = $notification->toMail($user)->actionUrl;
@@ -140,16 +116,9 @@ describe('verification', function () {
             return true;
         });
 
-        // Visit the verification URL
         $this->get($verifyUrl)
             ->assertRedirect(route('user.dashboard.index'));
 
-        $user = $user->fresh();
-
-        // Verify the user's email was marked as verified
-        $this->assertDatabaseHas('users', [
-            'email' => $payload['email'],
-        ]);
-        expect($user->email_verified_at)->not()->toBeNull();
+        expect($user->fresh()->email_verified_at)->not()->toBeNull();
     });
 });
