@@ -1,20 +1,22 @@
 <template>
     <AuthenticationLayout>
         <div class="flex w-full flex-col gap-8">
-            <div class="flex flex-col gap-4">
-                <BaseInputFormat label="Email" :required="false">
-                    <PrimeInputText placeholder="Enter your email address" />
-                </BaseInputFormat>
-                <BaseInputFormat label="Password" :required="false">
-                    <PrimePassword placeholder="Enter your password" :feedback="false" toggle-mask />
-                </BaseInputFormat>
-            </div>
-            <div class="flex flex-col gap-4">
-                <BaseButton severity="primary" class="text-lg">Login</BaseButton>
-                <div class="flex justify-center">
-                    <Link>Forgot password?</Link>
+            <Form class="flex w-full flex-col gap-8" :action="store()" #default="{ errors, processing }">
+                <div class="flex flex-col gap-4">
+                    <BaseInputFormat label="Email" :required="false" :error="errors.email">
+                        <PrimeInputText name="email" placeholder="Enter your email address" />
+                    </BaseInputFormat>
+                    <BaseInputFormat label="Password" :required="false" :error="errors.password">
+                        <PrimePassword name="password" placeholder="Enter your password" :feedback="false" toggle-mask />
+                    </BaseInputFormat>
                 </div>
-            </div>
+                <div class="flex flex-col gap-4">
+                    <BaseButton :processing severity="primary" class="text-lg">Login</BaseButton>
+                    <div class="flex justify-center">
+                        <Link>Forgot password?</Link>
+                    </div>
+                </div>
+            </Form>
             <div class="grid grid-cols-3 gap-4">
                 <div
                     class="grid h-22 cursor-pointer place-items-center rounded-lg bg-gray-950 outline-0 outline-gray-600/10 transition-all hover:outline-5"
@@ -49,7 +51,8 @@
 import BaseButton from '@/components/BaseButton.vue';
 import BaseInputFormat from '@/components/BaseInputFormat.vue';
 import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
-import { Link } from '@inertiajs/vue3';
+import { Form, Link } from '@inertiajs/vue3';
+import { store } from '@/wayfinder/actions/App/Http/Controllers/User/Authentication/LoginController';
 </script>
 
 <style scoped></style>

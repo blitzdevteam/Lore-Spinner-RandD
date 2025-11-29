@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\User\Authentication;
 
+use App\Actions\Authentication\LoginAuthenticatableGuard;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\User\Authentication\StoreLoginRequest;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -12,8 +14,24 @@ class LoginController extends Controller
         return inertia('User/Authentication/Login');
     }
 
-    public function store()
+    public function store(
+        StoreLoginRequest $request,
+        LoginAuthenticatableGuard $loginAuthenticatableGuard
+    )
     {
-        dd(1);
+        /**
+         * @var User|false $check
+         */
+        $check = $loginAuthenticatableGuard->handle('user', ...$request->validated());
+
+        if ($check === false) {
+            return back()
+                ->withErrors([
+                    'email' => 'Credentials do not match our records.',
+                ])
+                ->onlyInput('email');
+        }
+
+        return to_route('user.dashboard.index');
     }
 }
