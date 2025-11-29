@@ -27,6 +27,6 @@ final class RegisterController extends Controller
 
         auth('user')->login($user);
 
-        return to_route('user.dashboard.index');
+        return to_route('user.authentication.verify.index');
     }
 }

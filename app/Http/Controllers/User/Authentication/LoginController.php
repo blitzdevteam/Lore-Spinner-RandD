@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\User\Authentication;
 
 use App\Actions\Authentication\LoginAuthenticatableGuard;
@@ -7,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Authentication\StoreLoginRequest;
 use App\Models\User;
 
-class LoginController extends Controller
+final class LoginController extends Controller
 {
     public function create()
     {
@@ -17,8 +19,7 @@ class LoginController extends Controller
     public function store(
         StoreLoginRequest $request,
         LoginAuthenticatableGuard $loginAuthenticatableGuard
-    )
-    {
+    ) {
         /**
          * @var User|false $check
          */

@@ -6,6 +6,7 @@ namespace App\Actions\Authentication;
 
 use App\Models\User;
 use App\Models\Writer;
+use Illuminate\Auth\Events\Registered;
 use InvalidArgumentException;
 
 final readonly class CreateAuthenticatableGuard
@@ -17,20 +18,18 @@ final readonly class CreateAuthenticatableGuard
 
     public function handle(string $guard, string $email, string $password): User|Writer
     {
-        if (!array_key_exists($guard, self::GUARD_MODELS)) {
+        if (! array_key_exists($guard, self::GUARD_MODELS)) {
             throw new InvalidArgumentException("Guard `{$guard}` is an invalid guard.");
         }
 
         $model = self::GUARD_MODELS[$guard];
-
-        return $model::create([
+        $model = $model::create([
             'email' => $email,
             'password' => $password,
-
-            /**
-             * TODO: Verify auth email temporarily and must be removed in the future
-             */
-            'email_verified_at' => now(),
         ]);
+
+        event(new Registered($model));
+
+        return $model;
     }
 }
