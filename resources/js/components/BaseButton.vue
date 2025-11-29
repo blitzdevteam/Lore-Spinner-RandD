@@ -7,7 +7,9 @@
         @click="emitHandleClick"
         @submit="type === 'button' ? emitHandleSubmit : undefined"
     >
-        <template v-if="processing"> Processing [FIX IT] </template>
+        <template v-if="processing">
+            <LoaderCircle class="animate-spin opacity-50" />
+        </template>
         <template v-else>
             <slot></slot>
         </template>
@@ -17,6 +19,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { LoaderCircle } from 'lucide-vue-next';
 
 const props = withDefaults(
     defineProps<{
