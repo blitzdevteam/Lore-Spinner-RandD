@@ -1,8 +1,3 @@
-<template>
-    <Toaster position="top-center" />
-    <slot />
-</template>
-
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
 import { computed, nextTick, onMounted, watch } from 'vue';
@@ -35,5 +30,10 @@ onMounted(() => {
     );
 });
 </script>
+
+<template>
+    <Toaster position="top-center" />
+    <slot />
+</template>
 
 <style scoped></style>

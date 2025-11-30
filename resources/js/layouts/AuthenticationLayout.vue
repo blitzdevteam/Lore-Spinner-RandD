@@ -1,8 +1,8 @@
 <template>
     <App>
-        <div class="relative grid min-h-screen w-full place-items-center bg-[#161616]">
-            <BaseBackgroundGradient />
-            <div class="z-10 w-full max-w-116">
+        <BaseBackgroundGradient />
+        <StickyFooterLayout class="w-full max-w-124 mx-auto">
+            <template #body>
                 <div class="flex w-full flex-col items-center gap-8">
                     <img src="@/assets/logo.svg" class="w-68" alt="" />
                     <div class="flex w-full items-center gap-4">
@@ -23,10 +23,13 @@
                             Sign Up
                         </BaseButton>
                     </div>
-                    <slot></slot>
+                    <slot name="body"></slot>
                 </div>
-            </div>
-        </div>
+            </template>
+            <template #footer>
+                <slot name="footer"></slot>
+            </template>
+        </StickyFooterLayout>
     </App>
 </template>
 
@@ -36,6 +39,7 @@ import App from '@/layouts/App.vue';
 import login from '@/wayfinder/routes/user/authentication/login';
 import register from '@/wayfinder/routes/user/authentication/register';
 import BaseBackgroundGradient from '@/components/BaseBackgroundGradient.vue';
+import StickyFooterLayout from '@/layouts/StickyFooterLayout.vue';
 
 const currentRouteClass = (routeUrl: string): string => {
     return routeUrl === window.location.pathname ? 'hover:text-secondary-300' : '';

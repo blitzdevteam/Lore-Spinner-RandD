@@ -183,6 +183,11 @@ body {
     font-family: 'SFProDisplay', Inter, sans-serif;
     direction: ltr;
     text-align: left;
+
+}
+
+body {
+    background-color: #161616;
 }
 
 @layer base {

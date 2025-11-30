@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
+import StickyFooterLayout from '@/layouts/StickyFooterLayout.vue';
 </script>
 
 <template>
-    <AuthenticationLayout :has-header="false">
-        Verify
-    </AuthenticationLayout>
+    <StickyFooterLayout class="min-w">
+
+    </StickyFooterLayout>
 </template>
 
 <style scoped></style>
