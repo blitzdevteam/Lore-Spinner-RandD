@@ -26,13 +26,9 @@ final class LoginController extends Controller
         $check = $loginAuthenticatableGuard->handle('user', ...$request->validated());
 
         if ($check === false) {
-            return back()
-                ->withErrors([
-                    'email' => 'Credentials do not match our records.',
-                ])
-                ->onlyInput('email');
+            return back()->with('error', 'Credentials do not match our records')->onlyInput('email');
         }
 
-        return to_route('user.dashboard.index');
+        return to_route('user.dashboard.index')->with('success', 'Successfully logged in');
     }
 }
