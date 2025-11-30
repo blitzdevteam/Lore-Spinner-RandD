@@ -1,4 +1,4 @@
-import { FlashInterface } from '@/types/index';
+import { UserInterface } from '@/types/index';
 
 declare module 'vite/client' {
     interface ImportMetaEnv {
@@ -12,15 +12,20 @@ declare module 'vite/client' {
     }
 }
 
-declare module '@inertiajs/core' {
-    interface PageProps {
-        flash: FlashInterface;
-    }
-}
-
 declare module 'vue' {
     interface ComponentCustomProperties {
         $inertia: typeof Router;
         $page: Page;
+    }
+}
+
+declare module '@inertiajs/core' {
+    interface PageProps extends InertiaPageProps {
+        flash: {
+            error?: string[];
+            success?: string[];
+            warning?: string[];
+        };
+        auth: null | UserInterface;
     }
 }

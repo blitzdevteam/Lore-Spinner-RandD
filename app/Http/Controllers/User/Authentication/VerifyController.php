@@ -49,7 +49,7 @@ final class VerifyController implements HasMiddleware
 
         $user->sendEmailVerificationNotification();
 
-        return back()->with('success', 'New verification link sent to your email address.');
+        return back()->with('success', 'New verification link sent to your email address');
     }
 
     /**

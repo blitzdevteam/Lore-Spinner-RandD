@@ -24,7 +24,7 @@ Route::prefix('user')->name('user.')->group(function (): void {
                 Route::post('resend', 'resend')->name('resend');
                 Route::get('confirm/{id}/{hash}', 'confirm')->middleware(['signed', 'throttle:6,1'])->name('confirm');
             });
-            //            Route::delete('logout', [User\Authentication\LogoutController::class, 'destroy'])->name('logout');
+            Route::delete('logout', [User\Authentication\LogoutController::class, 'destroy'])->name('logout');
         });
     });
 

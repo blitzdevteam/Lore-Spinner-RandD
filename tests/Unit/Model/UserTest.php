@@ -14,16 +14,11 @@ it('serializes with expected keys', function () {
         'first_name',
         'last_name',
         'full_name',
+        'gender',
         'nickname',
         'username',
-        'gender',
         'email',
-        'bio',
-        'is_active',
         'avatar',
-        'email_verified_at',
-        'last_active_at',
-        'created_at',
-        'updated_at',
+        'bio'
     ]);
 });

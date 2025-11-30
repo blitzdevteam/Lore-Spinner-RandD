@@ -44,10 +44,10 @@ const getComponentTag = computed((): string | typeof Link => {
 
 const getComponentClass = computed((): string => {
     const severityClass = {
-        primary: 'bg-primary-400 text-black font-light outline-primary-200/20',
-        secondary: 'bg-secondary-400 text-black font-light outline-secondary-400/30',
+        primary: 'bg-primary-400 text-black outline-primary-200/20',
+        secondary: 'bg-secondary-400 text-black outline-secondary-400/30',
         'secondary-muted-outline':
-            'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 font-light outline-secondary-200/20',
+            'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 outline-secondary-200/20',
         muted: 'bg-gray-900 text-gray-300 font-light outline-gray-500/15',
     }[props.severity];
 
@@ -58,7 +58,7 @@ const getComponentClass = computed((): string => {
             ? 'cursor-not-allowed opacity-60 outline-none'
             : 'cursor-pointer outline-0 opacity-100 hover:outline-4 focus:outline-4';
 
-    return `relative font-medium justify-center flex items-center transition-all rounded-md h-12 ${severityClass} ${roundedClass} ${notAllowedClass}`;
+    return `relative justify-center flex items-center transition-all rounded-md h-12 ${severityClass} ${roundedClass} ${notAllowedClass}`;
 });
 
 const emitHandleClick = (event: MouseEvent) => {

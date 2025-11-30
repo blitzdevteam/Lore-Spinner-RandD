@@ -46,6 +46,32 @@ class HandleInertiaRequests extends Middleware
                 'success' => $request->session()->get('success') ? Arr::wrap($request->session()->get('success')) : null,
                 'warning' => $request->session()->get('warning') ? Arr::wrap($request->session()->get('warning')) : null,
             ],
+            'auth' => function () use ($request) {
+                $auth = null;
+
+                if ($request->user('user')) {
+                    $auth = $request
+                        ->user('user')
+                        ->only([
+                            'id',
+                            'first_name',
+                            'last_name',
+                            'full_name',
+                            'gender',
+                            'nickname',
+                            'username',
+                            'email',
+                            'avatar',
+                            'bio',
+                        ]);
+
+                    /**
+                     * We can load auth relations using `$auth->load(...)` here whenever we want
+                     */
+                }
+
+                return $auth;
+            },
         ];
     }
 }
