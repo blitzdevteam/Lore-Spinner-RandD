@@ -7,7 +7,7 @@ const props = withDefaults(
     defineProps<{
         severity?: 'primary' | 'secondary' | 'secondary-muted-outline' | 'muted';
         iconOnly?: boolean;
-        type?: 'internal-link' | 'external-link' | 'button' | 'span';
+        type?: 'internal-link' | 'external-link' | 'button' | 'submit' | 'span';
         href?: string;
         processing?: boolean;
         disabled?: boolean;
@@ -35,6 +35,7 @@ const getComponentTag = computed((): string | typeof Link => {
             return 'a';
         case 'span':
             return 'span';
+        case 'submit':
         case 'button':
         default:
             return 'button';
@@ -78,9 +79,9 @@ const emitHandleSubmit = (event: SubmitEvent) => {
         :is="getComponentTag"
         :href="['internal-link', 'external-link'].includes(props.type) ? props.href : undefined"
         :class="getComponentClass"
-        :disabled="type === 'button' && processing"
+        :disabled="['submit', 'button'].includes(type) && processing"
         @click="emitHandleClick"
-        @submit="type === 'button' ? emitHandleSubmit : undefined"
+        @submit="['submit', 'button'].includes(type) ? emitHandleSubmit : undefined"
     >
         <template v-if="processing">
             <LoaderCircle class="animate-spin opacity-50" />
