@@ -10,7 +10,7 @@ import { Form } from '@inertiajs/vue3';
     <Form :action="store()" #default="{ errors, processing }">
         <AuthenticationLayout>
             <template #body>
-                <div class="flex flex-col gap-4 w-full">
+                <div class="flex w-full flex-col gap-4">
                     <BaseInputFormat label="Email" :required="false" :error="errors.email">
                         <PrimeInputText name="email" placeholder="Enter your email address" />
                     </BaseInputFormat>
@@ -23,7 +23,7 @@ import { Form } from '@inertiajs/vue3';
                 </div>
             </template>
             <template #footer>
-                <div class="flex flex-col gap-8 w-full">
+                <div class="flex w-full flex-col gap-8">
                     <BaseButton :processing severity="primary" class="text-lg">Register</BaseButton>
                     <div class="grid grid-cols-3 gap-4">
                         <div

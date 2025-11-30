@@ -1,7 +1,7 @@
 <template>
-    <div class="z-10 relative">
+    <div class="relative z-10">
         <div class="grid min-h-screen place-items-center max-md:block">
-            <div class="flex flex-col gap-8 w-full p-4 max-md:min-h-screen">
+            <div class="flex w-full flex-col gap-8 p-4 max-md:min-h-screen">
                 <div class="w-full max-md:flex-1">
                     <slot name="body"></slot>
                 </div>
@@ -13,8 +13,6 @@
     </div>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

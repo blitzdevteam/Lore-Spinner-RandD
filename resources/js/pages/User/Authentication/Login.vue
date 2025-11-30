@@ -2,15 +2,15 @@
 import BaseButton from '@/components/BaseButton.vue';
 import BaseInputFormat from '@/components/BaseInputFormat.vue';
 import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
-import { Form, Link } from '@inertiajs/vue3';
 import { store } from '@/wayfinder/actions/App/Http/Controllers/User/Authentication/LoginController';
+import { Form, Link } from '@inertiajs/vue3';
 </script>
 
 <template>
     <Form :action="store()" #default="{ errors, processing }">
         <AuthenticationLayout>
             <template #body>
-                <div class="flex flex-col gap-4 w-full">
+                <div class="flex w-full flex-col gap-4">
                     <BaseInputFormat label="Email" :required="false" :error="errors.email">
                         <PrimeInputText name="email" placeholder="Enter your email address" />
                     </BaseInputFormat>
@@ -20,7 +20,7 @@ import { store } from '@/wayfinder/actions/App/Http/Controllers/User/Authenticat
                 </div>
             </template>
             <template #footer>
-                <div class="flex flex-col gap-8 w-full">
+                <div class="flex w-full flex-col gap-8">
                     <div class="flex flex-col gap-4">
                         <BaseButton :processing severity="primary" class="text-lg">Login</BaseButton>
                         <div class="flex justify-center">

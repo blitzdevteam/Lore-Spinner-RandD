@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
 import { LoaderCircle } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 const props = withDefaults(
     defineProps<{
@@ -46,8 +46,7 @@ const getComponentClass = computed((): string => {
     const severityClass = {
         primary: 'bg-primary-400 text-black outline-primary-200/20',
         secondary: 'bg-secondary-400 text-black outline-secondary-400/30',
-        'secondary-muted-outline':
-            'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 outline-secondary-200/20',
+        'secondary-muted-outline': 'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 outline-secondary-200/20',
         muted: 'bg-gray-900 text-gray-300 font-light outline-gray-500/15',
     }[props.severity];
 
