@@ -1,21 +1,3 @@
-<template>
-    <component
-        :is="getComponentTag"
-        :href="['internal-link', 'external-link'].includes(props.type) ? props.href : undefined"
-        :class="getComponentClass"
-        :disabled="type === 'button' && processing"
-        @click="emitHandleClick"
-        @submit="type === 'button' ? emitHandleSubmit : undefined"
-    >
-        <template v-if="processing">
-            <LoaderCircle class="animate-spin opacity-50" />
-        </template>
-        <template v-else>
-            <slot></slot>
-        </template>
-    </component>
-</template>
-
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -90,5 +72,23 @@ const emitHandleSubmit = (event: SubmitEvent) => {
     }
 };
 </script>
+
+<template>
+    <component
+        :is="getComponentTag"
+        :href="['internal-link', 'external-link'].includes(props.type) ? props.href : undefined"
+        :class="getComponentClass"
+        :disabled="type === 'button' && processing"
+        @click="emitHandleClick"
+        @submit="type === 'button' ? emitHandleSubmit : undefined"
+    >
+        <template v-if="processing">
+            <LoaderCircle class="animate-spin opacity-50" />
+        </template>
+        <template v-else>
+            <slot></slot>
+        </template>
+    </component>
+</template>
 
 <style scoped lang="scss"></style>

@@ -1,8 +1,7 @@
 <template>
     <App>
         <div class="relative grid min-h-screen w-full place-items-center bg-[#161616]">
-            <div class="absolute top-0 bottom-0 left-0 z-5 w-1/4 bg-gradient-to-r from-primary-400/10 to-transparent"></div>
-            <div class="absolute top-0 right-0 bottom-0 z-5 w-1/4 bg-gradient-to-l from-primary-400/10 to-transparent"></div>
+            <BaseBackgroundGradient />
             <div class="z-10 w-full max-w-116">
                 <div class="flex w-full flex-col items-center gap-8">
                     <img src="@/assets/logo.svg" class="w-68" alt="" />
@@ -36,6 +35,7 @@ import BaseButton from '@/components/BaseButton.vue';
 import App from '@/layouts/App.vue';
 import login from '@/wayfinder/routes/user/authentication/login';
 import register from '@/wayfinder/routes/user/authentication/register';
+import BaseBackgroundGradient from '@/components/BaseBackgroundGradient.vue';
 
 const currentRouteClass = (routeUrl: string): string => {
     return routeUrl === window.location.pathname ? 'hover:text-secondary-300' : '';

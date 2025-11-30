@@ -33,6 +33,6 @@ Route::prefix('user')->name('user.')->group(function (): void {
         ->prefix('dashboard')
         ->name('dashboard.')
         ->group(function () {
-            Route::get('/', User\DashboardController\IndexController::class)->name('index');
+            Route::get('/', User\Dashboard\IndexController::class)->name('index');
         });
 });

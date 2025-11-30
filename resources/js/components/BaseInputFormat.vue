@@ -1,18 +1,3 @@
-<template>
-    <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2" v-if="label">
-            <Asterisk v-if="required" class="w-4 text-red-500" />
-            <p class="text-base text-white">{{ label }}</p>
-        </div>
-        <div class="w-full" id="children">
-            <slot></slot>
-        </div>
-        <div v-if="error">
-            <p class="text-xs text-red-500">{{ error }}</p>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { Asterisk } from 'lucide-vue-next';
 
@@ -29,6 +14,21 @@ withDefaults(
     },
 );
 </script>
+
+<template>
+    <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2" v-if="label">
+            <Asterisk v-if="required" class="w-4 text-red-500" />
+            <p class="text-base text-white">{{ label }}</p>
+        </div>
+        <div class="w-full" id="children">
+            <slot></slot>
+        </div>
+        <div v-if="error">
+            <p class="text-xs text-red-500">{{ error }}</p>
+        </div>
+    </div>
+</template>
 
 <style scoped>
 #children :deep(.p-component) {

@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import BaseButton from '@/components/BaseButton.vue';
+import BaseInputFormat from '@/components/BaseInputFormat.vue';
+import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
+import { store } from '@/wayfinder/actions/App/Http/Controllers/User/Authentication/RegisterController';
+import { Form } from '@inertiajs/vue3';
+</script>
+
 <template>
     <AuthenticationLayout>
         <div class="flex w-full flex-col gap-8">
@@ -44,13 +52,5 @@
         </div>
     </AuthenticationLayout>
 </template>
-
-<script setup lang="ts">
-import BaseButton from '@/components/BaseButton.vue';
-import BaseInputFormat from '@/components/BaseInputFormat.vue';
-import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
-import { store } from '@/wayfinder/actions/App/Http/Controllers/User/Authentication/RegisterController';
-import { Form } from '@inertiajs/vue3';
-</script>
 
 <style scoped></style>
