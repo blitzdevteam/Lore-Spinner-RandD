@@ -1,7 +1,7 @@
 <template>
     <App>
         <BaseBackgroundGradient />
-        <StickyFooterLayout class="w-full max-w-124 mx-auto">
+        <StickyFooterLayout class="max-w-124 mx-auto">
             <template #body>
                 <div class="flex w-full flex-col items-center gap-8">
                     <img src="@/assets/logo.svg" class="w-68" alt="" />

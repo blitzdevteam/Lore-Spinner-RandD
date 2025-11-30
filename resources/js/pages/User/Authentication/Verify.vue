@@ -3,7 +3,7 @@ import StickyFooterLayout from '@/layouts/StickyFooterLayout.vue';
 </script>
 
 <template>
-    <StickyFooterLayout class="min-w">
+    <StickyFooterLayout class="max-w-124 mx-auto">
 
     </StickyFooterLayout>
 </template>
