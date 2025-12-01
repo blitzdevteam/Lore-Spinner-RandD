@@ -42,9 +42,9 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'flash' => [
-                'error' => $request->session()->get('error') ? Arr::wrap($request->session()->get('error')) : null,
-                'success' => $request->session()->get('success') ? Arr::wrap($request->session()->get('success')) : null,
-                'warning' => $request->session()->get('warning') ? Arr::wrap($request->session()->get('warning')) : null,
+                'error' => $request->session()->get('error') ? Arr::wrap($request->session()->get('error')) : [],
+                'success' => $request->session()->get('success') ? Arr::wrap($request->session()->get('success')) : [],
+                'warning' => $request->session()->get('warning') ? Arr::wrap($request->session()->get('warning')) : [],
             ],
             'auth' => function () use ($request) {
                 $auth = null;
