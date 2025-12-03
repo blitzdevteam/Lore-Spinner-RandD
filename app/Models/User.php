@@ -13,11 +13,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-final class User extends Authenticatable implements MustVerifyEmail
+final class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, InteractsWithMedia;
 
     protected $guarded = [
         'id', 'created_at', 'updated_at',
@@ -30,6 +33,19 @@ final class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'full_name',
     ];
+
+    /**
+     * Register the media collections.
+     * @return void
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png'])
+            ->singleFile()
+            ->useFallbackUrl(Storage::disk('public')->url('avatar/' . ($this->id % 2 === 0) + 1 . '.png'));
+    }
+
 
     /**
      * Send the email verification notification.
@@ -80,4 +96,15 @@ final class User extends Authenticatable implements MustVerifyEmail
             get: fn (): string => $this->first_name.' '.$this->last_name
         );
     }
+
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): string => $this->getFirstMediaUrl('avatar')
+        );
+    }
+
 }

@@ -12,6 +12,6 @@ export interface UserInterface {
     nickname: string | null;
     username: string | null;
     email: string;
-    avatar: string | null;
+    avatar: string;
     bio: string | null;
 }

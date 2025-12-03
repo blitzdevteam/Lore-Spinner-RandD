@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import BaseLogo from '@/components/BaseLogo.vue';
 import HomeHeaderMenu from '@/components/HomeHeaderMenu.vue';
-import BaseButton from '@/components/BaseButton.vue';
 import HomeHeaderSearchBar from '@/components/HomeHeaderSearchBar.vue';
+import HomeHeaderProfile from '@/components/HomeHeaderProfile.vue';
 </script>
 
 <template>
@@ -14,7 +14,7 @@ import HomeHeaderSearchBar from '@/components/HomeHeaderSearchBar.vue';
             </div>
             <div class="flex items-center gap-8">
                 <HomeHeaderSearchBar />
-                <BaseButton>Account</BaseButton>
+                <HomeHeaderProfile />
             </div>
         </div>
     </header>
