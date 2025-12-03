@@ -57,7 +57,7 @@ const getComponentClass = computed((): string => {
             ? 'cursor-not-allowed opacity-60 outline-none'
             : 'cursor-pointer outline-0 opacity-100 hover:outline-4 focus:outline-4';
 
-    return `relative justify-center flex items-center transition-all rounded-md h-12 ${severityClass} ${roundedClass} ${notAllowedClass}`;
+    return `relative justify-center flex items-center transition-all rounded-md h-10 ${severityClass} ${roundedClass} ${notAllowedClass}`;
 });
 
 const emitHandleClick = (event: MouseEvent) => {
