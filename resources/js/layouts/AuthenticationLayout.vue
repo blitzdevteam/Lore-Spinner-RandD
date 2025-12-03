@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import BaseBackgroundGradient from '@/components/BaseBackgroundGradient.vue';
+import BaseButton from '@/components/BaseButton.vue';
+import StickyFooterLayout from '@/layouts/StickyFooterLayout.vue';
+import login from '@/wayfinder/routes/user/authentication/login';
+import register from '@/wayfinder/routes/user/authentication/register';
+
+const currentRouteClass = (routeUrl: string): string => {
+    return routeUrl === window.location.pathname ? 'hover:text-secondary-300' : '';
+};
+
+const currentRouteSeverity = (routeUrl: string): 'secondary-muted-outline' | 'muted' => {
+    return routeUrl === window.location.pathname ? 'secondary-muted-outline' : 'muted';
+};
+</script>
+
 <template>
     <BaseBackgroundGradient />
     <StickyFooterLayout class="mx-auto max-w-124">
@@ -25,21 +41,5 @@
         </template>
     </StickyFooterLayout>
 </template>
-
-<script setup lang="ts">
-import BaseBackgroundGradient from '@/components/BaseBackgroundGradient.vue';
-import BaseButton from '@/components/BaseButton.vue';
-import StickyFooterLayout from '@/layouts/StickyFooterLayout.vue';
-import login from '@/wayfinder/routes/user/authentication/login';
-import register from '@/wayfinder/routes/user/authentication/register';
-
-const currentRouteClass = (routeUrl: string): string => {
-    return routeUrl === window.location.pathname ? 'hover:text-secondary-300' : '';
-};
-
-const currentRouteSeverity = (routeUrl: string): 'secondary-muted-outline' | 'muted' => {
-    return routeUrl === window.location.pathname ? 'secondary-muted-outline' : 'muted';
-};
-</script>
 
 <style scoped></style>

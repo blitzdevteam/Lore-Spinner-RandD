@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
     <div class="relative z-10">
         <div class="grid min-h-screen place-items-center max-md:block">
@@ -12,7 +14,5 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped></style>
