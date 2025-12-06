@@ -37,7 +37,7 @@ const getMenuLinkClass = (link: string): string => {
         <li v-for="item in menu" :key="item.title">
             <Link :href="item.link" :class="getMenuLinkClass(item.link)">
                 <component :strokeWidth="1.75" :is="item.icon" class="size-4.5" />
-                <p class="font-thin">{{ item.title }}</p>
+                <p>{{ item.title }}</p>
             </Link>
         </li>
     </ul>

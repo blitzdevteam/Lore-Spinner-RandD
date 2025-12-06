@@ -1,6 +1,6 @@
 // CSS
 import '../css/app.css';
-import '../css/fonts/sf-pro-display/sf-pro-display.css';
+import '../css/fonts/source-sans-3/source-sans-3.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -22,6 +22,7 @@ import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
+import Drawer from 'primevue/drawer';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -49,6 +50,7 @@ createInertiaApp({
             .component('PrimePassword', Password)
             .component('PrimeIconField', IconField)
             .component('PrimeInputIcon', InputIcon)
+            .component('PrimeDrawer', Drawer)
 
             .mount(el);
     },
