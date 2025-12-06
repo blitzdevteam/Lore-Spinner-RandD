@@ -6,30 +6,30 @@ namespace App\Actions\Authentication;
 
 use App\Models\User;
 use App\Models\Writer;
-use Illuminate\Auth\Events\Registered;
 use InvalidArgumentException;
 
-final readonly class CreateAuthenticatableGuard
+final readonly class LoginAuthenticatableGuardAction
 {
     private const array GUARD_MODELS = [
         'user' => User::class,
         'writer' => Writer::class,
     ];
 
-    public function handle(string $guard, string $email, string $password): User|Writer
+    public function handle(string $guard, string $email, string $password): User|Writer|false
     {
-        if (! array_key_exists($guard, self::GUARD_MODELS)) {
+        if (!array_key_exists($guard, self::GUARD_MODELS)) {
             throw new InvalidArgumentException("Guard `{$guard}` is an invalid guard.");
         }
 
-        $model = self::GUARD_MODELS[$guard];
-        $model = $model::create([
+        $check = auth($guard)->attempt([
             'email' => $email,
             'password' => $password,
         ]);
 
-        event(new Registered($model));
+        if ($check) {
+            return auth($guard)->user();
+        }
 
-        return $model;
+        return false;
     }
 }

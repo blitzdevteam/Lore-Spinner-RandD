@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User\Authentication;
 
-use App\Actions\Authentication\CreateAuthenticatableGuard;
+use App\Actions\Authentication\CreateAuthenticatableGuardAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Authentication\StoreRegisterRequest;
 use App\Models\User;
@@ -18,7 +18,7 @@ final class RegisterController extends Controller
 
     public function store(
         StoreRegisterRequest $request,
-        CreateAuthenticatableGuard $createAuthenticatableGuard
+        CreateAuthenticatableGuardAction $createAuthenticatableGuard
     ) {
         /**
          * @var $user User

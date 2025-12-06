@@ -1,7 +1,4 @@
-export enum GenderEnum {
-    MALE = 'male',
-    FEMALE = 'female',
-}
+import { GenderEnum } from '@/types/enum';
 
 export interface UserInterface {
     id: numbe;

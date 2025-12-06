@@ -118,4 +118,14 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
         );
     }
 
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function username(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value): string|null => ! blank($value) ? strtolower($value) : null
+        );
+    }
+
 }

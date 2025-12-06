@@ -24,12 +24,23 @@ Route::prefix('user')->name('user.')->group(function (): void {
                 Route::post('resend', 'resend')->name('resend');
                 Route::get('confirm/{id}/{hash}', 'confirm')->middleware(['signed', 'throttle:6,1'])->name('confirm');
             });
+            Route::prefix('complete-profile')
+                ->middleware([
+                    'guard.profile-is-incompleted',
+                    'verified:user.authentication.verify.index',
+                ])
+                ->singleton('complete-profile', User\Authentication\CompleteProfileController::class)
+                ->except('show');
             Route::delete('logout', [User\Authentication\LogoutController::class, 'destroy'])->name('logout');
         });
     });
 
     // Dashboard
-    Route::middleware(['auth:user', 'verified:user.authentication.verify.index'])
+    Route::middleware([
+        'auth:user',
+        'verified:user.authentication.verify.index',
+        'guard.profile-is-completed'
+    ])
         ->prefix('dashboard')
         ->name('dashboard.')
         ->group(function () {

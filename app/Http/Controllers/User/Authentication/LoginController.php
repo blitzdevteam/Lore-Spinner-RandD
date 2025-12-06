@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\User\Authentication;
 
-use App\Actions\Authentication\LoginAuthenticatableGuard;
+use App\Actions\Authentication\LoginAuthenticatableGuardAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Authentication\StoreLoginRequest;
 use App\Models\User;
@@ -18,7 +18,7 @@ final class LoginController extends Controller
 
     public function store(
         StoreLoginRequest $request,
-        LoginAuthenticatableGuard $loginAuthenticatableGuard
+        LoginAuthenticatableGuardAction $loginAuthenticatableGuard
     ) {
         /**
          * @var User|false $check
