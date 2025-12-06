@@ -20,6 +20,7 @@ it('serializes with expected keys', function () {
         'email',
         'avatar',
         'bio',
+        'is_profile_completed',
         'media'
     ]);
 });

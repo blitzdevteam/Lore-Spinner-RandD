@@ -32,9 +32,9 @@ const profileDrawerVisibility = ref(false);
                                 </div>
                                 <button
                                     @click="closeCallback"
-                                    class="grid size-10 cursor-pointer place-items-center rounded-full transition hover:bg-gray-900/50"
+                                    class="grid size-10 cursor-pointer place-items-center rounded-full transition hover:bg-gray-950"
                                 >
-                                    <X class="size-6 text-gray-400" />
+                                    <X class="size-6 text-gray-400" />`
                                 </button>
                             </div>
                             <div class="flex flex-1 flex-col gap-6 p-8">

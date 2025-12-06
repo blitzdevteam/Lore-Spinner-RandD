@@ -32,6 +32,7 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     protected $appends = [
         'full_name',
+        'is_profile_completed'
     ];
 
     /**
@@ -85,6 +86,16 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
             'last_active_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function isProfileCompleted(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): bool => ! blank($this->username)
+        );
     }
 
     /**
