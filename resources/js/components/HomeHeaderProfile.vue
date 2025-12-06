@@ -2,54 +2,114 @@
 import BaseButton from '@/components/BaseButton.vue';
 import login from '@/wayfinder/routes/user/authentication/login';
 import { Link, usePage } from '@inertiajs/vue3';
-import { X } from 'lucide-vue-next';
+import { ChevronRight, LucideUpload, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
+import { logout } from '@/wayfinder/routes/user/authentication';
 
 const page = usePage();
 
 const auth = computed(() => page.props.auth);
 
-const profileDrawerVisibility = ref(true);
+const profileDrawerVisibility = ref(false);
 </script>
 
 <template>
     <template v-if="auth === null">
         <Link :href="login.create().url">
-            <BaseButton>Account</BaseButton>
+            <BaseButton class="!h-10">Account</BaseButton>
         </Link>
     </template>
     <template v-else>
         <Teleport to="body">
             <PrimeDrawer v-model:visible="profileDrawerVisibility" position="right" class="!w-full max-w-108" :show-close-icon="false">
                 <template #container="{ closeCallback }">
-                    <div class="flex flex-col">
-                        <div class="flex items-center gap-4 p-8">
-                            <div class="size-10"></div>
-                            <div class="flex flex-1 items-center justify-center">
-                                <h3 class="text-xl font-light">Profile</h3>
-                            </div>
-                            <button
-                                @cllick.self="closeCallback"
-                                class="grid size-10 cursor-pointer place-items-center rounded-full transition hover:bg-gray-900/50"
-                            >
-                                <X class="size-6 text-gray-400" />
-                            </button>
-                        </div>
-                        <div class="flex-1 p-8">
-                            <div class="bg-gray-950 border border-gray-800/50 rounded-sm p-4 flex flex-col gap-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="flex-1 flex items-center gap-4">
-                                        <img
-                                            :src="auth.avatar"
-                                            alt=""
-                                            class="size-14 cursor-pointer rounded-full"
-                                        />
-                                        <div class="flex flex-col">
-                                            <p class="font-medium text-lg">{{auth.full_name}}</p>
-                                            <span class="text-sm text-gray-300">@{{auth.username}}</span>
-                                        </div>
-                                    </div>
+                    <div class="h-full overflow-y-auto">
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-4 p-8">
+                                <div class="size-10"></div>
+                                <div class="flex flex-1 items-center justify-center">
+                                    <h3 class="text-xl font-light">Profile</h3>
                                 </div>
+                                <button
+                                    @click="closeCallback"
+                                    class="grid size-10 cursor-pointer place-items-center rounded-full transition hover:bg-gray-900/50"
+                                >
+                                    <X class="size-6 text-gray-400" />
+                                </button>
+                            </div>
+                            <div class="flex flex-1 flex-col gap-6 p-8">
+                                <div class="flex flex-col gap-4 rounded border border-gray-700/75 bg-white/5 p-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="flex flex-1 items-center gap-3">
+                                            <img :src="auth.avatar" alt="" class="size-13 rounded-full" />
+                                            <div class="flex flex-col">
+                                                <p class="text-lg font-medium">{{ auth.full_name }}</p>
+                                                <span class="text-sm text-gray-300">@{{ auth.username }}</span>
+                                            </div>
+                                        </div>
+                                        <BaseButton severity="muted">
+                                            <div class="flex items-center gap-2 text-primary-400">
+                                                <LucideUpload :stroke-width="2" class="size-4" />
+                                                <p class="text-sm font-normal">Upload Image</p>
+                                            </div>
+                                        </BaseButton>
+                                    </div>
+                                    <BaseButton>Buy Spinner</BaseButton>
+                                </div>
+                                <h6 class="text-lg text-white">Setting</h6>
+                                <div class="flex flex-col rounded border border-gray-700/75 bg-white/5">
+                                    <ul class="divide divide-y divide-gray-700/75">
+                                        <li>
+                                            <Link href="#" class="flex items-center justify-between p-4 text-white transition-all hover:px-6">
+                                                <p class="text-sm font-normal">Achievement</p>
+                                                <ChevronRight class="size-5" :stroke-width="2" />
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="#" class="flex items-center justify-between p-4 text-white transition-all hover:px-6">
+                                                <p class="text-sm font-normal">Activity</p>
+                                                <ChevronRight class="size-5" :stroke-width="2" />
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="#" class="flex items-center justify-between p-4 text-white transition-all hover:px-6">
+                                                <p class="text-sm font-normal">Account</p>
+                                                <ChevronRight class="size-5" :stroke-width="2" />
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h6 class="text-lg text-white">Other</h6>
+                                <div class="flex flex-col rounded border border-gray-700/75 bg-white/5">
+                                    <ul class="divide divide-y divide-gray-700/75">
+                                        <li>
+                                            <Link href="#" class="flex items-center justify-between p-4 text-white transition-all hover:px-6">
+                                                <p class="text-sm font-normal">Invite Friends</p>
+                                                <ChevronRight class="size-5" :stroke-width="2" />
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="#" class="flex items-center justify-between p-4 text-white transition-all hover:px-6">
+                                                <p class="text-sm font-normal">Help & Support</p>
+                                                <ChevronRight class="size-5" :stroke-width="2" />
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="#" class="flex items-center justify-between p-4 text-white transition-all hover:px-6">
+                                                <p class="text-sm font-normal">Version 1.1.1</p>
+                                                <ChevronRight class="size-5" :stroke-width="2" />
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <Link :method="logout().method" :href="logout().url">
+                                    <BaseButton
+                                        severity="muted"
+                                        class="font-normal text-red-500 outline-none hover:bg-red-700/10 w-full"
+                                    >
+                                        Logout
+                                    </BaseButton>
+                                </Link>
                             </div>
                         </div>
                     </div>
