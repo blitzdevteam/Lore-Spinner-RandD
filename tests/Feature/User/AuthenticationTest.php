@@ -79,7 +79,7 @@ describe('login', function () {
 
         $this
             ->post(route('user.authentication.login.store'), getLoginPayload(['password' => 'wrong-password']))
-            ->assertSessionHasErrors('email')
+            ->assertSessionHas('error', 'Credentials do not match our records')
             ->assertRedirectBack();
     });
 

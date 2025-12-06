@@ -19,6 +19,7 @@ it('serializes with expected keys', function () {
         'username',
         'email',
         'avatar',
-        'bio'
+        'bio',
+        'media'
     ]);
 });
