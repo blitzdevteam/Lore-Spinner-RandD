@@ -36,12 +36,13 @@ class StoryEventExtractorJob implements ShouldQueue
         // Read and parse the screenplay
         $screenplay = File::get(storage_path('app/private/story.txt'));
         $screenplay = preg_replace('/^\x{FEFF}/u', '', $screenplay);
-        $scenes = preg_split('/(?=(?:EXT\.|INT\.))/m', $screenplay, -1, PREG_SPLIT_NO_EMPTY);
+
+        $scenes = preg_split('/(?=(?:EXT\.|INT\.))/m', (string) $screenplay, -1, PREG_SPLIT_NO_EMPTY);
 
         // Dispatch a separate job for each scene with its index
         collect($scenes)
             ->take($this->sceneCount)
-            ->each(function ($scene, $index) {
+            ->each(function ($scene, $index): void {
                 ProcessSingleSceneJob::dispatch(
                     scene: $scene,
                     sceneIndex: $index,

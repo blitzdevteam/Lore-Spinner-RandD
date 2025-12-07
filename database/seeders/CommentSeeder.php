@@ -21,8 +21,8 @@ class CommentSeeder extends Seeder
         $writers = User::select('id')->pluck('id');
 
         Comment::factory()
-            ->count(rand(25, 75))
-            ->afterMaking(function (Comment $comment) use ($users, $stories) {
+            ->count(random_int(25, 75))
+            ->afterMaking(function (Comment $comment) use ($users, $stories): void {
                 $comment->author_id = $users->random();
                 $comment->author_type = User::class;
                 $comment->commentable_id = $stories->random();
@@ -31,8 +31,8 @@ class CommentSeeder extends Seeder
             ->create();
 
         Comment::factory()
-            ->count(rand(25, 75))
-            ->afterMaking(function (Comment $comment) use ($writers, $stories) {
+            ->count(random_int(25, 75))
+            ->afterMaking(function (Comment $comment) use ($writers, $stories): void {
                 $comment->author_id = $writers->random();
                 $comment->author_type = Writer::class;
                 $comment->commentable_id = $stories->random();

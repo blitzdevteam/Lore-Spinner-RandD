@@ -20,11 +20,9 @@ class CommentsTable
         return $table
             ->columns([
                 TextColumn::make('author_type')
-                    ->formatStateUsing(function ($record) {
-                        return class_basename($record->author_type);
-                    })
+                    ->formatStateUsing(fn($record): string => class_basename($record->author_type))
                     ->badge()
-                    ->color(fn ($record) => match (class_basename($record->author_type)) {
+                    ->color(fn ($record): string => match (class_basename($record->author_type)) {
                         'User' => 'success',
                         'Writer' => 'info',
                         default => 'secondary',
@@ -63,9 +61,9 @@ class CommentsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make()
-                    ->visible(fn (Comment $record) => $record->status === StatusEnum::PENDING),
+                    ->visible(fn (Comment $record): bool => $record->status === StatusEnum::PENDING),
                 DeleteAction::make()
-                    ->visible(fn (Comment $record) => $record->status === StatusEnum::PENDING),
+                    ->visible(fn (Comment $record): bool => $record->status === StatusEnum::PENDING),
             ])
             ->toolbarActions([]);
     }

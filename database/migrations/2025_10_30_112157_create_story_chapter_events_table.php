@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('story_chapter_events', function (Blueprint $table) {
+        Schema::create('story_chapter_events', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('story_chapter_id')->constrained()->cascadeOnUpdate();
             $table->string('title');

@@ -134,7 +134,7 @@ PROMPT;
             ->asStructured();
 
         collect($response->structured['events'])
-            ->each(function ($structure, $eventIndex) {
+            ->each(function (array $structure, $eventIndex): void {
                 DB::table('events')->insert([
                     'chapter_id' => $this->chapterId,
                     'title' => $structure['title'],

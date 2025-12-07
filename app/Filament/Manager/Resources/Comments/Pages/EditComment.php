@@ -14,6 +14,7 @@ class EditComment extends EditRecord
 {
     protected static string $resource = CommentResource::class;
 
+    #[\Override]
     public function mount(int|string $record): void
     {
         parent::mount($record);
@@ -36,6 +37,7 @@ class EditComment extends EditRecord
         ];
     }
 
+    #[\Override]
     protected function getFormActions(): array
     {
         /**
@@ -45,23 +47,23 @@ class EditComment extends EditRecord
         return [
             Action::make('approve')
                 ->color('success')
-                ->action(function () use ($record) {
+                ->action(function () use ($record): void {
                     $record->update([
                         'status' => StatusEnum::APPROVED,
                         'approved_at' => now(),
                     ]);
                     $this->redirect(ViewComment::getUrl(['record' => $record->id]));
                 })
-                ->visible(fn () => $record->status === StatusEnum::PENDING),
+                ->visible(fn (): bool => $record->status === StatusEnum::PENDING),
             Action::make('decline')
                 ->color('danger')
-                ->action(function () use ($record) {
+                ->action(function () use ($record): void {
                     $record->update([
                         'status' => StatusEnum::DECLINED,
                     ]);
                     $this->redirect(ViewComment::getUrl(['record' => $record->id]));
                 })
-                ->visible(fn () => $record->status === StatusEnum::PENDING),
+                ->visible(fn (): bool => $record->status === StatusEnum::PENDING),
             $this->getCancelFormAction(),
         ];
     }

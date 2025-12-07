@@ -13,11 +13,9 @@ class CommentInfolist
         return $schema
             ->components([
                 TextEntry::make('author_type')
-                    ->formatStateUsing(function ($record) {
-                        return class_basename($record->author_type);
-                    })
+                    ->formatStateUsing(fn($record): string => class_basename($record->author_type))
                     ->badge()
-                    ->color(fn ($record) => match (class_basename($record->author_type)) {
+                    ->color(fn ($record): string => match (class_basename($record->author_type)) {
                         'User' => 'success',
                         'Writer' => 'info',
                         default => 'secondary',

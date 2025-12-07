@@ -15,10 +15,10 @@ return RectorConfig::configure()
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
+        codingStyle: true,
         typeDeclarations: true,
         privatization: true,
-        earlyReturn: true,
-        strictBooleans: true,
+        earlyReturn: true
     )
     ->withSkip([
         PrivatizeFinalClassMethodRector::class => [

@@ -37,7 +37,6 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     /**
      * Register the media collections.
-     * @return void
      */
     public function registerMediaCollections(): void
     {
@@ -53,16 +52,14 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
      */
     public function sendEmailVerificationNotification(): void
     {
-        VerifyEmail::createUrlUsing(function ($notifiable) {
-            return URL::temporarySignedRoute(
-                'user.authentication.verify.confirm',
-                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
-                [
-                    'id' => $notifiable->getKey(),
-                    'hash' => sha1($notifiable->getEmailForVerification()),
-                ]
-            );
-        });
+        VerifyEmail::createUrlUsing(fn($notifiable) => URL::temporarySignedRoute(
+            'user.authentication.verify.confirm',
+            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1((string) $notifiable->getEmailForVerification()),
+            ]
+        ));
 
         $this->notify(new VerifyEmail);
     }
@@ -124,7 +121,7 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
     protected function username(): Attribute
     {
         return Attribute::make(
-            set: fn ($value): string|null => ! blank($value) ? strtolower($value) : null
+            set: fn ($value): string|null => blank($value) ? null : strtolower((string) $value)
         );
     }
 

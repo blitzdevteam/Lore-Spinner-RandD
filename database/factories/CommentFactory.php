@@ -28,11 +28,11 @@ class CommentFactory extends Factory
 
     /**
      * Configure the model factory.
-     * @return CommentFactory|Factory
      */
+    #[\Override]
     public function configure(): CommentFactory|Factory
     {
-        return $this->afterMaking(function (Comment $comment) {
+        return $this->afterMaking(function (Comment $comment): void {
             if ($comment->status === StatusEnum::APPROVED) {
                 $dateThisMonth = fake()->dateTimeThisMonth();
                 $comment->approved_at = $dateThisMonth;

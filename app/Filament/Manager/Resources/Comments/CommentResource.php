@@ -36,21 +36,25 @@ class CommentResource extends Resource
         return 'warning';
     }
 
+    #[\Override]
     public static function form(Schema $schema): Schema
     {
         return CommentForm::configure($schema);
     }
 
+    #[\Override]
     public static function infolist(Schema $schema): Schema
     {
         return CommentInfolist::configure($schema);
     }
 
+    #[\Override]
     public static function table(Table $table): Table
     {
         return CommentsTable::configure($table);
     }
 
+    #[\Override]
     public static function getRelations(): array
     {
         return [
