@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\GenderEnum;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Notification;
@@ -152,5 +153,40 @@ describe('verification', function () {
             ->assertRedirect(route('user.authentication.complete-profile.edit'));
 
         expect($user->fresh()->email_verified_at)->not()->toBeNull();
+    });
+});
+
+describe('profile completion', function () {
+    it('complete profile page can render', function () {
+        $user = createUser([], false);
+
+        $this
+            ->actingAs($user)
+            ->get(route('user.authentication.complete-profile.edit'))
+            ->assertOk()
+            ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/CompleteProfile'));
+    });
+
+    test('user can complete profile and is redirected to dashboard', function () {
+        $user = createUser(['email' => TEST_EMAIL, 'password' => bcrypt(TEST_PASSWORD)], false);
+
+        $payload = [
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'username' => 'johndoe',
+            'nickname' => 'Johnny',
+            'gender' => GenderEnum::MALE->value,
+        ];
+
+        $this
+            ->actingAs($user)
+            ->patch(route('user.authentication.complete-profile.update'), $payload)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('user.dashboard.index'));
+
+        $user->refresh();
+
+        expect($user->only(['first_name', 'last_name', 'username', 'nickname', 'gender']))
+            ->toMatchArray($payload);
     });
 });
