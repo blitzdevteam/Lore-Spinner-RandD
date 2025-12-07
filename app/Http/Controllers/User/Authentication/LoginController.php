@@ -17,18 +17,27 @@ final class LoginController extends Controller
     }
 
     public function store(
-        StoreLoginRequest $request,
+        StoreLoginRequest               $request,
         LoginAuthenticatableGuardAction $loginAuthenticatableGuard
-    ) {
+    )
+    {
         /**
-         * @var User|false $check
+         * @var User|false $user
          */
-        $check = $loginAuthenticatableGuard->handle('user', ...$request->validated());
+        $user = $loginAuthenticatableGuard->handle('user', ...$request->validated());
 
-        if ($check === false) {
-            return back()->with('error', 'Credentials do not match our records')->onlyInput('email');
+        if ($user === false) {
+            return back()
+                ->with('error', 'Credentials do not match our records')
+                ->onlyInput('email');
         }
 
-        return to_route('user.dashboard.index')->with('success', 'Successfully logged in');
+        $routeName = match (true) {
+            !$user->hasVerifiedEmail() => 'user.authentication.verify.index',
+            !$user->is_profile_completed => 'user.authentication.complete-profile.edit',
+            default => 'user.dashboard.index',
+        };
+
+        return to_route($routeName)->with('success', 'You have been logged in successfully');
     }
 }

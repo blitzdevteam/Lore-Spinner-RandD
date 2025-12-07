@@ -61,6 +61,6 @@ final class VerifyController implements HasMiddleware
             $request->fulfill();
         }
 
-        return to_route('user.dashboard.index')->with('success', 'Your email has been verified');
+        return to_route('user.authentication.complete-profile.edit')->with('success', 'Your email has been verified');
     }
 }

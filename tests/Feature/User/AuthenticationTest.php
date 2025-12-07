@@ -11,9 +11,19 @@ use Inertia\Testing\AssertableInertia as Assert;
 const TEST_EMAIL = 'john@example.com';
 const TEST_PASSWORD = 'password';
 
-function createUser(array $payload = []): User
+function createUser(array $payload = [], bool $withCompleteProfile = true, bool $markEmailVerified = true): User
 {
-    return User::factory()->create($payload);
+    $user = User::factory();
+
+    if ($withCompleteProfile) {
+        $user = $user->withCompleteProfile();
+    }
+
+    if ($markEmailVerified) {
+        $user = $user->markEmailAsVerified();
+    }
+
+    return $user->create($payload);
 }
 
 function startUserRegistration(array $payload = []): TestResponse
@@ -47,14 +57,14 @@ describe('registration', function () {
     });
 
     test('user can not do register action with duplicate email', function () {
-        createUser(['email' => TEST_EMAIL]);
+        createUser(['email' => TEST_EMAIL], false);
 
         startUserRegistration(getRegistrationPayload())
             ->assertSessionHasErrors('email')
             ->assertRedirectBack();
     });
 
-    test('user can do register action and redirect to email verification route', function () {
+    test('user can do register action and must redirect to email verification route', function () {
         startUserRegistration(getRegistrationPayload())
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('user.authentication.verify.index'));
@@ -83,7 +93,29 @@ describe('login', function () {
             ->assertRedirectBack();
     });
 
-    test('user can do login action', function () {
+    test('user can do login action and must redirect to email verification page if email is not verified', function () {
+        createUser(
+            ['email' => TEST_EMAIL, 'password' => bcrypt(TEST_PASSWORD)],
+            false,
+            false
+        );
+
+        $this
+            ->post(route('user.authentication.login.store'), getLoginPayload())
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('user.authentication.verify.index'));
+    });
+
+    test('user can do login action and must redirect to complete profile page when email is verified and profile is incomplete', function () {
+        createUser(['email' => TEST_EMAIL, 'password' => bcrypt(TEST_PASSWORD)], false);
+
+        $this
+            ->post(route('user.authentication.login.store'), getLoginPayload())
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('user.authentication.complete-profile.edit'));
+    });
+
+    test('user can do login action and must redirect to dashboard when email and profile are completed and verified', function () {
         createUser(['email' => TEST_EMAIL, 'password' => bcrypt(TEST_PASSWORD)]);
 
         $this
@@ -103,7 +135,7 @@ describe('verification', function () {
             ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/Verify'));
     });
 
-    test('user can do verify action and redirect to user dashboard page', function () {
+    test('user can do verify action and redirect to user complete profile page', function () {
         Notification::fake();
 
         startUserRegistration(getRegistrationPayload());
@@ -117,7 +149,7 @@ describe('verification', function () {
         });
 
         $this->get($verifyUrl)
-            ->assertRedirect(route('user.dashboard.index'));
+            ->assertRedirect(route('user.authentication.complete-profile.edit'));
 
         expect($user->fresh()->email_verified_at)->not()->toBeNull();
     });
