@@ -18,9 +18,8 @@ use Illuminate\Notifications\Notifiable;
  */
 final class Manager extends Authenticatable implements FilamentUser, HasName
 {
-    /** @use HasFactory<ManagerFactory> */
-    use HasFactory, Notifiable;
-
+    use HasFactory;
+    use Notifiable;
     protected $guarded = [
         'id',
         'created_at',
@@ -43,7 +42,7 @@ final class Manager extends Authenticatable implements FilamentUser, HasName
 
     public function getFilamentName(): string
     {
-        return "{$this->first_name} {$this->last_name}";
+        return sprintf('%s %s', $this->first_name, $this->last_name);
     }
 
     protected function casts(): array

@@ -20,8 +20,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 final class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
-    use HasFactory, Notifiable, InteractsWithMedia;
-
+    use HasFactory;
+    use Notifiable;
+    use InteractsWithMedia;
     protected $guarded = [
         'id', 'created_at', 'updated_at',
     ];

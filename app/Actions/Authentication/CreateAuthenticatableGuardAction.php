@@ -19,7 +19,7 @@ final readonly class CreateAuthenticatableGuardAction
     public function handle(string $guard, string $email, string $password): User|Writer
     {
         if (! array_key_exists($guard, self::GUARD_MODELS)) {
-            throw new InvalidArgumentException("Guard `{$guard}` is an invalid guard.");
+            throw new InvalidArgumentException(sprintf('Guard `%s` is an invalid guard.', $guard));
         }
 
         $model = self::GUARD_MODELS[$guard];

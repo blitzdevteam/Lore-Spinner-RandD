@@ -14,8 +14,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 final class Story extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
-
+    use HasFactory;
+    use InteractsWithMedia;
     protected $guarded = [
         'id', 'created_at', 'updated_at',
     ];
