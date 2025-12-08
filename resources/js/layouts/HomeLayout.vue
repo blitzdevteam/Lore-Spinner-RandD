@@ -18,6 +18,10 @@ import HomeHeaderProfile from '@/components/HomeHeaderProfile.vue';
             </div>
         </div>
     </header>
+    <slot></slot>
+    <footer>
+
+    </footer>
 </template>
 
 <style scoped></style>

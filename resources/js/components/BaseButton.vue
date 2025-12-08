@@ -47,7 +47,7 @@ const getComponentClass = computed((): string => {
         primary: 'bg-primary-400 text-black outline-primary-200/20',
         secondary: 'bg-secondary-400 text-black outline-secondary-400/30',
         'secondary-muted-outline': 'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 outline-secondary-200/20',
-        muted: 'bg-gray-900 text-gray-300 font-light outline-gray-500/15',
+        muted: 'bg-gray-900 text-gray-300 font-normal outline-gray-500/15',
     }[props.severity];
 
     const roundedClass = props.iconOnly ? 'w-12 grid place-items-center' : ' px-4';

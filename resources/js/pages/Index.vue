@@ -4,7 +4,9 @@ import HomeLayout from '@/layouts/HomeLayout.vue';
 
 <template>
     <HomeLayout>
-
+        <div>
+            <img src="@/assets/banner.png" alt="">
+        </div>
     </HomeLayout>
 </template>
 

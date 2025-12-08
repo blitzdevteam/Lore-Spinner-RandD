@@ -11,10 +11,10 @@ import { Form, Link } from '@inertiajs/vue3';
         <AuthenticationLayout>
             <template #body>
                 <div class="flex w-full flex-col gap-4">
-                    <BaseInputFormat label="Email" :required="false" :error="errors.email">
+                    <BaseInputFormat label="Email" :error="errors.email">
                         <PrimeInputText name="email" placeholder="Enter your email address" />
                     </BaseInputFormat>
-                    <BaseInputFormat label="Password" :required="false" :error="errors.password">
+                    <BaseInputFormat label="Password" :error="errors.password">
                         <PrimePassword name="password" placeholder="Enter your password" :feedback="false" toggle-mask />
                     </BaseInputFormat>
                 </div>

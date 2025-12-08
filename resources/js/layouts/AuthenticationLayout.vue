@@ -5,6 +5,7 @@ import StickyFooterLayout from '@/layouts/StickyFooterLayout.vue';
 import login from '@/wayfinder/routes/user/authentication/login';
 import register from '@/wayfinder/routes/user/authentication/register';
 import BaseLogo from '@/components/BaseLogo.vue';
+import HomeLayout from '@/layouts/HomeLayout.vue';
 
 const currentRouteClass = (routeUrl: string): string => {
     return routeUrl === window.location.pathname ? 'hover:text-secondary-300' : '';
@@ -16,31 +17,33 @@ const currentRouteSeverity = (routeUrl: string): 'secondary-muted-outline' | 'mu
 </script>
 
 <template>
-    <BaseBackgroundGradient />
-    <StickyFooterLayout class="mx-auto max-w-124">
-        <template #body>
-            <div class="flex w-full flex-col items-center gap-8">
-                <BaseLogo class="w-68" />
-                <div class="flex w-full items-center gap-4">
-                    <BaseButton type="internal-link" :href="login.create.url()" :severity="currentRouteSeverity(login.create.url())" class="flex-1 h-12">
-                        Log In
-                    </BaseButton>
-                    <BaseButton
-                        type="internal-link"
-                        :href="register.create.url()"
-                        :severity="currentRouteSeverity(register.create.url())"
-                        :class="['flex-1 h-12', currentRouteClass(register.create.url())]"
-                    >
-                        Sign Up
-                    </BaseButton>
+    <HomeLayout>
+        <BaseBackgroundGradient />
+        <StickyFooterLayout class="mx-auto max-w-124">
+            <template #body>
+                <div class="flex w-full flex-col items-center gap-8">
+                    <BaseLogo class="w-68" />
+                    <div class="flex w-full items-center gap-4">
+                        <BaseButton type="internal-link" :href="login.create.url()" :severity="currentRouteSeverity(login.create.url())" class="flex-1 h-12">
+                            Log In
+                        </BaseButton>
+                        <BaseButton
+                            type="internal-link"
+                            :href="register.create.url()"
+                            :severity="currentRouteSeverity(register.create.url())"
+                            :class="['flex-1 h-12', currentRouteClass(register.create.url())]"
+                        >
+                            Sign Up
+                        </BaseButton>
+                    </div>
+                    <slot name="body"></slot>
                 </div>
-                <slot name="body"></slot>
-            </div>
-        </template>
-        <template #footer>
-            <slot name="footer"></slot>
-        </template>
-    </StickyFooterLayout>
+            </template>
+            <template #footer>
+                <slot name="footer"></slot>
+            </template>
+        </StickyFooterLayout>
+    </HomeLayout>
 </template>
 
 <style scoped></style>

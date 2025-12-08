@@ -9,7 +9,7 @@ withDefaults(
     }>(),
     {
         label: '',
-        required: true,
+        required: false,
         error: '',
     },
 );

@@ -24,20 +24,20 @@ const profileDrawerVisibility = ref(false);
             <PrimeDrawer v-model:visible="profileDrawerVisibility" position="right" class="!w-full max-w-108" :show-close-icon="false">
                 <template #container="{ closeCallback }">
                     <div class="h-full overflow-y-auto">
-                        <div class="flex flex-col">
-                            <div class="flex items-center gap-4 p-8">
+                        <div class="flex flex-col gap-8 py-8">
+                            <div class="flex items-center gap-4 px-8">
                                 <div class="size-10"></div>
                                 <div class="flex flex-1 items-center justify-center">
-                                    <h3 class="text-xl font-light">Profile</h3>
+                                    <h3 class="text-xl text-white font-normal">Profile</h3>
                                 </div>
                                 <button
                                     @click="closeCallback"
                                     class="grid size-10 cursor-pointer place-items-center rounded-full transition hover:bg-gray-950"
                                 >
-                                    <X class="size-6 text-gray-400" />`
+                                    <X class="size-6 text-white" />
                                 </button>
                             </div>
-                            <div class="flex flex-1 flex-col gap-6 p-8">
+                            <div class="flex flex-1 flex-col gap-6 px-8">
                                 <div class="flex flex-col gap-4 rounded border border-gray-700/75 bg-white/5 p-4">
                                     <div class="flex items-center gap-4">
                                         <div class="flex flex-1 items-center gap-3">
@@ -56,7 +56,7 @@ const profileDrawerVisibility = ref(false);
                                     </div>
                                     <BaseButton>Buy Spinner</BaseButton>
                                 </div>
-                                <h6 class="text-lg text-white">Setting</h6>
+                                <h6 class="text-lg text-white">Settings</h6>
                                 <div class="flex flex-col rounded border border-gray-700/75 bg-white/5">
                                     <ul class="divide divide-y divide-gray-700/75">
                                         <li>
