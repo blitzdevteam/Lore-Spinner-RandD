@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { LucidePlay, LucideStar, LucideBookmark } from 'lucide-vue-next';
+import { Link } from '@inertiajs/vue3';
 
 </script>
 
 <template>
-    <div class="grid grid-cols-3 gap-3 p-3 rounded-xl bg-gray-800 border border-gray-700">
+    <Link
+        class="outline-4 outline-transparent hover:outline-primary-200/20 grid grid-cols-3 gap-3 p-3 rounded-xl bg-gray-800 border border-gray-700 hover:border-primary-500 transition"
+        href="#"
+    >
         <div class="col-span-1">
             <div class="rounded-xl overflow-hidden">
                 <img src="@/assets/temp/story.png" alt="" class="w-full h-full object-cover" />
@@ -38,7 +42,7 @@ import { LucidePlay, LucideStar, LucideBookmark } from 'lucide-vue-next';
                 </div>
             </div>
         </div>
-    </div>
+    </Link>
 </template>
 
 <style scoped></style>
