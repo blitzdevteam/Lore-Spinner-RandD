@@ -1,0 +1,108 @@
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-HeavyItalic.woff2') format('woff2'),
+        url('woff/GillSans-HeavyItalic.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-Medium.woff2') format('woff2'),
+        url('woff/GillSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-BoldItalic.woff2') format('woff2'),
+        url('woff/GillSans-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-Bold.woff2') format('woff2'),
+        url('woff/GillSans-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-MediumItalic.woff2') format('woff2'),
+        url('woff/GillSans-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-CondensedBold.woff2') format('woff2'),
+        url('woff/GillSans-CondensedBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-Heavy.woff2') format('woff2'),
+        url('woff/GillSans-Heavy.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-CondensedRegular.woff2') format('woff2'),
+        url('woff/GillSans-CondensedRegular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-LightItalic.woff2') format('woff2'),
+        url('woff/GillSans-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-Italic.woff2') format('woff2'),
+        url('woff/GillSans-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans-Light.woff2') format('woff2'),
+        url('woff/GillSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('woff2/GillSans.woff2') format('woff2'),
+        url('woff/GillSans.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

@@ -23,6 +23,7 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
     use HasFactory;
     use Notifiable;
     use InteractsWithMedia;
+
     protected $guarded = [
         'id', 'created_at', 'updated_at',
     ];
@@ -46,7 +47,6 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
             ->singleFile()
             ->useFallbackUrl(Storage::disk('public')->url('avatar/' . ($this->id % 2 === 0) + 1 . '.png'));
     }
-
 
     /**
      * Send the email verification notification.

@@ -1,6 +1,11 @@
 // CSS
 import '../css/app.css';
 import '../css/fonts/source-sans-3/source-sans-3.css';
+import '../css/fonts/gill-sans/gill-sans.css';
+
+// Swiper CSS
+import 'swiper/css';
+import 'swiper/css/free-mode';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';

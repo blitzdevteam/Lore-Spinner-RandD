@@ -20,7 +20,8 @@ import HomeHeaderProfile from '@/components/HomeHeaderProfile.vue';
     </header>
     <slot></slot>
     <footer>
-
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
     </footer>
 </template>
 
