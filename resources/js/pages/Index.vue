@@ -7,6 +7,7 @@ import { SwiperSlide } from 'swiper/vue';
 import { WriterInterface } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import BaseStoryCard from '@/components/BaseStoryCard.vue';
+import FrequentlyAskedQuestion from '@/components/FrequentlyAskedQuestion.vue';
 
 withDefaults(defineProps<{
     writers?: WriterInterface[];
@@ -176,6 +177,9 @@ withDefaults(defineProps<{
                     </SwiperSlide>
                 </template>
             </BaseSlider>
+        </div>
+        <div class="pt-48 pb-16">
+            <FrequentlyAskedQuestion />
         </div>
     </HomeLayout>
 </template>
