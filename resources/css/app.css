@@ -4,6 +4,8 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
+    --container: 1152px;
+    --container-gap: max(0px, calc((100vw - var(--container)) / 2));
     --color-background: #161616;
 
     --color-primary-50: #effefa;
@@ -68,5 +70,6 @@ body {
 }
 
 .container {
-    @apply w-full max-w-[1120px] mx-auto;
+    @apply w-full mx-auto;
+    max-width: var(--container);
 }

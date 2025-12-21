@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { Swiper } from 'swiper/vue';
-import { FreeMode } from 'swiper/modules';
 
 defineProps<{
     title: string;
@@ -19,6 +18,7 @@ defineProps<{
             slidesPerView="auto"
             :freeMode="true"
             :pagination="{ clickable: true }"
+            wrapper-class="[&>*:first-child]:ps-[var(--container-gap)] [&>*:last-child]:pe-[var(--container-gap)]"
         >
             <slot></slot>
         </Swiper>

@@ -28,8 +28,12 @@ withDefaults(defineProps<{
         </div>
         <div class="py-24">
             <BaseSlider title="Top Writers" link-to-all="#">
-                <SwiperSlide v-for="writer in [...writers, ...writers]" :key="`top-creator-${writer.id}`" class="!w-28">
-                    <div class="flex flex-col gap-3 items-center px-3">
+                <SwiperSlide
+                    v-for="writer in [...writers, ...writers]"
+                    :key="`top-creator-${writer.id}`"
+                    class="!w-auto"
+                >
+                    <div class="flex flex-col gap-3 px-3 items-center w-28">
                         <img :src="writer.avatar" alt="" class="rounded-full" />
                         <p class="text-lg">{{ writer.first_name }}</p>
                     </div>
