@@ -4,7 +4,6 @@ import { Swiper } from 'swiper/vue';
 
 defineProps<{
     title: string;
-    linkToAll: string;
 }>();
 </script>
 
@@ -12,7 +11,9 @@ defineProps<{
     <div class="flex flex-col gap-8">
         <div class="container flex items-center justify-between">
             <h6 class="text-xl">{{ title }}</h6>
-            <Link :href="linkToAll" class="text-primary">View All (36)</Link>
+            <div v-if="$slots.action">
+                <slot name="action"></slot>
+            </div>
         </div>
         <Swiper
             slidesPerView="auto"
@@ -20,7 +21,7 @@ defineProps<{
             :pagination="{ clickable: true }"
             wrapper-class="[&>*:first-child]:ps-[var(--container-gap)] [&>*:last-child]:pe-[var(--container-gap)]"
         >
-            <slot></slot>
+            <slot name="slides"></slot>
         </Swiper>
     </div>
 </template>

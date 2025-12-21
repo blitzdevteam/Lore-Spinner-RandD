@@ -6,7 +6,7 @@
 @theme {
     --container: 1152px;
     --container-gap: max(0px, calc((100vw - var(--container)) / 2));
-    --color-background: #161616;
+    --color-background: #1a1a1a;
 
     --color-primary-50: #effefa;
     --color-primary-100: #c9fef3;
@@ -37,12 +37,12 @@
     --color-gray-50: #cfcfcf;
     --color-gray-100: #c4c4c4;
     --color-gray-200: #b0b0b0;
-    --color-gray-300: #9c9c9c;
-    --color-gray-400: #858585;
-    --color-gray-500: #707070;
-    --color-gray-600: #5c5c5c;
-    --color-gray-700: #474747;
-    --color-gray-800: #333333;
+    --color-gray-300: #858585;
+    --color-gray-400: #757575;
+    --color-gray-500: #5c5c5c;
+    --color-gray-600: #474747;
+    --color-gray-700: #373737;
+    --color-gray-800: #292929;
     --color-gray-900: #1e1e1e;
     --color-gray-950: #0f0f0f;
 
@@ -72,4 +72,8 @@ body {
 .container {
     @apply w-full mx-auto;
     max-width: var(--container);
+}
+
+button {
+    @apply cursor-pointer;
 }
