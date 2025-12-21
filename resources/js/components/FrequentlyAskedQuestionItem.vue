@@ -15,11 +15,11 @@ const componentClass = computed(() => {
 
 <template>
     <div :class="componentClass">
-        <div class="flex items-center justify-between px-8 py-4 min-h-18 cursor-pointer">
+        <div class="flex items-center justify-between px-8 py-4 min-h-18">
             <h3 class="text-xl">
                 <slot name="question"></slot>
             </h3>
-            <button class="hover:bg-gray-700 size-10 grid place-items-center rounded-full" @click="isOpen = !isOpen">
+            <button class="hover:bg-gray-700 size-10 grid place-items-center rounded-full cursor-pointer" @click="isOpen = !isOpen">
                 <LucideChevronDown :class="`transition size-6 text-primary-400 ${isOpen ? 'rotate-180' : ''}`" />
             </button>
         </div>
