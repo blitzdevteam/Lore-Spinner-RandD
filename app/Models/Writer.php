@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
+use Filament\Panel;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -17,7 +20,7 @@ use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-final class Writer extends Authenticatable implements HasMedia, MustVerifyEmail
+final class Writer extends Authenticatable implements FilamentUser, HasName
 {
     use HasFactory;
     use InteractsWithMedia;
@@ -33,6 +36,16 @@ final class Writer extends Authenticatable implements HasMedia, MustVerifyEmail
     protected $appends = [
         'full_name',
     ];
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function getFilamentName(): string
+    {
+        return $this->full_name;
+    }
 
     /**
      * Register the media collections.

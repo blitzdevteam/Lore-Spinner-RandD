@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('status')->default(App\Enums\Story\StatusEnum::PENDING);
-            $table->float('rating', 1)->default(0);
+            $table->string('rating');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

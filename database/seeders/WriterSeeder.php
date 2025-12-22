@@ -15,5 +15,12 @@ final class WriterSeeder extends Seeder
     public function run(): void
     {
         Writer::factory()->count(10)->create();
+
+        Writer::factory()->create([
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'a@a.com',
+            'password' => 'password',
+        ]);
     }
 }

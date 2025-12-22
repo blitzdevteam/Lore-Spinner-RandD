@@ -42,7 +42,7 @@ final class Manager extends Authenticatable implements FilamentUser, HasName
 
     public function getFilamentName(): string
     {
-        return sprintf('%s %s', $this->first_name, $this->last_name);
+        return $this->full_name;
     }
 
     protected function casts(): array

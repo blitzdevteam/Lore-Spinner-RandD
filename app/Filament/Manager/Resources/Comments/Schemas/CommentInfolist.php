@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Manager\Resources\Comments\Schemas;
 
 use App\Enums\Comment\StatusEnum;
+use App\Models\Comment;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 final class CommentInfolist
@@ -14,36 +17,61 @@ final class CommentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('author_type')
-                    ->formatStateUsing(fn ($record): string => class_basename($record->author_type))
-                    ->badge()
-                    ->color(fn ($record): string => match (class_basename($record->author_type)) {
-                        'User' => 'success',
-                        'Writer' => 'info',
-                        default => 'secondary',
-                    }),
-                TextEntry::make('author.full_name'),
-                TextEntry::make('commentable.title')
+                Section::make()
                     ->columnSpanFull()
-                    ->limit(50),
-                TextEntry::make('content')
-                    ->columnSpanFull(),
-                TextEntry::make('status')
-                    ->badge()
-                    ->color(fn (StatusEnum $state): string => match ($state) {
-                        StatusEnum::PENDING => 'warning',
-                        StatusEnum::APPROVED => 'info',
-                        StatusEnum::DECLINED => 'danger',
-                    }),
-                TextEntry::make('approved_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
+                    ->heading('Comment details')
+                    ->schema([
+                        TextEntry::make('status')
+                            ->badge()
+                            ->color(fn (StatusEnum $state): string => match ($state) {
+                                StatusEnum::PENDING => 'warning',
+                                StatusEnum::APPROVED => 'info',
+                                StatusEnum::DECLINED => 'danger',
+                            }),
+                        Fieldset::make('Author information')
+                            ->schema([
+                                TextEntry::make('author_type')
+                                    ->formatStateUsing(fn ($record): string => class_basename($record->author_type))
+                                    ->badge()
+                                    ->color(fn ($record): string => match (class_basename($record->author_type)) {
+                                        'User' => 'success',
+                                        'Writer' => 'info',
+                                        default => 'secondary',
+                                    }),
+                                TextEntry::make('author.full_name')
+                                    ->placeholder('-'),
+                            ])
+                            ->columnSpanFull(),
+                        Fieldset::make('Commentable information')
+                            ->schema([
+                                TextEntry::make('commentable_type')
+                                    ->formatStateUsing(fn ($record): string => class_basename($record->commentable_type))
+                                    ->badge()
+                                    ->color('primary'),
+                                TextEntry::make('commentable.title')
+                                    ->limit(50)
+                                    ->placeholder('-'),
+                            ])
+                            ->columnSpanFull(),
+                        TextEntry::make('content')
+                            ->placeholder('-')
+                            ->columnSpanFull(),
+                    ]),
+                Section::make()
+                    ->columnSpanFull()
+                    ->heading('Metadata')
+                    ->columns(3)
+                    ->schema([
+                        TextEntry::make('created_at')
+                            ->dateTime()
+                            ->placeholder('-'),
+                        TextEntry::make('updated_at')
+                            ->dateTime()
+                            ->placeholder('-'),
+                        TextEntry::make('approved_at')
+                            ->dateTime()
+                            ->placeholder('-'),
+                    ]),
             ]);
     }
 }

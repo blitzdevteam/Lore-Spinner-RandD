@@ -59,10 +59,6 @@ final class CommentsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make()
-                    ->visible(fn (Comment $record): bool => $record->status === StatusEnum::PENDING),
-                DeleteAction::make()
-                    ->visible(fn (Comment $record): bool => $record->status === StatusEnum::PENDING),
             ])
             ->toolbarActions([]);
     }

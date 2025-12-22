@@ -69,7 +69,6 @@ final class CommentResource extends Resource
         return [
             'index' => ListComments::route('/'),
             'view' => ViewComment::route('/{record}'),
-            'edit' => EditComment::route('/{record}/edit'),
         ];
     }
 }

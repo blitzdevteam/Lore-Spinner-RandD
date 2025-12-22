@@ -7,8 +7,10 @@ namespace App\Filament\Manager\Resources\Comments\Pages;
 use App\Enums\Comment\StatusEnum;
 use App\Filament\Manager\Resources\Comments\CommentResource;
 use App\Models\Comment;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\Pages\ViewRecord;
 
 final class ViewComment extends ViewRecord
@@ -23,10 +25,35 @@ final class ViewComment extends ViewRecord
         $record = $this->record;
 
         return [
-            EditAction::make()
-                ->visible($record->status === StatusEnum::PENDING),
-            DeleteAction::make()
-                ->visible($record->status === StatusEnum::PENDING),
+            Action::make('approve')
+                ->action(function (array $data, Comment $record): void {
+                    $record->update([
+                        'status' => StatusEnum::APPROVED,
+                        'approved_at' => now(),
+                        'content' => $data['content'],
+                    ]);
+                })
+                ->color('success')
+                ->requiresConfirmation()
+                ->schema([
+                    Textarea::make('content')
+                        ->label('Approved Comment Content')
+                        ->default($record->content)
+                        ->rows(4)
+                        ->required()
+                        ->helperText('You can modify the comment content before approving.')
+                ])
+                ->modal()
+                ->modalWidth('2xl')
+                ->visible(fn (): bool => $record->status === StatusEnum::PENDING),
+            Action::make('decline')
+                ->color('danger')
+                ->action(function () use ($record): void {
+                    $record->update([
+                        'status' => StatusEnum::DECLINED,
+                    ]);
+                    $this->redirect(ViewComment::getUrl(['record' => $record->id]));
+                })
         ];
     }
 }
