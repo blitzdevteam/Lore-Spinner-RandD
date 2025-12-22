@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('story_id')->constrained()->cascadeOnUpdate();
             $table->string('title');
             $table->text('overview');
+            $table->longText('content');
             $table->string('status')->default(StoryChapterStatusEnum::AWAITING_PARAPHRASE_REQUEST->value);
             $table->timestamps();
         });

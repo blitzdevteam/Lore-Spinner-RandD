@@ -8,6 +8,7 @@ use App\Filament\Writer\Resources\Stories\Pages\CreateStory;
 use App\Filament\Writer\Resources\Stories\Pages\EditStory;
 use App\Filament\Writer\Resources\Stories\Pages\ListStories;
 use App\Filament\Writer\Resources\Stories\Pages\ViewStory;
+use App\Filament\Writer\Resources\Stories\RelationManagers\StoryChapterRelationManager;
 use App\Filament\Writer\Resources\Stories\Schemas\StoryForm;
 use App\Filament\Writer\Resources\Stories\Schemas\StoryInfolist;
 use App\Filament\Writer\Resources\Stories\Tables\StoriesTable;
@@ -61,6 +62,7 @@ final class StoryResource extends Resource
     public static function getRelations(): array
     {
         return [
+            StoryChapterRelationManager::class
         ];
     }
 
