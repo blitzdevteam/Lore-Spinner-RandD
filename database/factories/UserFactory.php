@@ -28,7 +28,6 @@ final class UserFactory extends Factory
             'gender' => fake()->randomElement(GenderEnum::values()),
             'bio' => fake()->paragraph(),
             'is_active' => fake()->boolean(),
-            'last_active_at' => fake()->dateTime(),
         ];
     }
 

@@ -27,7 +27,7 @@ final class Writer extends Authenticatable implements HasMedia, MustVerifyEmail
     ];
 
     protected $hidden = [
-        'password', 'remember_token', 'email_verified_at', 'last_active_at', 'is_active', 'created_at', 'updated_at',
+        'password', 'remember_token', 'email_verified_at', 'is_active', 'created_at', 'updated_at',
     ];
 
     protected $appends = [
@@ -78,7 +78,6 @@ final class Writer extends Authenticatable implements HasMedia, MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'is_active' => 'boolean',
-            'last_active_at' => 'datetime',
             'password' => 'hashed',
         ];
     }

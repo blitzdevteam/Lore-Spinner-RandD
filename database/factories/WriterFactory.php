@@ -28,7 +28,6 @@ final class WriterFactory extends Factory
             'bio' => fake()->paragraph(),
             'is_active' => fake()->boolean(),
             'email_verified_at' => fake()->dateTime(),
-            'last_active_at' => fake()->dateTime(),
         ];
     }
 }
