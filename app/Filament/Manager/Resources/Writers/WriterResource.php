@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Writers;
 
 use App\Filament\Manager\Resources\Writers\Pages\CreateWriter;
@@ -14,9 +16,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
-class WriterResource extends Resource
+final class WriterResource extends Resource
 {
     protected static ?string $model = Writer::class;
 
@@ -29,23 +32,23 @@ class WriterResource extends Resource
         return (string) self::getEloquentQuery()->count();
     }
 
-    #[\Override]
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return WriterForm::configure($schema);
     }
 
-    #[\Override]
+    #[Override]
     public static function table(Table $table): Table
     {
         return WritersTable::configure($table);
     }
 
-    #[\Override]
+    #[Override]
     public static function getRelations(): array
     {
         return [
-            StoriesRelationManager::class
+            StoriesRelationManager::class,
         ];
     }
 

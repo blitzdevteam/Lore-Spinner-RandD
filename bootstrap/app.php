@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,8 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
          * Alias custom middleware
          */
         $middleware->alias([
-            'guard.profile-is-completed' => \App\Http\Middleware\Guard\EnsureProfileIsCompleted::class,
-            'guard.profile-is-incompleted' => \App\Http\Middleware\Guard\EnsureProfileIsIncompleted::class,
+            'guard.profile-is-completed' => App\Http\Middleware\Guard\EnsureProfileIsCompleted::class,
+            'guard.profile-is-incompleted' => App\Http\Middleware\Guard\EnsureProfileIsIncompleted::class,
         ]);
 
         /**
@@ -58,7 +60,7 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             if ($request->user('manager')) {
-                dd(":| YOU ARE MANAGER AND TRYING TO DO A FUCKING LOGIN INTO ANOTHER GUARD ACCOUNTS :|||||||| WTF DUDE!!!!!! GET BACK TO UR PANEL");
+                dd(':| YOU ARE MANAGER AND TRYING TO DO A FUCKING LOGIN INTO ANOTHER GUARD ACCOUNTS :|||||||| WTF DUDE!!!!!! GET BACK TO UR PANEL');
             }
 
             return route('index');

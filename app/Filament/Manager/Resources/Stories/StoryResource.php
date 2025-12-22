@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Stories;
 
 use App\Filament\Manager\Resources\Stories\Pages\CreateStory;
@@ -17,9 +19,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
-class StoryResource extends Resource
+final class StoryResource extends Resource
 {
     protected static ?string $model = Story::class;
 
@@ -32,25 +35,25 @@ class StoryResource extends Resource
         return (string) self::getEloquentQuery()->count();
     }
 
-    #[\Override]
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return StoryForm::configure($schema);
     }
 
-    #[\Override]
+    #[Override]
     public static function infolist(Schema $schema): Schema
     {
         return StoryInfolist::configure($schema);
     }
 
-    #[\Override]
+    #[Override]
     public static function table(Table $table): Table
     {
         return StoriesTable::configure($table);
     }
 
-    #[\Override]
+    #[Override]
     public static function getRelations(): array
     {
         return [

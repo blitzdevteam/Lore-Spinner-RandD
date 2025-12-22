@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Database\Factories\ManagerFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
@@ -20,6 +19,7 @@ final class Manager extends Authenticatable implements FilamentUser, HasName
 {
     use HasFactory;
     use Notifiable;
+
     protected $guarded = [
         'id',
         'created_at',

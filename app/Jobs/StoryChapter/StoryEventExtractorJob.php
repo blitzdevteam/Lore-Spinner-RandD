@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs\StoryChapter;
 
 use App\Jobs\ProcessSingleSceneJob;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\File;
 
-class StoryEventExtractorJob implements ShouldQueue
+final class StoryEventExtractorJob implements ShouldQueue
 {
     use Queueable;
 

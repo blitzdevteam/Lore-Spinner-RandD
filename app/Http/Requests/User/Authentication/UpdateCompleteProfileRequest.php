@@ -19,17 +19,6 @@ final class UpdateCompleteProfileRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'username' => $this->string('username')->lower()->value(),
-            'gender' => 'male'
-        ]);
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -43,7 +32,7 @@ final class UpdateCompleteProfileRequest extends FormRequest
                 'min:3',
                 'max:24',
                 'regex:/^[a-zA-Z][a-zA-Z0-9_]*$/',
-                Rule::unique('users', 'username')->ignore($this->user()->id)
+                Rule::unique('users', 'username')->ignore($this->user()->id),
             ],
             'first_name' => ['required', 'string', 'min:3', 'max:64'],
             'last_name' => ['required', 'string', 'min:3', 'max:64'],
@@ -52,4 +41,14 @@ final class UpdateCompleteProfileRequest extends FormRequest
         ];
     }
 
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'username' => $this->string('username')->lower()->value(),
+            'gender' => 'male',
+        ]);
+    }
 }

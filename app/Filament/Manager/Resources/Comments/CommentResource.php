@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Comments;
 
 use App\Enums\Comment\StatusEnum;
-use App\Filament\Manager\Resources\Comments\Pages\CreateComment;
 use App\Filament\Manager\Resources\Comments\Pages\EditComment;
 use App\Filament\Manager\Resources\Comments\Pages\ListComments;
 use App\Filament\Manager\Resources\Comments\Pages\ViewComment;
@@ -16,9 +17,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
-class CommentResource extends Resource
+final class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
 
@@ -36,25 +38,25 @@ class CommentResource extends Resource
         return 'warning';
     }
 
-    #[\Override]
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return CommentForm::configure($schema);
     }
 
-    #[\Override]
+    #[Override]
     public static function infolist(Schema $schema): Schema
     {
         return CommentInfolist::configure($schema);
     }
 
-    #[\Override]
+    #[Override]
     public static function table(Table $table): Table
     {
         return CommentsTable::configure($table);
     }
 
-    #[\Override]
+    #[Override]
     public static function getRelations(): array
     {
         return [

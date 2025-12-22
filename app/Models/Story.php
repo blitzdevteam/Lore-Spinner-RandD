@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\Story\RatingEnum;
@@ -16,18 +18,10 @@ final class Story extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+
     protected $guarded = [
         'id', 'created_at', 'updated_at',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'status' => StatusEnum::class,
-            'rating' => RatingEnum::class,
-            'published_at' => 'datetime',
-        ];
-    }
 
     public function registerMediaCollections(): void
     {
@@ -68,5 +62,14 @@ final class Story extends Model implements HasMedia
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'status' => StatusEnum::class,
+            'rating' => RatingEnum::class,
+            'published_at' => 'datetime',
+        ];
     }
 }

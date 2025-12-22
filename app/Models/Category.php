@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,16 +16,16 @@ final class Category extends Model
         'id', 'created_at', 'updated_at',
     ];
 
-    protected function casts(): array
-    {
-        return [];
-    }
-
     /**
      * @return HasMany<$this, Story>
      */
     public function stories(): HasMany
     {
         return $this->hasMany(Story::class);
+    }
+
+    protected function casts(): array
+    {
+        return [];
     }
 }

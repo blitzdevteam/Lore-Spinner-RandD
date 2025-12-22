@@ -39,7 +39,7 @@ Route::prefix('user')->name('user.')->group(function (): void {
     Route::middleware([
         'auth:user',
         'verified:user.authentication.verify.index',
-        'guard.profile-is-completed'
+        'guard.profile-is-completed',
     ])
         ->prefix('dashboard')
         ->name('dashboard.')

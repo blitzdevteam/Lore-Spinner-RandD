@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\GenderEnum;
@@ -8,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Manager>
  */
-class UserFactory extends Factory
+final class UserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -36,7 +38,7 @@ class UserFactory extends Factory
     public function withCompleteProfile(): Factory
     {
         return $this->state(fn (array $attributes): array => [
-            'username' => fake()->userName()
+            'username' => fake()->userName(),
         ]);
     }
 
@@ -46,7 +48,7 @@ class UserFactory extends Factory
     public function markEmailAsVerified(): Factory
     {
         return $this->state(fn (array $attributes): array => [
-            'email_verified_at' => now()
+            'email_verified_at' => now(),
         ]);
     }
 }

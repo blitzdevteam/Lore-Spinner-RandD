@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Stories\Pages;
 
 use App\Filament\Manager\Resources\Stories\StoryResource;
@@ -7,7 +9,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditStory extends EditRecord
+final class EditStory extends EditRecord
 {
     protected static string $resource = StoryResource::class;
 

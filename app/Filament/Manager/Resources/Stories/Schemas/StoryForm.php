@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Stories\Schemas;
 
 use App\Enums\Story\RatingEnum;
 use App\Models\Writer;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
 
-class StoryForm
+final class StoryForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -52,7 +54,7 @@ class StoryForm
                                         ->searchable()
                                         ->preload()
                                         ->relationship('writer')
-                                        ->getOptionLabelFromRecordUsing(fn(Writer $record) => $record->full_name),
+                                        ->getOptionLabelFromRecordUsing(fn (Writer $record) => $record->full_name),
                                     Select::make('rating')
                                         ->options(RatingEnum::class)
                                         ->required(),
@@ -64,7 +66,7 @@ class StoryForm
                             Textarea::make('description')
                                 ->required()
                                 ->columnSpanFull(),
-                        ])
+                        ]),
                 ])
                     ->columnSpanFull(),
             ]);

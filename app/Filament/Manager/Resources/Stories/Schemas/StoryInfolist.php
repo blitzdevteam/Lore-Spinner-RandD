@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Stories\Schemas;
 
 use App\Enums\Story\RatingEnum;
@@ -9,7 +11,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
-class StoryInfolist
+final class StoryInfolist
 {
     public static function configure(Schema $schema): Schema
     {
@@ -32,7 +34,7 @@ class StoryInfolist
                         TextEntry::make('writer.full_name')
                             ->label('Writer'),
                         TextEntry::make('status')
-                            ->color(fn(StatusEnum $state): string => match ($state) {
+                            ->color(fn (StatusEnum $state): string => match ($state) {
                                 StatusEnum::PENDING => 'warning',
                                 StatusEnum::APPROVED => 'info',
                                 StatusEnum::DECLINED => 'danger',
@@ -40,7 +42,7 @@ class StoryInfolist
                             })
                             ->badge(),
                         TextEntry::make('rating')
-                            ->color(fn(RatingEnum $state): string => match ($state) {
+                            ->color(fn (RatingEnum $state): string => match ($state) {
                                 RatingEnum::EVERYONE => 'success',
                                 RatingEnum::TEEN => 'info',
                                 RatingEnum::YOUNG_ADULT => 'warning',
@@ -64,7 +66,7 @@ class StoryInfolist
                             ->dateTime()
                             ->placeholder('-'),
                     ])
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 }

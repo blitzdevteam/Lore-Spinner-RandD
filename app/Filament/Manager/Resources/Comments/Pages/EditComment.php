@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Comments\Pages;
 
 use App\Enums\Comment\StatusEnum;
@@ -9,12 +11,13 @@ use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use Override;
 
-class EditComment extends EditRecord
+final class EditComment extends EditRecord
 {
     protected static string $resource = CommentResource::class;
 
-    #[\Override]
+    #[Override]
     public function mount(int|string $record): void
     {
         parent::mount($record);
@@ -37,13 +40,14 @@ class EditComment extends EditRecord
         ];
     }
 
-    #[\Override]
+    #[Override]
     protected function getFormActions(): array
     {
         /**
          * @var Comment $record
          */
         $record = $this->record;
+
         return [
             Action::make('approve')
                 ->color('success')

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests\User\Authentication;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 final class StoreLoginRequest extends FormRequest
 {

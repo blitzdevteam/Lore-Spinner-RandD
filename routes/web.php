@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers;
+declare(strict_types=1);
 
-require __DIR__ . '/routes/user.php';
+use App\Http\Controllers;
+use Illuminate\Support\Facades\Route;
+
+require __DIR__.'/routes/user.php';
 
 Route::get('/', Controllers\IndexController::class)->name('index');

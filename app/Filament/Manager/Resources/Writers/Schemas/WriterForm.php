@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Writers\Schemas;
 
 use App\Models\Writer;
@@ -9,7 +11,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
-class WriterForm
+final class WriterForm
 {
     public static function configure(Schema $schema): Schema
     {

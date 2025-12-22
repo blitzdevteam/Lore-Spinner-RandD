@@ -18,11 +18,11 @@ use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-final class User extends Authenticatable implements MustVerifyEmail, HasMedia
+final class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasFactory;
-    use Notifiable;
     use InteractsWithMedia;
+    use Notifiable;
 
     protected $guarded = [
         'id', 'created_at', 'updated_at',
@@ -34,7 +34,7 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     protected $appends = [
         'full_name',
-        'is_profile_completed'
+        'is_profile_completed',
     ];
 
     /**
@@ -45,7 +45,7 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
         $this->addMediaCollection('avatar')
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
             ->singleFile()
-            ->useFallbackUrl(Storage::disk('public')->url('avatar/' . ($this->id % 2 === 0) + 1 . '.png'));
+            ->useFallbackUrl(Storage::disk('public')->url('avatar/'.($this->id % 2 === 0) + 1 .'.png'));
     }
 
     /**
@@ -53,7 +53,7 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
      */
     public function sendEmailVerificationNotification(): void
     {
-        VerifyEmail::createUrlUsing(fn($notifiable) => URL::temporarySignedRoute(
+        VerifyEmail::createUrlUsing(fn ($notifiable) => URL::temporarySignedRoute(
             'user.authentication.verify.confirm',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
             [
@@ -122,8 +122,7 @@ final class User extends Authenticatable implements MustVerifyEmail, HasMedia
     protected function username(): Attribute
     {
         return Attribute::make(
-            set: fn ($value): string|null => blank($value) ? null : strtolower((string) $value)
+            set: fn ($value): ?string => blank($value) ? null : mb_strtolower((string) $value)
         );
     }
-
 }

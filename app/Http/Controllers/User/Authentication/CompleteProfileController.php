@@ -27,8 +27,7 @@ final class CompleteProfileController
         #[CurrentUser] User $user,
         UpdateCompleteProfileRequest $request,
         UpdateUserAction $updateUserAction,
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $updateUserAction->handle($user, $request->validated());
 
         return to_route('user.dashboard.index')->with('success', 'Your profile has been updated');

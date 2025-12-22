@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Story;
 use App\Models\Writer;
-use Illuminate\Http\Request;
 
-class IndexController extends Controller
+final class IndexController extends Controller
 {
     public function __invoke()
     {

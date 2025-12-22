@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +19,7 @@ return new class extends Migration
             $table->foreignId('writer_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->string('title');
             $table->text('description');
-            $table->string('status')->default(\App\Enums\Story\StatusEnum::PENDING);
+            $table->string('status')->default(App\Enums\Story\StatusEnum::PENDING);
             $table->float('rating', 1)->default(0);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

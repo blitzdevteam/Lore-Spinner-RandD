@@ -21,6 +21,6 @@ it('serializes with expected keys', function () {
         'avatar',
         'bio',
         'is_profile_completed',
-        'media'
+        'media',
     ]);
 });

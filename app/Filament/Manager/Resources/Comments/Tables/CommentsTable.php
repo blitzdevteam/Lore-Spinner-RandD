@@ -1,26 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Comments\Tables;
 
 use App\Enums\Comment\StatusEnum;
-use App\Filament\Manager\Resources\Stories\Pages\ViewStory;
 use App\Models\Comment;
-use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class CommentsTable
+final class CommentsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 TextColumn::make('author_type')
-                    ->formatStateUsing(fn($record): string => class_basename($record->author_type))
+                    ->formatStateUsing(fn ($record): string => class_basename($record->author_type))
                     ->badge()
                     ->color(fn ($record): string => match (class_basename($record->author_type)) {
                         'User' => 'success',

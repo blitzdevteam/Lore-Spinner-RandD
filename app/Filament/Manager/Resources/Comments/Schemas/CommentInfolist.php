@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Comments\Schemas;
 
 use App\Enums\Comment\StatusEnum;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class CommentInfolist
+final class CommentInfolist
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextEntry::make('author_type')
-                    ->formatStateUsing(fn($record): string => class_basename($record->author_type))
+                    ->formatStateUsing(fn ($record): string => class_basename($record->author_type))
                     ->badge()
                     ->color(fn ($record): string => match (class_basename($record->author_type)) {
                         'User' => 'success',

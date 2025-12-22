@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Stories\Tables;
 
 use App\Enums\Story\RatingEnum;
@@ -11,7 +13,7 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class StoriesTable
+final class StoriesTable
 {
     public static function configure(Table $table): Table
     {

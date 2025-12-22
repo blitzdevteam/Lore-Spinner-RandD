@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -7,11 +9,11 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
 use Prism\Prism\Enums\Provider;
 use Prism\Prism\Prism;
-use Prism\Prism\Schema\ObjectSchema;
 use Prism\Prism\Schema\ArraySchema;
+use Prism\Prism\Schema\ObjectSchema;
 use Prism\Prism\Schema\StringSchema;
 
-class ProcessSingleSceneJob implements ShouldQueue
+final class ProcessSingleSceneJob implements ShouldQueue
 {
     use Queueable;
 
@@ -52,7 +54,7 @@ class ProcessSingleSceneJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $systemPrompt = <<<PROMPT
+        $systemPrompt = <<<'PROMPT'
 You are a strict scene structure analyzer for an interactive story game.
 
 Your task is to read a movie or game script and break it down into **game events**.
@@ -105,8 +107,8 @@ PROMPT;
                 'temperature' => 0.0,
                 'max_tokens' => 4000,
                 'schema' => [
-                    'strict' => true
-                ]
+                    'strict' => true,
+                ],
             ])
             ->withSchema(
                 new ObjectSchema(
@@ -126,7 +128,7 @@ PROMPT;
                                 ],
                                 requiredFields: ['title', 'text', 'objectives']
                             )
-                        )
+                        ),
                     ],
                     requiredFields: ['events']
                 )

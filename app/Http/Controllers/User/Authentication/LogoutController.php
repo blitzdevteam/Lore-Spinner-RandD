@@ -16,8 +16,7 @@ final class LogoutController
     public function destroy(
         Request $request,
         LogoutAuthenticatableGuardAction $logoutAuthenticatableGuardAction
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $logoutAuthenticatableGuardAction->handle('user', $request);
 
         return to_route('user.authentication.login.create')->with('success', 'You have successfully logged out');

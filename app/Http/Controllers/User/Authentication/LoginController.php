@@ -17,10 +17,9 @@ final class LoginController extends Controller
     }
 
     public function store(
-        StoreLoginRequest               $request,
+        StoreLoginRequest $request,
         LoginAuthenticatableGuardAction $loginAuthenticatableGuard
-    )
-    {
+    ) {
         /**
          * @var User|false $user
          */
@@ -33,8 +32,8 @@ final class LoginController extends Controller
         }
 
         $routeName = match (true) {
-            !$user->hasVerifiedEmail() => 'user.authentication.verify.index',
-            !$user->is_profile_completed => 'user.authentication.complete-profile.edit',
+            ! $user->hasVerifiedEmail() => 'user.authentication.verify.index',
+            ! $user->is_profile_completed => 'user.authentication.complete-profile.edit',
             default => 'user.dashboard.index',
         };
 

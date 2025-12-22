@@ -54,7 +54,7 @@ describe('registration', function () {
         $this
             ->get(route('user.authentication.register.create'))
             ->assertOk()
-            ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/Register'));
+            ->assertInertia(fn (Assert $page) => $page->component('User/Authentication/Register'));
     });
 
     test('user can not do register action with duplicate email', function () {
@@ -82,7 +82,7 @@ describe('login', function () {
         $this
             ->get(route('user.authentication.login.create'))
             ->assertOk()
-            ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/Login'));
+            ->assertInertia(fn (Assert $page) => $page->component('User/Authentication/Login'));
     });
 
     test('user can not do login action with wrong email or password', function () {
@@ -133,7 +133,7 @@ describe('verification', function () {
         $this
             ->get(route('user.authentication.verify.index'))
             ->assertOk()
-            ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/Verify'));
+            ->assertInertia(fn (Assert $page) => $page->component('User/Authentication/Verify'));
     });
 
     test('user can do verify action and redirect to user complete profile page', function () {
@@ -164,7 +164,7 @@ describe('profile completion', function () {
             ->actingAs($user)
             ->get(route('user.authentication.complete-profile.edit'))
             ->assertOk()
-            ->assertInertia(fn(Assert $page) => $page->component('User/Authentication/CompleteProfile'));
+            ->assertInertia(fn (Assert $page) => $page->component('User/Authentication/CompleteProfile'));
     });
 
     test('user can complete profile and is redirected to dashboard', function () {

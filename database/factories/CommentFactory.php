@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\Comment\StatusEnum;
 use App\Models\Comment;
-use Closure;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
  */
-class CommentFactory extends Factory
+final class CommentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -29,8 +31,8 @@ class CommentFactory extends Factory
     /**
      * Configure the model factory.
      */
-    #[\Override]
-    public function configure(): CommentFactory|Factory
+    #[Override]
+    public function configure(): self|Factory
     {
         return $this->afterMaking(function (Comment $comment): void {
             if ($comment->status === StatusEnum::APPROVED) {

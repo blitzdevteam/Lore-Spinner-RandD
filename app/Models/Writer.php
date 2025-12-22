@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -15,7 +17,7 @@ use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-final class Writer extends Authenticatable implements MustVerifyEmail, HasMedia
+final class Writer extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasFactory;
     use InteractsWithMedia;
@@ -40,7 +42,7 @@ final class Writer extends Authenticatable implements MustVerifyEmail, HasMedia
         $this->addMediaCollection('avatar')
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
             ->singleFile()
-            ->useFallbackUrl(Storage::disk('public')->url('avatar/' . str($this->id)->substr(0, 1) . '.png'));
+            ->useFallbackUrl(Storage::disk('public')->url('avatar/'.str($this->id)->substr(0, 1).'.png'));
     }
 
     /**
@@ -48,7 +50,7 @@ final class Writer extends Authenticatable implements MustVerifyEmail, HasMedia
      */
     public function sendEmailVerificationNotification(): void
     {
-        VerifyEmail::createUrlUsing(fn($notifiable) => URL::temporarySignedRoute(
+        VerifyEmail::createUrlUsing(fn ($notifiable) => URL::temporarySignedRoute(
             'user.authentication.verify.confirm',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
             [
@@ -58,6 +60,14 @@ final class Writer extends Authenticatable implements MustVerifyEmail, HasMedia
         ));
 
         $this->notify(new VerifyEmail);
+    }
+
+    /**
+     * @return HasMany<$this, Story>
+     */
+    public function stories(): HasMany
+    {
+        return $this->hasMany(Story::class);
     }
 
     /**
@@ -71,14 +81,6 @@ final class Writer extends Authenticatable implements MustVerifyEmail, HasMedia
             'last_active_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    /**
-     * @return HasMany<$this, Story>
-     */
-    public function stories(): HasMany
-    {
-        return $this->hasMany(Story::class);
     }
 
     /**
@@ -97,7 +99,7 @@ final class Writer extends Authenticatable implements MustVerifyEmail, HasMedia
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn(): string => $this->first_name . ' ' . $this->last_name
+            get: fn (): string => $this->first_name.' '.$this->last_name
         );
     }
 }

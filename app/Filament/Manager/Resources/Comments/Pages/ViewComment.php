@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Manager\Resources\Comments\Pages;
 
 use App\Enums\Comment\StatusEnum;
@@ -9,7 +11,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewComment extends ViewRecord
+final class ViewComment extends ViewRecord
 {
     protected static string $resource = CommentResource::class;
 
