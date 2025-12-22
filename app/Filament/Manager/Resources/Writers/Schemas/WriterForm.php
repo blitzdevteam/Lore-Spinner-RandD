@@ -8,7 +8,8 @@ use App\Models\Writer;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 final class WriterForm
@@ -17,32 +18,50 @@ final class WriterForm
     {
         return $schema
             ->components([
-                Toggle::make('is_active')
-                    ->required()
-                    ->columnSpanFull(),
-                Grid::make(3)
+                Section::make()
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->heading('Writer details')
                     ->schema([
-                        TextInput::make('first_name')
-                            ->required(),
-                        TextInput::make('last_name')
-                            ->required(),
-                        TextInput::make('nickname')
-                            ->nullable(),
-                        TextInput::make('username')
-                            ->unique(table: Writer::class, ignoreRecord: true)
-                            ->unique()
-                            ->required(),
-                        TextInput::make('email')
-                            ->unique(table: Writer::class, ignoreRecord: true)
-                            ->email()
-                            ->required(),
-                        TextInput::make('password')
-                            ->password()
-                            ->required(fn (string $operation): bool => $operation === 'create'),
-                    ])
-                    ->columnSpanFull(),
-                Textarea::make('bio')
-                    ->columnSpanFull(),
+                        Toggle::make('is_active')
+                            ->required()
+                            ->columnSpanFull(),
+                        Fieldset::make('Basic information')
+                            ->schema([
+                                TextInput::make('first_name')
+                                    ->required()
+                                    ->maxLength(255),
+                                TextInput::make('last_name')
+                                    ->required()
+                                    ->maxLength(255),
+                                TextInput::make('nickname')
+                                    ->nullable()
+                                    ->maxLength(255),
+                            ])
+                            ->columns(3)
+                            ->columnSpanFull(),
+                        Fieldset::make('Account information')
+                            ->schema([
+                                TextInput::make('username')
+                                    ->unique(table: Writer::class, ignoreRecord: true)
+                                    ->required()
+                                    ->maxLength(255),
+                                TextInput::make('email')
+                                    ->unique(table: Writer::class, ignoreRecord: true)
+                                    ->email()
+                                    ->required()
+                                    ->maxLength(255),
+                                TextInput::make('password')
+                                    ->password()
+                                    ->required(fn (string $operation): bool => $operation === 'create')
+                                    ->maxLength(255),
+                            ])
+                            ->columns(3)
+                            ->columnSpanFull(),
+                        Textarea::make('bio')
+                            ->rows(3)
+                            ->columnSpan(2),
+                    ]),
             ]);
     }
 }
