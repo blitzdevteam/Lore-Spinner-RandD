@@ -12,8 +12,10 @@ use App\Filament\Writer\Resources\Stories\RelationManagers\StoryChapterRelationM
 use App\Filament\Writer\Resources\Stories\Schemas\StoryForm;
 use App\Filament\Writer\Resources\Stories\Schemas\StoryInfolist;
 use App\Filament\Writer\Resources\Stories\Tables\StoriesTable;
+use App\Filament\Writer\Resources\Stories\Resources\Chapters;
 use App\Models\Story;
 use BackedEnum;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -62,7 +64,7 @@ final class StoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            StoryChapterRelationManager::class
+
         ];
     }
 
