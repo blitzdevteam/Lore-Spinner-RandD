@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
 import { Swiper } from 'swiper/vue';
 
 defineProps<{
@@ -16,15 +15,11 @@ defineProps<{
             </div>
         </div>
         <div class="relative">
-            <div class="pointer-events-none absolute inset-y-0 start-0 w-50 bg-gradient-to-r from-background to-transparent z-10"></div>
-            <Swiper
-                slidesPerView="auto"
-                :freeMode="true"
-                :pagination="{ clickable: true }"
-            >
+            <div class="pointer-events-none absolute inset-y-0 start-0 z-10 w-50 bg-gradient-to-r from-background to-transparent"></div>
+            <Swiper slidesPerView="auto" :freeMode="true" :pagination="{ clickable: true }">
                 <slot name="slides"></slot>
             </Swiper>
-            <div class="pointer-events-none absolute inset-y-0 end-0 w-50 bg-gradient-to-l from-background to-transparent z-10"></div>
+            <div class="pointer-events-none absolute inset-y-0 end-0 z-10 w-50 bg-gradient-to-l from-background to-transparent"></div>
         </div>
     </div>
 </template>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-    fill?: string;
-}>(), {
-    fill: '#43FEE5',
-})
+withDefaults(
+    defineProps<{
+        fill?: string;
+    }>(),
+    {
+        fill: '#43FEE5',
+    },
+);
 </script>
 
 <template>

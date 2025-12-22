@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
+import { Check, CircleAlert, X } from 'lucide-vue-next';
 import { computed, nextTick, onMounted, watch } from 'vue';
 import { Toaster, toast } from 'vue-sonner';
 import 'vue-sonner/style.css';
-import { Check, CircleAlert, X } from 'lucide-vue-next';
 
 const page = usePage();
 
@@ -52,12 +52,12 @@ onMounted(() => {
 
 @layer components {
     [data-sonner-toast] {
-        @apply flex! items-center! gap-2! p-4! bg-gray-900/75! backdrop-blur-xl border-none! rounded-lg! outline-4!;
+        @apply flex! items-center! gap-2! rounded-lg! border-none! bg-gray-900/75! p-4! outline-4! backdrop-blur-xl;
         [data-icon] {
             all: unset !important;
-            @apply flex! items-center! justify-center! w-6! h-6! rounded-md! m-0! p-0!;
+            @apply m-0! flex! h-6! w-6! items-center! justify-center! rounded-md! p-0!;
             svg {
-                @apply w-4! h-4! m-0! p-0! justify-center!;
+                @apply m-0! h-4! w-4! justify-center! p-0!;
             }
         }
         [data-content] {

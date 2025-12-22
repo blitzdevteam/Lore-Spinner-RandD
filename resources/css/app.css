@@ -70,7 +70,7 @@ body {
 }
 
 .container {
-    @apply w-full mx-auto;
+    @apply mx-auto w-full;
     max-width: var(--container);
 }
 

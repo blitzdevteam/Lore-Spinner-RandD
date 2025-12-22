@@ -1,7 +1,7 @@
 // CSS
 import '../css/app.css';
-import '../css/fonts/source-sans-3/source-sans-3.css';
 import '../css/fonts/gill-sans/gill-sans.css';
+import '../css/fonts/source-sans-3/source-sans-3.css';
 
 // Swiper CSS
 import 'swiper/css';
@@ -20,14 +20,14 @@ import customPresetOptions from '../css/primevue-theme/aura/options';
 // Primevue Component
 import Checkbox from 'primevue/checkbox';
 import Divider from 'primevue/divider';
+import Drawer from 'primevue/drawer';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 import InputMask from 'primevue/inputmask';
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
-import IconField from 'primevue/iconfield';
-import InputIcon from 'primevue/inputicon';
-import Drawer from 'primevue/drawer';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

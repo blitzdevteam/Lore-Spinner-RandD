@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import StickyFooterLayout from '@/layouts/StickyFooterLayout.vue';
-import { UserInterface } from '@/types';
-import { Form, usePage } from '@inertiajs/vue3';
-import { UserRoundPen } from 'lucide-vue-next';
-import BaseInputFormat from '@/components/BaseInputFormat.vue';
-import { GenderEnum } from '@/types/enum';
 import BaseButton from '@/components/BaseButton.vue';
+import BaseInputFormat from '@/components/BaseInputFormat.vue';
+import StickyFooterLayout from '@/layouts/StickyFooterLayout.vue';
+import { GenderEnum } from '@/types/enum';
 import { update } from '@/wayfinder/routes/user/authentication/complete-profile';
-
-const page = usePage();
-
-const auth = page.props.auth as UserInterface;
+import { Form } from '@inertiajs/vue3';
+import { UserRoundPen } from 'lucide-vue-next';
 
 const genderEnumOptions = Object.values(GenderEnum).map((value) => ({
     label: value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
@@ -46,7 +41,13 @@ const genderEnumOptions = Object.values(GenderEnum).map((value) => ({
                         </BaseInputFormat>
                         <div class="col-span-full">
                             <BaseInputFormat label="Gender" :error="errors.gender">
-                                <PrimeSelect name="gender" placeholder="Select your gender" option-value="value" option-label="label" :options="genderEnumOptions" />
+                                <PrimeSelect
+                                    name="gender"
+                                    placeholder="Select your gender"
+                                    option-value="value"
+                                    option-label="label"
+                                    :options="genderEnumOptions"
+                                />
                             </BaseInputFormat>
                         </div>
                         <div class="col-span-full">

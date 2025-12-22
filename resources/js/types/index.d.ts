@@ -25,4 +25,3 @@ export interface WriterInterface {
     avatar: string;
     bio: string | null;
 }
-

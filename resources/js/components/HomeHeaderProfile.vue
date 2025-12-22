@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import BaseButton from '@/components/BaseButton.vue';
+import { logout } from '@/wayfinder/routes/user/authentication';
 import login from '@/wayfinder/routes/user/authentication/login';
 import { Link, usePage } from '@inertiajs/vue3';
 import { ChevronRight, LucideUpload, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
-import { logout } from '@/wayfinder/routes/user/authentication';
 
 const page = usePage();
 
@@ -28,7 +28,7 @@ const profileDrawerVisibility = ref(false);
                             <div class="flex items-center gap-4 px-8">
                                 <div class="size-10"></div>
                                 <div class="flex flex-1 items-center justify-center">
-                                    <h3 class="text-xl text-white font-normal">Profile</h3>
+                                    <h3 class="text-xl font-normal text-white">Profile</h3>
                                 </div>
                                 <button
                                     @click="closeCallback"
@@ -103,10 +103,7 @@ const profileDrawerVisibility = ref(false);
                                     </ul>
                                 </div>
                                 <Link :method="logout().method" :href="logout().url">
-                                    <BaseButton
-                                        severity="muted"
-                                        class="font-normal text-red-500 outline-none hover:bg-red-700/10 w-full"
-                                    >
+                                    <BaseButton severity="muted" class="w-full font-normal text-red-500 outline-none hover:bg-red-700/10">
                                         Logout
                                     </BaseButton>
                                 </Link>
