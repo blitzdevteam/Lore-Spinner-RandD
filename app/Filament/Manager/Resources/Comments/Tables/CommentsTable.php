@@ -37,11 +37,7 @@ final class CommentsTable
                     ->limit(50),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (CommentStatusEnum $state): string => match ($state) {
-                        CommentStatusEnum::PENDING => 'warning',
-                        CommentStatusEnum::APPROVED => 'info',
-                        CommentStatusEnum::DECLINED => 'danger',
-                    })
+                    ->color(fn (CommentStatusEnum $state): string => $state->getSeverity())
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('approved_at')

@@ -27,11 +27,6 @@ final class CategoryFactory extends Factory
         'Mystery & Investigation',
         'Survival Horror',
         'Planar Adventure',
-        'Maritime Adventure',
-        'Wilderness Exploration',
-        'Court Drama',
-        'War Campaign',
-        'Heist & Espionage',
     ];
 
     /**

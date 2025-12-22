@@ -32,21 +32,11 @@ final class StoriesTable
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (StoryStatusEnum $state): string => match ($state) {
-                        StoryStatusEnum::PENDING => 'warning',
-                        StoryStatusEnum::APPROVED => 'info',
-                        StoryStatusEnum::DECLINED => 'danger',
-                        StoryStatusEnum::PUBLISHED => 'success',
-                    })
+                    ->color(fn (StoryStatusEnum $state): string => $state->getSeverity())
                     ->searchable(),
                 TextColumn::make('rating')
                     ->badge()
-                    ->color(fn (StoryRatingEnum $state): string => match ($state) {
-                        StoryRatingEnum::EVERYONE => 'success',
-                        StoryRatingEnum::TEEN => 'info',
-                        StoryRatingEnum::YOUNG_ADULT => 'warning',
-                        StoryRatingEnum::MATURE => 'danger',
-                    })
+                    ->color(fn (StoryRatingEnum $state): string => $state->getSeverity())
                     ->searchable(),
                 TextColumn::make('published_at')
                     ->dateTime()

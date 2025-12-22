@@ -34,20 +34,10 @@ final class StoryInfolist
                         TextEntry::make('writer.full_name')
                             ->label('Writer'),
                         TextEntry::make('status')
-                            ->color(fn (StoryStatusEnum $state): string => match ($state) {
-                                StoryStatusEnum::PENDING => 'warning',
-                                StoryStatusEnum::APPROVED => 'info',
-                                StoryStatusEnum::DECLINED => 'danger',
-                                StoryStatusEnum::PUBLISHED => 'success',
-                            })
+                            ->color(fn (StoryStatusEnum $state): string => $state->getSeverity())
                             ->badge(),
                         TextEntry::make('rating')
-                            ->color(fn (StoryRatingEnum $state): string => match ($state) {
-                                StoryRatingEnum::EVERYONE => 'success',
-                                StoryRatingEnum::TEEN => 'info',
-                                StoryRatingEnum::YOUNG_ADULT => 'warning',
-                                StoryRatingEnum::MATURE => 'danger',
-                            })
+                            ->color(fn (StoryRatingEnum $state): string => $state->getSeverity())
                             ->badge(),
                     ])
                     ->columnSpanFull(),
