@@ -27,4 +27,15 @@ enum StatusEnum: string implements HasLabel
             self::PUBLISHED => 'Published',
         };
     }
+
+    public function getSeverity(): string
+    {
+        return match ($this) {
+            self::PENDING => 'warning',
+            self::AI_REVIEWED => 'info',
+            self::APPROVED => 'info',
+            self::DECLINED => 'danger',
+            self::PUBLISHED => 'success',
+        };
+    }
 }

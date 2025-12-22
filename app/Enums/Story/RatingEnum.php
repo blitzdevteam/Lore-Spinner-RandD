@@ -26,4 +26,14 @@ enum RatingEnum: string implements HasLabel
             self::MATURE => 'Mature (18+)',
         };
     }
+
+    public function getSeverity(): string
+    {
+        return match ($this) {
+            self::EVERYONE => 'success',
+            self::TEEN => 'info',
+            self::YOUNG_ADULT => 'warning',
+            self::MATURE => 'danger',
+        };
+    }
 }

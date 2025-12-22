@@ -23,4 +23,13 @@ enum StatusEnum: string implements HasLabel
             self::DECLINED => 'Declined',
         };
     }
+
+    public function getSeverity(): string
+    {
+        return match ($this) {
+            self::PENDING => 'warning',
+            self::APPROVED => 'info',
+            self::DECLINED => 'danger',
+        };
+    }
 }

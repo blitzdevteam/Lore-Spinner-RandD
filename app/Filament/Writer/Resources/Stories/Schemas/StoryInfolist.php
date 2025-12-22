@@ -46,21 +46,11 @@ final class StoryInfolist
                                     ->label('Category')
                                     ->placeholder('-'),
                                 TextEntry::make('status')
-                                    ->color(fn (StatusEnum $state): string => match ($state) {
-                                        StatusEnum::PENDING => 'warning',
-                                        StatusEnum::APPROVED => 'info',
-                                        StatusEnum::DECLINED => 'danger',
-                                        StatusEnum::PUBLISHED => 'success',
-                                    })
+                                    ->color(fn (StatusEnum $state): string => $state->getSeverity())
                                     ->badge()
                                     ->placeholder('-'),
                                 TextEntry::make('rating')
-                                    ->color(fn (RatingEnum $state): string => match ($state) {
-                                        RatingEnum::EVERYONE => 'success',
-                                        RatingEnum::TEEN => 'info',
-                                        RatingEnum::YOUNG_ADULT => 'warning',
-                                        RatingEnum::MATURE => 'danger',
-                                    })
+                                    ->color(fn (RatingEnum $state): string => $state->getSeverity())
                                     ->badge()
                                     ->placeholder('-'),
                             ])
@@ -74,7 +64,7 @@ final class StoryInfolist
                         TextEntry::make('published_at')
                             ->dateTime()
                             ->placeholder('-')
-                            ->visible(fn (Story $record): bool => !is_null($record->published_at))
+                            ->visible(fn (Story $record): bool => ! is_null($record->published_at))
                             ->columnSpan(2),
                     ]),
                 Section::make()

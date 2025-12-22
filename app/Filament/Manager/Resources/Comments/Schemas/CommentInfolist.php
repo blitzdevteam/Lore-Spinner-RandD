@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Manager\Resources\Comments\Schemas;
 
 use App\Enums\Comment\StatusEnum;
-use App\Models\Comment;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
@@ -23,11 +22,7 @@ final class CommentInfolist
                     ->schema([
                         TextEntry::make('status')
                             ->badge()
-                            ->color(fn (StatusEnum $state): string => match ($state) {
-                                StatusEnum::PENDING => 'warning',
-                                StatusEnum::APPROVED => 'info',
-                                StatusEnum::DECLINED => 'danger',
-                            }),
+                            ->color(fn (StatusEnum $state): string => $state->getSeverity()),
                         Fieldset::make('Author information')
                             ->schema([
                                 TextEntry::make('author_type')
