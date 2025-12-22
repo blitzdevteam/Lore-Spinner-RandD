@@ -12,6 +12,7 @@ enum StatusEnum: string implements HasLabel
     use EnumToArray;
 
     case PENDING = 'pending';
+    case AI_REVIEWED = 'ai-reviewed';
     case APPROVED = 'approved';
     case DECLINED = 'declined';
     case PUBLISHED = 'published';
@@ -20,6 +21,7 @@ enum StatusEnum: string implements HasLabel
     {
         return match ($this) {
             self::PENDING => 'Pending',
+            self::AI_REVIEWED => 'Ai Reviewed',
             self::APPROVED => 'Approved',
             self::DECLINED => 'Declined',
             self::PUBLISHED => 'Published',

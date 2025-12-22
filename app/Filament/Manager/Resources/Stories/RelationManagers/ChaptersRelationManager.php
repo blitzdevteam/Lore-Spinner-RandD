@@ -29,7 +29,7 @@ final class ChaptersRelationManager extends RelationManager
             ->components([
                 TextInput::make('title')
                     ->required(),
-                Textarea::make('description')
+                Textarea::make('overview')
                     ->required()
                     ->columnSpanFull(),
             ]);
@@ -40,7 +40,7 @@ final class ChaptersRelationManager extends RelationManager
         return $schema
             ->components([
                 TextEntry::make('title'),
-                TextEntry::make('description')
+                TextEntry::make('overview')
                     ->columnSpanFull(),
                 TextEntry::make('created_at')
                     ->dateTime()
@@ -58,7 +58,7 @@ final class ChaptersRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
-                TextColumn::make('description')
+                TextColumn::make('overview')
                     ->limit(100),
                 TextColumn::make('created_at')
                     ->dateTime()

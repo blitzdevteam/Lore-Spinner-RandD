@@ -63,7 +63,7 @@ final class StoryForm
                             TextInput::make('title')
                                 ->required()
                                 ->columnSpanFull(),
-                            Textarea::make('description')
+                            Textarea::make('overview')
                                 ->required()
                                 ->columnSpanFull(),
                         ]),

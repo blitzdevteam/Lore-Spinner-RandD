@@ -14,7 +14,7 @@ enum RatingEnum: string implements HasLabel
 
     case EVERYONE = 'everyone';
     case TEEN = 'teen';
-    case YOUNG_ADULT = 'young_adult';
+    case YOUNG_ADULT = 'young-adult';
     case MATURE = 'mature';
 
     public function getLabel(): string|Htmlable|null

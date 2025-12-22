@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('writer_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->string('title');
-            $table->text('description');
+            $table->text('overview');
             $table->string('status')->default(App\Enums\Story\StatusEnum::PENDING);
             $table->string('rating');
             $table->timestamp('published_at')->nullable();

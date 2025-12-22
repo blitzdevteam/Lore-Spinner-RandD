@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Manager\Resources\Stories\Schemas;
+namespace App\Filament\Writer\Resources\Stories\Schemas;
 
 use App\Enums\Story\RatingEnum;
 use App\Enums\Story\StatusEnum;
@@ -31,8 +31,6 @@ final class StoryInfolist
                     ->schema([
                         TextEntry::make('category.title')
                             ->label('Category'),
-                        TextEntry::make('writer.full_name')
-                            ->label('Writer'),
                         TextEntry::make('status')
                             ->color(fn (StatusEnum $state): string => match ($state) {
                                 StatusEnum::PENDING => 'warning',
