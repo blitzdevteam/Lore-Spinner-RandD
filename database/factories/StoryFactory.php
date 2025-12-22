@@ -26,7 +26,7 @@ final class StoryFactory extends Factory
             'category_id' => Category::factory(),
             'writer_id' => Writer::factory(),
             'title' => fake()->sentence(),
-            'description' => fake()->paragraph(),
+            'overview' => fake()->paragraph(),
             'status' => fake()->randomElement(StatusEnum::values()),
             'rating' => fake()->randomElement(RatingEnum::values()),
             'published_at' => fake()->optional()->dateTimeThisYear(),

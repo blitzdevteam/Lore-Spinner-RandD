@@ -12,4 +12,12 @@ final class CreateStory extends CreateRecord
     protected static string $resource = StoryResource::class;
 
     protected static bool $canCreateAnother = false;
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        return [
+            ...$data,
+            'writer_id' => auth('writer')->id(),
+        ];
+    }
 }
