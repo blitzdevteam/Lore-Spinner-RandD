@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Writer\Resources\Stories\Schemas;
 
-use App\Enums\Story\RatingEnum;
-use App\Enums\Story\StatusEnum;
+use App\Enums\Story\StoryRatingEnum;
+use App\Enums\Story\StoryStatusEnum;
 use App\Models\Story;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -46,11 +46,11 @@ final class StoryInfolist
                                     ->label('Category')
                                     ->placeholder('-'),
                                 TextEntry::make('status')
-                                    ->color(fn (StatusEnum $state): string => $state->getSeverity())
+                                    ->color(fn (StoryStatusEnum $state): string => $state->getSeverity())
                                     ->badge()
                                     ->placeholder('-'),
                                 TextEntry::make('rating')
-                                    ->color(fn (RatingEnum $state): string => $state->getSeverity())
+                                    ->color(fn (StoryRatingEnum $state): string => $state->getSeverity())
                                     ->badge()
                                     ->placeholder('-'),
                             ])

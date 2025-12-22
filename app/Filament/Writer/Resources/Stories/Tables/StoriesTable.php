@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Writer\Resources\Stories\Tables;
 
-use App\Enums\Story\RatingEnum;
-use App\Enums\Story\StatusEnum;
+use App\Enums\Story\StoryRatingEnum;
+use App\Enums\Story\StoryStatusEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -30,20 +30,20 @@ final class StoriesTable
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (StatusEnum $state): string => match ($state) {
-                        StatusEnum::PENDING => 'warning',
-                        StatusEnum::APPROVED => 'info',
-                        StatusEnum::DECLINED => 'danger',
-                        StatusEnum::PUBLISHED => 'success',
+                    ->color(fn (StoryStatusEnum $state): string => match ($state) {
+                        StoryStatusEnum::PENDING => 'warning',
+                        StoryStatusEnum::APPROVED => 'info',
+                        StoryStatusEnum::DECLINED => 'danger',
+                        StoryStatusEnum::PUBLISHED => 'success',
                     })
                     ->searchable(),
                 TextColumn::make('rating')
                     ->badge()
-                    ->color(fn (RatingEnum $state): string => match ($state) {
-                        RatingEnum::EVERYONE => 'success',
-                        RatingEnum::TEEN => 'info',
-                        RatingEnum::YOUNG_ADULT => 'warning',
-                        RatingEnum::MATURE => 'danger',
+                    ->color(fn (StoryRatingEnum $state): string => match ($state) {
+                        StoryRatingEnum::EVERYONE => 'success',
+                        StoryRatingEnum::TEEN => 'info',
+                        StoryRatingEnum::YOUNG_ADULT => 'warning',
+                        StoryRatingEnum::MATURE => 'danger',
                     })
                     ->searchable(),
                 TextColumn::make('published_at')

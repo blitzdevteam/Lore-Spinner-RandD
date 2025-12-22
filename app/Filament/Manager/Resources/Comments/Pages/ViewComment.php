@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Manager\Resources\Comments\Pages;
 
-use App\Enums\Comment\StatusEnum;
+use App\Enums\Comment\CommentStatusEnum;
 use App\Filament\Manager\Resources\Comments\CommentResource;
 use App\Models\Comment;
 use Filament\Actions\Action;
@@ -28,7 +28,7 @@ final class ViewComment extends ViewRecord
             Action::make('approve')
                 ->action(function (array $data, Comment $record): void {
                     $record->update([
-                        'status' => StatusEnum::APPROVED,
+                        'status' => CommentStatusEnum::APPROVED,
                         'approved_at' => now(),
                         'content' => $data['content'],
                     ]);
@@ -45,12 +45,12 @@ final class ViewComment extends ViewRecord
                 ])
                 ->modal()
                 ->modalWidth('2xl')
-                ->visible(fn (): bool => $record->status === StatusEnum::PENDING),
+                ->visible(fn (): bool => $record->status === CommentStatusEnum::PENDING),
             Action::make('decline')
                 ->color('danger')
                 ->action(function () use ($record): void {
                     $record->update([
-                        'status' => StatusEnum::DECLINED,
+                        'status' => CommentStatusEnum::DECLINED,
                     ]);
                     $this->redirect(ViewComment::getUrl(['record' => $record->id]));
                 })

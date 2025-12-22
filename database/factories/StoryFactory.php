@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\Story\RatingEnum;
-use App\Enums\Story\StatusEnum;
+use App\Enums\Story\StoryRatingEnum;
+use App\Enums\Story\StoryStatusEnum;
 use App\Models\Category;
 use App\Models\Writer;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,8 +27,8 @@ final class StoryFactory extends Factory
             'writer_id' => Writer::factory(),
             'title' => fake()->sentence(),
             'overview' => fake()->paragraph(),
-            'status' => fake()->randomElement(StatusEnum::values()),
-            'rating' => fake()->randomElement(RatingEnum::values()),
+            'status' => fake()->randomElement(StoryStatusEnum::values()),
+            'rating' => fake()->randomElement(StoryRatingEnum::values()),
             'published_at' => fake()->optional()->dateTimeThisYear(),
         ];
     }

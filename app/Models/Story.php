@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\Story\RatingEnum;
-use App\Enums\Story\StatusEnum;
+use App\Enums\Story\StoryRatingEnum;
+use App\Enums\Story\StoryStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -67,8 +67,8 @@ final class Story extends Model implements HasMedia
     protected function casts(): array
     {
         return [
-            'status' => StatusEnum::class,
-            'rating' => RatingEnum::class,
+            'status' => StoryStatusEnum::class,
+            'rating' => StoryRatingEnum::class,
             'published_at' => 'datetime',
         ];
     }

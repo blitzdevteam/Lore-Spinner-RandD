@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\Comment\StatusEnum;
+use App\Enums\Comment\CommentStatusEnum;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -24,7 +24,7 @@ final class CommentFactory extends Factory
     {
         return [
             'content' => fake()->paragraph(),
-            'status' => fake()->randomElement(StatusEnum::values()),
+            'status' => fake()->randomElement(CommentStatusEnum::values()),
         ];
     }
 
@@ -35,7 +35,7 @@ final class CommentFactory extends Factory
     public function configure(): self|Factory
     {
         return $this->afterMaking(function (Comment $comment): void {
-            if ($comment->status === StatusEnum::APPROVED) {
+            if ($comment->status === CommentStatusEnum::APPROVED) {
                 $dateThisMonth = fake()->dateTimeThisMonth();
                 $comment->approved_at = $dateThisMonth;
                 $comment->updated_at = $dateThisMonth;

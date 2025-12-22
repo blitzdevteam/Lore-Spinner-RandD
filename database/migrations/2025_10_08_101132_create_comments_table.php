@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Comment\CommentStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->morphs('author');
             $table->morphs('commentable');
             $table->text('content');
-            $table->string('status')->default(App\Enums\Comment\StatusEnum::PENDING);
+            $table->string('status')->default(CommentStatusEnum::PENDING);
             $table->timestamp('approved_at')->nullable();
             $table->timestamps();
         });

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Manager\Resources\Comments\Tables;
 
-use App\Enums\Comment\StatusEnum;
+use App\Enums\Comment\CommentStatusEnum;
 use App\Models\Comment;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -37,10 +37,10 @@ final class CommentsTable
                     ->limit(50),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (StatusEnum $state): string => match ($state) {
-                        StatusEnum::PENDING => 'warning',
-                        StatusEnum::APPROVED => 'info',
-                        StatusEnum::DECLINED => 'danger',
+                    ->color(fn (CommentStatusEnum $state): string => match ($state) {
+                        CommentStatusEnum::PENDING => 'warning',
+                        CommentStatusEnum::APPROVED => 'info',
+                        CommentStatusEnum::DECLINED => 'danger',
                     })
                     ->sortable()
                     ->searchable(),

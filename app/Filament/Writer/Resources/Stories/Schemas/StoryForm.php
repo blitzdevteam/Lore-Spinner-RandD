@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Writer\Resources\Stories\Schemas;
 
-use App\Enums\Story\RatingEnum;
+use App\Enums\Story\StoryRatingEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
@@ -35,7 +35,7 @@ final class StoryForm
                                     ->required(),
                                 Select::make('rating')
                                     ->label('Rating')
-                                    ->options(RatingEnum::class)
+                                    ->options(StoryRatingEnum::class)
                                     ->required(),
                             ])
                             ->columnSpanFull(),

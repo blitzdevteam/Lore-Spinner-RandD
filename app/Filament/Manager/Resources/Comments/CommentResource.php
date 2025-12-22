@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Manager\Resources\Comments;
 
-use App\Enums\Comment\StatusEnum;
+use App\Enums\Comment\CommentStatusEnum;
 use App\Filament\Manager\Resources\Comments\Pages\EditComment;
 use App\Filament\Manager\Resources\Comments\Pages\ListComments;
 use App\Filament\Manager\Resources\Comments\Pages\ViewComment;
@@ -30,7 +30,7 @@ final class CommentResource extends Resource
 
     public static function getNavigationBadge(): string
     {
-        return (string) self::getEloquentQuery()->where('status', StatusEnum::PENDING)->count();
+        return (string) self::getEloquentQuery()->where('status', CommentStatusEnum::PENDING)->count();
     }
 
     public static function getNavigationBadgeColor(): string|array|null

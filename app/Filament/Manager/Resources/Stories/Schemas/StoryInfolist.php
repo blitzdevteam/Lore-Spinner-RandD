@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Manager\Resources\Stories\Schemas;
 
-use App\Enums\Story\RatingEnum;
-use App\Enums\Story\StatusEnum;
+use App\Enums\Story\StoryRatingEnum;
+use App\Enums\Story\StoryStatusEnum;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
@@ -34,19 +34,19 @@ final class StoryInfolist
                         TextEntry::make('writer.full_name')
                             ->label('Writer'),
                         TextEntry::make('status')
-                            ->color(fn (StatusEnum $state): string => match ($state) {
-                                StatusEnum::PENDING => 'warning',
-                                StatusEnum::APPROVED => 'info',
-                                StatusEnum::DECLINED => 'danger',
-                                StatusEnum::PUBLISHED => 'success',
+                            ->color(fn (StoryStatusEnum $state): string => match ($state) {
+                                StoryStatusEnum::PENDING => 'warning',
+                                StoryStatusEnum::APPROVED => 'info',
+                                StoryStatusEnum::DECLINED => 'danger',
+                                StoryStatusEnum::PUBLISHED => 'success',
                             })
                             ->badge(),
                         TextEntry::make('rating')
-                            ->color(fn (RatingEnum $state): string => match ($state) {
-                                RatingEnum::EVERYONE => 'success',
-                                RatingEnum::TEEN => 'info',
-                                RatingEnum::YOUNG_ADULT => 'warning',
-                                RatingEnum::MATURE => 'danger',
+                            ->color(fn (StoryRatingEnum $state): string => match ($state) {
+                                StoryRatingEnum::EVERYONE => 'success',
+                                StoryRatingEnum::TEEN => 'info',
+                                StoryRatingEnum::YOUNG_ADULT => 'warning',
+                                StoryRatingEnum::MATURE => 'danger',
                             })
                             ->badge(),
                     ])

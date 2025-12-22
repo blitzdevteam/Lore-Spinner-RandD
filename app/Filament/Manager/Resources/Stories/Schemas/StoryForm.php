@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Manager\Resources\Stories\Schemas;
 
-use App\Enums\Story\RatingEnum;
+use App\Enums\Story\StoryRatingEnum;
 use App\Models\Writer;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -56,7 +56,7 @@ final class StoryForm
                                         ->relationship('writer')
                                         ->getOptionLabelFromRecordUsing(fn (Writer $record) => $record->full_name),
                                     Select::make('rating')
-                                        ->options(RatingEnum::class)
+                                        ->options(StoryRatingEnum::class)
                                         ->required(),
                                 ])
                                 ->columnSpanFull(),

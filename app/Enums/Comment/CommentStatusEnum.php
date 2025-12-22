@@ -7,7 +7,7 @@ namespace App\Enums\Comment;
 use App\Traits\EnumToArray;
 use Filament\Support\Contracts\HasLabel;
 
-enum StatusEnum: string implements HasLabel
+enum CommentStatusEnum: string implements HasLabel
 {
     use EnumToArray;
 

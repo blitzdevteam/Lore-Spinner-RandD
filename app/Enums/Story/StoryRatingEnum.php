@@ -8,7 +8,7 @@ use App\Traits\EnumToArray;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum RatingEnum: string implements HasLabel
+enum StoryRatingEnum: string implements HasLabel
 {
     use EnumToArray;
 

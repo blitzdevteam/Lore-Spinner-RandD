@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\Comment\StatusEnum;
+use App\Enums\Comment\CommentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -36,7 +36,7 @@ final class Comment extends Model
     protected function casts(): array
     {
         return [
-            'status' => StatusEnum::class,
+            'status' => CommentStatusEnum::class,
         ];
     }
 }
