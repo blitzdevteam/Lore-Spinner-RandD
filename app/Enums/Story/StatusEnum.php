@@ -33,7 +33,7 @@ enum StatusEnum: string implements HasLabel
         return match ($this) {
             self::PENDING => 'warning',
             self::AI_REVIEWED => 'info',
-            self::APPROVED => 'info',
+            self::APPROVED => 'primary',
             self::DECLINED => 'danger',
             self::PUBLISHED => 'success',
         };
