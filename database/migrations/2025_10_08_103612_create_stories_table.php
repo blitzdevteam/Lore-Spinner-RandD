@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('status')->default(\App\Enums\Story\StatusEnum::PENDING);
-            $table->string('rating');
+            $table->float('rating', 1)->default(0);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

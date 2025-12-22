@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('story_id')->constrained()->cascadeOnUpdate();
             $table->string('title');
-            $table->text('description');
+            $table->text('overview');
             $table->timestamps();
         });
     }
