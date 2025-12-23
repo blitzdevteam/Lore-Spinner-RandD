@@ -8,7 +8,6 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,7 +16,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 final class Writer extends Authenticatable implements FilamentUser, HasName
@@ -93,16 +91,6 @@ final class Writer extends Authenticatable implements FilamentUser, HasName
             'is_active' => 'boolean',
             'password' => 'hashed',
         ];
-    }
-
-    /**
-     * @return Attribute<string, never>
-     */
-    protected function avatar(): Attribute
-    {
-        return Attribute::make(
-            get: fn (): string => $this->getFirstMediaUrl('avatar')
-        );
     }
 
     /**

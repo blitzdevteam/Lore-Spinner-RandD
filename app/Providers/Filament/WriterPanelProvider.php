@@ -24,6 +24,7 @@ final class WriterPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->topbar(false)
             ->default()
             ->brandName('Lore Spinner')
             ->id('writer')

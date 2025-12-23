@@ -10,9 +10,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Grid;
-use Filament\Schemas\Components\Wizard;
-use Filament\Schemas\Components\Wizard\Step;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 final class StoryForm
@@ -21,54 +20,62 @@ final class StoryForm
     {
         return $schema
             ->components([
-                Wizard::make([
-                    Step::make('Images')
-                        ->schema([
-                            SpatieMediaLibraryFileUpload::make('cover')
-                                ->imageEditor()
-                                ->imageCropAspectRatio('16:9')
-                                ->collection('cover')
-                                ->image()
-                                ->required()
-                                ->columnSpanFull(),
-                            SpatieMediaLibraryFileUpload::make('gallery')
-                                ->collection('gallery')
-                                ->image()
-                                ->imageEditor()
-                                ->imageCropAspectRatio('16:9')
-                                ->multiple()
-                                ->panelLayout('grid')
-                                ->reorderable()
-                                ->columnSpanFull(),
-                        ]),
-                    Step::make('Details')
-                        ->schema([
-                            Grid::make(3)
-                                ->schema([
-                                    Select::make('category_id')
-                                        ->searchable()
-                                        ->preload()
-                                        ->relationship('category', 'title')
-                                        ->required(),
-                                    Select::make('writer_id')
-                                        ->searchable()
-                                        ->preload()
-                                        ->relationship('writer')
-                                        ->getOptionLabelFromRecordUsing(fn (Writer $record) => $record->full_name),
-                                    Select::make('rating')
-                                        ->options(StoryRatingEnum::class)
-                                        ->required(),
-                                ])
-                                ->columnSpanFull(),
-                            TextInput::make('title')
-                                ->required()
-                                ->columnSpanFull(),
-                            Textarea::make('overview')
-                                ->required()
-                                ->columnSpanFull(),
-                        ]),
-                ])
-                    ->columnSpanFull(),
+                Section::make()
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->heading('Story details')
+                    ->schema([
+                        Fieldset::make('Basic information')
+                            ->schema([
+                                Select::make('category_id')
+                                    ->label('Category')
+                                    ->searchable()
+                                    ->preload()
+                                    ->relationship('category', 'title')
+                                    ->required(),
+                                Select::make('writer_id')
+                                    ->searchable()
+                                    ->required()
+                                    ->preload()
+                                    ->relationship('writer')
+                                    ->getOptionLabelFromRecordUsing(fn (Writer $record) => $record->full_name),
+                                Select::make('rating')
+                                    ->label('Rating')
+                                    ->options(StoryRatingEnum::class)
+                                    ->required(),
+                            ])
+                            ->columns(3)
+                            ->columnSpanFull(),
+                        TextInput::make('title')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(2),
+                        Textarea::make('overview')
+                            ->required()
+                            ->helperText('Provide a short overview of the story without revealing spoilers.')
+                            ->rows(3)
+                            ->columnSpan(2),
+                        Fieldset::make('Images')
+                            ->schema([
+                                SpatieMediaLibraryFileUpload::make('cover')
+                                    ->label('Cover Image')
+                                    ->imageEditor()
+                                    ->collection('cover')
+                                    ->image()
+                                    ->required()
+                                    ->columnSpanFull(),
+                                SpatieMediaLibraryFileUpload::make('gallery')
+                                    ->label('Gallery Images')
+                                    ->collection('gallery')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->multiple()
+                                    ->panelLayout('grid')
+                                    ->reorderable()
+                                    ->columnSpanFull(),
+                            ])
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 }

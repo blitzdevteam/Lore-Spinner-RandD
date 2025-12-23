@@ -6,9 +6,11 @@ namespace App\Filament\Manager\Resources\Stories\Schemas;
 
 use App\Enums\Story\StoryRatingEnum;
 use App\Enums\Story\StoryStatusEnum;
+use App\Models\Story;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 final class StoryInfolist
@@ -17,46 +19,70 @@ final class StoryInfolist
     {
         return $schema
             ->components([
-                SpatieMediaLibraryImageEntry::make('cover')
-                    ->label('Cover Image')
-                    ->collection('cover')
-                    ->placeholder('No cover image')
-                    ->columnSpanFull(),
-                SpatieMediaLibraryImageEntry::make('gallery')
-                    ->label('Gallery')
-                    ->collection('gallery')
-                    ->placeholder('No gallery images')
-                    ->columnSpanFull(),
-                Grid::make(4)
+                Section::make()
+                    ->columnSpanFull()
+                    ->heading('Story details')
+                    ->description('View the basic information.')
+                    ->columns(2)
                     ->schema([
-                        TextEntry::make('category.title')
-                            ->label('Category'),
-                        TextEntry::make('writer.full_name')
-                            ->label('Writer'),
-                        TextEntry::make('status')
-                            ->color(fn (StoryStatusEnum $state): string => $state->getSeverity())
-                            ->badge(),
-                        TextEntry::make('rating')
-                            ->color(fn (StoryRatingEnum $state): string => $state->getSeverity())
-                            ->badge(),
-                    ])
-                    ->columnSpanFull(),
-                TextEntry::make('title'),
-                TextEntry::make('overview')
-                    ->columnSpanFull(),
-                Grid::make(3)
-                    ->schema([
+                        Fieldset::make('Images')
+                            ->schema([
+                                SpatieMediaLibraryImageEntry::make('cover')
+                                    ->label('Cover Image')
+                                    ->collection('cover')
+                                    ->placeholder('No cover image')
+                                    ->columnSpanFull(),
+                                SpatieMediaLibraryImageEntry::make('gallery')
+                                    ->label('Gallery')
+                                    ->collection('gallery')
+                                    ->placeholder('No gallery images')
+                                    ->columnSpanFull(),
+                            ])
+                            ->columnSpanFull(),
+                        Fieldset::make('Basic information')
+                            ->columns(4)
+                            ->schema([
+                                TextEntry::make('category.title')
+                                    ->label('Category')
+                                    ->placeholder('-'),
+                                TextEntry::make('writer.full_name')
+                                    ->label('Writer')
+                                    ->placeholder('-'),
+                                TextEntry::make('status')
+                                    ->color(fn (StoryStatusEnum $state): string => $state->getSeverity())
+                                    ->badge()
+                                    ->placeholder('-'),
+                                TextEntry::make('rating')
+                                    ->color(fn (StoryRatingEnum $state): string => $state->getSeverity())
+                                    ->badge()
+                                    ->placeholder('-'),
+                            ])
+                            ->columnSpanFull(),
+                        TextEntry::make('title')
+                            ->placeholder('-')
+                            ->columnSpan(2),
+                        TextEntry::make('overview')
+                            ->placeholder('-')
+                            ->columnSpan(2),
                         TextEntry::make('published_at')
                             ->dateTime()
-                            ->placeholder('-'),
+                            ->placeholder('-')
+                            ->visible(fn (Story $record): bool => ! is_null($record->published_at))
+                            ->columnSpan(2),
+                    ]),
+                Section::make()
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->heading('Metadata')
+                    ->description('System information')
+                    ->schema([
                         TextEntry::make('created_at')
                             ->dateTime()
                             ->placeholder('-'),
                         TextEntry::make('updated_at')
                             ->dateTime()
                             ->placeholder('-'),
-                    ])
-                    ->columnSpanFull(),
+                    ]),
             ]);
     }
 }
