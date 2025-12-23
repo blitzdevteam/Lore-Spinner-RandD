@@ -24,7 +24,6 @@ final class WriterPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->topbar(false)
             ->default()
             ->brandName('Lore Spinner')
             ->id('writer')
@@ -34,6 +33,7 @@ final class WriterPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Purple,
             ])
+            ->topbar(false)
             ->discoverResources(in: app_path('Filament/Writer/Resources'), for: 'App\Filament\Writer\Resources')
             ->discoverPages(in: app_path('Filament/Writer/Pages'), for: 'App\Filament\Writer\Pages')
             ->discoverWidgets(in: app_path('Filament/Writer/Widgets'), for: 'App\Filament\Writer\Widgets')
