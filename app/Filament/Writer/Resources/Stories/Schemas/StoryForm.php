@@ -75,6 +75,17 @@ final class StoryForm
                                     ->columnSpanFull(),
                             ])
                             ->columnSpanFull(),
+                        SpatieMediaLibraryFileUpload::make('script')
+                            ->label('Story Script')
+                            ->helperText('Upload the story script file here and chapterizing will be done automatically.')
+                            ->placeholder('Only `.txt` file are allowed')
+                            ->collection('script')
+                            ->acceptedFileTypes(['text/plain'])
+                            ->preserveFilenames()
+                            ->downloadable()
+                            ->openable()
+                            ->required()
+                            ->columnSpanFull()
                     ]),
             ]);
     }

@@ -25,11 +25,19 @@ final class Story extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('cover')
+        $this
+            ->addMediaCollection('script')
+            ->singleFile()
+            ->acceptsMimeTypes(['text/plain']);
+
+        $this
+            ->addMediaCollection('cover')
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
             ->singleFile();
 
-        $this->addMediaCollection('gallery');
+        $this
+            ->addMediaCollection('gallery')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
 
     /**
