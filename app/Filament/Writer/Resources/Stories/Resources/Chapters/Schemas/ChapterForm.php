@@ -2,6 +2,7 @@
 
 namespace App\Filament\Writer\Resources\Stories\Resources\Chapters\Schemas;
 
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -27,10 +28,13 @@ class ChapterForm
                             ->helperText('Provide a brief teaser of this chapter.')
                             ->rows(3)
                             ->columnSpan(2),
-                        Textarea::make('content')
+                        RichEditor::make('content')
                             ->required()
                             ->helperText('Write the full content of this chapter.')
-                            ->rows(10)
+                            ->toolbarButtons([
+                                'redo',
+                                'undo',
+                            ])
                             ->columnSpan(2),
                     ]),
             ]);
