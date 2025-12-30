@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Filament\Writer\Resources\Stories\Schemas;
 
 use App\Enums\Story\StoryRatingEnum;
-use App\Models\Writer;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
 final class StoryForm
@@ -33,26 +34,20 @@ final class StoryForm
                                     ->preload()
                                     ->relationship('category', 'title')
                                     ->required(),
-                                Select::make('writer_id')
-                                    ->searchable()
-                                    ->required()
-                                    ->preload()
-                                    ->relationship('writer')
-                                    ->getOptionLabelFromRecordUsing(fn (Writer $record) => $record->full_name),
                                 Select::make('rating')
                                     ->label('Rating')
                                     ->options(StoryRatingEnum::class)
                                     ->required(),
                             ])
-                            ->columns(3)
+                            ->columns(2)
                             ->columnSpanFull(),
                         TextInput::make('title')
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(2),
-                        Textarea::make('overview')
+                        Textarea::make('teaser')
                             ->required()
-                            ->helperText('Provide a short overview of the story without revealing spoilers.')
+                            ->helperText('Provide a short teaser of the story without revealing spoilers.')
                             ->rows(3)
                             ->columnSpan(2),
                         Fieldset::make('Images')
@@ -75,17 +70,28 @@ final class StoryForm
                                     ->columnSpanFull(),
                             ])
                             ->columnSpanFull(),
-                        SpatieMediaLibraryFileUpload::make('script')
-                            ->label('Story Script')
-                            ->helperText('Upload the story script file here and chapterizing will be done automatically.')
-                            ->placeholder('Only `.txt` file are allowed')
-                            ->collection('script')
-                            ->acceptedFileTypes(['text/plain'])
-                            ->preserveFilenames()
-                            ->downloadable()
-                            ->openable()
-                            ->required()
-                            ->columnSpanFull()
+                        Fieldset::make('scripts')
+                            ->schema([
+                                Checkbox::make('use_script_upload')
+                                    ->label('Upload a script and auto-chapterize')
+                                    ->helperText('Enable this to upload a .txt script. Chapters will be generated automatically, and you can edit them afterward.')
+                                    ->default(false)
+                                    ->columnSpanFull()
+                                    ->live(),
+                                SpatieMediaLibraryFileUpload::make('script')
+                                    ->label('Story Script')
+                                    ->helperText('Upload the story script file here and chapterizing will be done automatically.')
+                                    ->placeholder('Only `.txt` file are allowed')
+                                    ->collection('script')
+                                    ->acceptedFileTypes(['text/plain'])
+                                    ->preserveFilenames()
+                                    ->downloadable()
+                                    ->openable()
+                                    ->required(fn (Get $get) => (bool) $get('use_script_upload'))
+                                    ->visible(fn (Get $get) => (bool) $get('use_script_upload'))
+                                    ->columnSpanFull(),
+                            ])
+                            ->columnSpanFull(),
                     ]),
             ]);
     }

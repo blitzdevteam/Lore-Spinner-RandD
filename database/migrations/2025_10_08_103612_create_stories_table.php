@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('writer_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->string('title');
-            $table->text('overview');
+            $table->text('teaser');
             $table->string('status')->default(StoryStatusEnum::DRAFT->value);
             $table->string('rating');
             $table->timestamp('published_at')->nullable();

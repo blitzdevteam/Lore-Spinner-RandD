@@ -22,9 +22,9 @@ class ChapterForm
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(2),
-                        Textarea::make('overview')
+                        Textarea::make('teaser')
                             ->required()
-                            ->helperText('Provide a brief overview of this chapter.')
+                            ->helperText('Provide a brief teaser of this chapter.')
                             ->rows(3)
                             ->columnSpan(2),
                         Textarea::make('content')

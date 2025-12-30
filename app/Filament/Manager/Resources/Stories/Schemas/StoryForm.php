@@ -50,9 +50,9 @@ final class StoryForm
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(2),
-                        Textarea::make('overview')
+                        Textarea::make('teaser')
                             ->required()
-                            ->helperText('Provide a short overview of the story without revealing spoilers.')
+                            ->helperText('Provide a short teaser of the story without revealing spoilers.')
                             ->rows(3)
                             ->columnSpan(2),
                         Fieldset::make('Images')

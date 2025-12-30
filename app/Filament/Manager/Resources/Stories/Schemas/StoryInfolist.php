@@ -61,7 +61,7 @@ final class StoryInfolist
                         TextEntry::make('title')
                             ->placeholder('-')
                             ->columnSpan(2),
-                        TextEntry::make('overview')
+                        TextEntry::make('teaser')
                             ->placeholder('-')
                             ->columnSpan(2),
                         TextEntry::make('published_at')
