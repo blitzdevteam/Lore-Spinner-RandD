@@ -17,6 +17,13 @@ final class CreateStory extends CreateRecord
 
     protected static bool $canCreateAnother = false;
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['writer_id'] = auth()->id();
+
+        return parent::mutateFormDataBeforeCreate($data);
+    }
+
     protected function handleRecordCreation(array $data): Model
     {
         /** @var Story $story */
@@ -28,6 +35,10 @@ final class CreateStory extends CreateRecord
             ]);
 
             StoryChapterExtractionJob::dispatch($story);
+        } else {
+            $story->update([
+                'status' => StoryStatusEnum::DRAFT,
+            ]);
         }
 
         return $story;

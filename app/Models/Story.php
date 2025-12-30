@@ -27,8 +27,8 @@ final class Story extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('script')
-            ->singleFile()
-            ->acceptsMimeTypes(['text/plain']);
+            ->acceptsMimeTypes(['text/plain'])
+            ->singleFile();
 
         $this
             ->addMediaCollection('cover')
