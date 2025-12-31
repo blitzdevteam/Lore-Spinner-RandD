@@ -7,11 +7,10 @@ namespace App\Jobs\Story;
 use App\Models\Story;
 use App\Prism\Schema\Story\StoryChapterExtractionSchema;
 use App\Services\Story\StoryChapterExtractorByContentService;
-use App\Services\Story\StoryLineNumberedFileService;
+use App\Services\Story\StoryAddLineToContentService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Prism\Prism\Enums\Provider;
 use Prism\Prism\Facades\Prism;
 
@@ -38,7 +37,7 @@ final class StoryChapterExtractionJob implements ShouldQueue
 
     public function handle(): void {
         DB::transaction(function () {
-            $tmpPath = StoryLineNumberedFileService::handle(
+            $linedContent = StoryAddLineToContentService::handle(
                 file_get_contents($this->story->getFirstMediaPath('script'))
             );
 
@@ -51,17 +50,15 @@ final class StoryChapterExtractionJob implements ShouldQueue
                     'timeout' => 600,
                 ])
                 ->withSchema(StoryChapterExtractionSchema::getSchema())
-                ->withPrompt("Story:\n\n" . file_get_contents($tmpPath))
+                ->withPrompt("Story:\n\n" . $linedContent)
                 ->asStructured();
 
             $chapters = StoryChapterExtractorByContentService::handle(
-                file_get_contents($tmpPath),
+                $linedContent,
                 $response->structured['chapters']
             );
 
             $this->story->chapters()->createMany($chapters);
-
-            Storage::delete($tmpPath);
         });
     }
 }
