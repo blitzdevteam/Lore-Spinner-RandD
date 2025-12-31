@@ -40,13 +40,10 @@ final class StoryInfolist
                             ])
                             ->columnSpanFull(),
                         Fieldset::make('Basic information')
-                            ->columns(4)
+                            ->columns(3)
                             ->schema([
                                 TextEntry::make('category.title')
                                     ->label('Category')
-                                    ->placeholder('-'),
-                                TextEntry::make('writer.full_name')
-                                    ->label('Writer')
                                     ->placeholder('-'),
                                 TextEntry::make('status')
                                     ->color(fn (StoryStatusEnum $state): string => $state->getSeverity())

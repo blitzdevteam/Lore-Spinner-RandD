@@ -45,7 +45,7 @@ final class StoryChapterExtractionJob implements ShouldQueue
             $response = Prism::structured()
                 ->using(Provider::OpenAI, 'gpt-5.2')
                 ->usingTemperature(0)
-                ->withSystemPrompt(view('ai-prompts.chapter-maker.system-prompt'))
+                ->withSystemPrompt(view('ai-prompts.chapter-extraction.system-prompt'))
                 ->withClientOptions([
                     'connect_timeout' => 10,
                     'timeout' => 600,
