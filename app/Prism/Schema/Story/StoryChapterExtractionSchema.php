@@ -45,9 +45,11 @@ final readonly class StoryChapterExtractionSchema
                                 description: 'The line number where this chapter ends. Must be >= start_line. Last chapter must end at the final line number of the story.',
                             ),
                         ],
+                        requiredFields: ['position', 'title', 'teaser', 'start_line', 'end_line'],
                     ),
                 ),
             ],
+            requiredFields: ['chapters'],
         );
     }
 }

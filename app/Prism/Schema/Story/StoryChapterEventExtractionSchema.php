@@ -61,9 +61,11 @@ final readonly class StoryChapterEventExtractionSchema
                                 ],
                             ),
                         ],
+                        requiredFields: ['index', 'title', 'start', 'end'],
                     ),
                 ),
             ],
+            requiredFields: ['events']
         );
     }
 }
