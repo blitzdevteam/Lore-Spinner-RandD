@@ -45,6 +45,7 @@ final readonly class StoryChapterEventExtractionSchema
                                         description: 'Start character offset (0-based) within the line text (excluding the line marker).',
                                     ),
                                 ],
+                                requiredFields: ['line', 'char']
                             ),
                             new ObjectSchema(
                                 name: 'end',
@@ -59,6 +60,7 @@ final readonly class StoryChapterEventExtractionSchema
                                         description: 'End character offset (0-based, EXCLUSIVE) within the line text (excluding the line marker).',
                                     ),
                                 ],
+                                requiredFields: ['line', 'char']
                             ),
                         ],
                         requiredFields: ['index', 'title', 'start', 'end'],

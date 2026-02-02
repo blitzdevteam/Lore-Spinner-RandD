@@ -50,11 +50,11 @@ final class StoryChapterExtractionJob implements ShouldQueue
                     'timeout' => 600,
                 ])
                 ->withSchema(StoryChapterExtractionSchema::getSchema())
-                ->withPrompt("Story:\n\n" . $linedContent)
+                ->withPrompt("Story:\n\n" . $linedContent['content'])
                 ->asStructured();
 
             $chapters = StoryChapterExtractorByContentService::handle(
-                $linedContent,
+                $linedContent['content'],
                 $response->structured['chapters']
             );
 
