@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Jobs\Story;
 
+use App\Ai\Schema\ChapterExtractorSchema;
 use App\Models\Story;
-use App\Prism\Schema\Story\StoryChapterExtractionSchema;
-use App\Services\Story\StoryChapterExtractorByContentService;
 use App\Services\Story\StoryAddLineToContentService;
+use App\Services\Story\StoryChapterExtractorByContentService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +49,7 @@ final class StoryChapterExtractionJob implements ShouldQueue
                     'connect_timeout' => 10,
                     'timeout' => 600,
                 ])
-                ->withSchema(StoryChapterExtractionSchema::getSchema())
+                ->withSchema(ChapterExtractorSchema::getSchema())
                 ->withPrompt("Story:\n\n" . $linedContent['content'])
                 ->asStructured();
 
