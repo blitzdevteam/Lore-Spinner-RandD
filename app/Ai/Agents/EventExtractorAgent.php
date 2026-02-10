@@ -33,51 +33,55 @@ class EventExtractorAgent implements Agent, HasStructuredOutput
     {
         return [
             'events' => $schema->array()
-                ->title('events')
+                ->title('Events')
                 ->description('Ordered list of extracted events in reading order. Each event must reference start/end coordinates within the provided #line# marked excerpt (excluding the marker from char indexing).')
                 ->items(
                     $schema
                         ->object([
-                            'index' => $schema
+                            'position' => $schema
                                 ->number()
-                                ->title('index')
+                                ->title('Position')
                                 ->description('1-based sequential event index in this extraction output (1, 2, 3...).')
                                 ->required(),
                             'title' => $schema
                                 ->string()
-                                ->title('title')
+                                ->title('Title')
                                 ->description('Concise event title (3–10 words). Must not add details not present in the excerpt.')
                                 ->required(),
                             'start' => $schema
                                 ->object([
                                     'line' => $schema
                                         ->number()
-                                        ->title('line')
-                                        ->description('Start line number (must exist in the provided excerpt).'),
+                                        ->title('Line')
+                                        ->description('Start line number (must exist in the provided excerpt).')
+                                        ->required(),
                                     'char' => $schema
                                         ->number()
-                                        ->title('char')
-                                        ->description('Start character offset (0-based) within the line text (excluding the line marker).'),
+                                        ->title('Char')
+                                        ->description('Start character offset (0-based) within the line text (excluding the line marker).')
+                                        ->required(),
                                 ])
-                                ->title('start')
+                                ->title('Start')
                                 ->description('Start coordinate for the event. line is the numeric line marker; char is 0-based index within the line text EXCLUDING the "#<LINE># " marker.')
                                 ->required(),
                             'end' => $schema
                                 ->object([
-                                'line' => $schema
-                                    ->number()
-                                    ->title('line')
-                                    ->description('End line number (must exist in the provided excerpt).'),
-                                'char' => $schema
-                                    ->number()
-                                    ->title('char')
-                                    ->description('End character offset (0-based, EXCLUSIVE) within the line text (excluding the line marker).'),
-                            ])
-                                ->title('end')
+                                    'line' => $schema
+                                        ->number()
+                                        ->title('Line')
+                                        ->description('End line number (must exist in the provided excerpt).')
+                                        ->required(),
+                                    'char' => $schema
+                                        ->number()
+                                        ->title('Char')
+                                        ->description('End character offset (0-based, EXCLUSIVE) within the line text (excluding the line marker).')
+                                        ->required(),
+                                ])
+                                ->title('End')
                                 ->description('End coordinate for the event. end_char is EXCLUSIVE (slice up to but not including this char). May end mid-line.')
                                 ->required(),
                         ])
-                        ->title('event')
+                        ->title('Event')
                         ->description('A single actionable event represented by a title and coordinate boundaries (no evidence text).')
                         ->required()
                 )

@@ -29,7 +29,7 @@ enum StoryStatusEnum: string implements HasLabel
     public function getSeverity(): string
     {
         return match ($this) {
-            self::DRAFT => 'warning',
+            self::DRAFT => 'danger',
             self::AWAITING_EXTRACTING_CHAPTERS_REQUEST => 'warning',
             self::EXTRACTING_CHAPTERS => 'info',
             self::PUBLISHED => 'success',

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Jobs\Chapter;
 
 use App\Ai\Agents\ChapterExtractorAgent;
-use App\Enums\Story\StoryStatusEnum;
 use App\Enums\Chapter\ChapterStatusEnum;
-use App\Helpers\Story\LineNumberFormatterHelper;
-use App\Helpers\Story\NumberedLineExtractorHelper;
+use App\Enums\Story\StoryStatusEnum;
+use App\Helpers\LineNumberFormatterHelper;
+use App\Helpers\NumberedLineExtractorHelper;
 use App\Models\Story;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;

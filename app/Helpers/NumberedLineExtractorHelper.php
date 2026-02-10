@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Helpers\Story;
+namespace App\Helpers;
 
 final class NumberedLineExtractorHelper
 {
