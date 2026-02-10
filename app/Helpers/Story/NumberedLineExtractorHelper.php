@@ -7,22 +7,22 @@ namespace App\Helpers\Story;
 final class NumberedLineExtractorHelper
 {
     /**
-     * Extract chapters content from full story text using line number markers.
+     * Extract content segments from full text using line number markers.
      *
-     * @param  string  $fullText  The complete story text with #{line}# markers
-     * @param  array<int, array{position: int, title: string, teaser: string, start_line: int, end_line: int}>  $chapters
+     * @param  string  $fullText  The complete text with #{line}# markers
+     * @param  array<int, array{position: int, title: string, teaser: string, start_line: int, end_line: int}>  $segments
      * @return array<int, array{position: int, title: string, teaser: string, content: string}>
      */
-    public static function handle(string $fullText, array $chapters): array
+    public static function handle(string $fullText, array $segments): array
     {
         $lines = self::parseNumberedLines($fullText);
 
-        return array_map(fn (array $chapter): array => [
-            'position' => $chapter['position'],
-            'title' => $chapter['title'],
-            'teaser' => $chapter['teaser'],
-            'content' => self::extractContent($lines, $chapter['start_line'], $chapter['end_line']),
-        ], $chapters);
+        return array_map(fn (array $segment): array => [
+            'position' => $segment['position'],
+            'title' => $segment['title'],
+            'teaser' => $segment['teaser'],
+            'content' => self::extractContent($lines, $segment['start_line'], $segment['end_line']),
+        ], $segments);
     }
 
     /**
@@ -50,14 +50,14 @@ final class NumberedLineExtractorHelper
      */
     private static function extractContent(array $lines, int $startLine, int $endLine): string
     {
-        $chapterLines = [];
+        $segmentLines = [];
 
         for ($i = $startLine; $i <= $endLine; $i++) {
             if (isset($lines[$i])) {
-                $chapterLines[] = $lines[$i];
+                $segmentLines[] = $lines[$i];
             }
         }
 
-        return implode("\n", $chapterLines);
+        return implode("\n", $segmentLines);
     }
 }
