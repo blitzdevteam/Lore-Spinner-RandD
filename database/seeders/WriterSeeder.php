@@ -17,10 +17,10 @@ final class WriterSeeder extends Seeder
         Writer::factory()->count(10)->create();
 
         Writer::factory()->create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'a@a.com',
-            'password' => 'password',
+            'first_name' => 'nima',
+            'last_name' => 'asaadi',
+            'email' => 'ni4.asadi.b@gmail.com',
+            'password' => 'n.ima1234',
         ]);
     }
 }

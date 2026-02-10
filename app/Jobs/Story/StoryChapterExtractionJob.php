@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Jobs\Story;
 
-use App\Ai\Schema\ChapterExtractorSchema;
+use App\Ai\Agents\ChapterExtractorAgent;
 use App\Helpers\Story\LineNumberFormatterHelper;
 use App\Helpers\Story\NumberedLineExtractorHelper;
 use App\Models\Story;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
-use Prism\Prism\Enums\Provider;
-use Prism\Prism\Facades\Prism;
+use Throwable;
 
 final class StoryChapterExtractionJob implements ShouldQueue
 {
@@ -32,30 +31,26 @@ final class StoryChapterExtractionJob implements ShouldQueue
     public function __construct(
         Story $story,
     ) {
+        $this->onQueue('chapter-extraction');
+
         $this->story = $story;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function handle(): void {
         DB::transaction(function () {
             $linedContent = LineNumberFormatterHelper::handle(
                 file_get_contents($this->story->getFirstMediaPath('script'))
             );
 
-            $response = Prism::structured()
-                ->using(Provider::OpenAI, 'gpt-5.2')
-                ->usingTemperature(0)
-                ->withSystemPrompt(view('ai-prompts.chapter-extraction.system-prompt'))
-                ->withClientOptions([
-                    'connect_timeout' => 10,
-                    'timeout' => 600,
-                ])
-                ->withSchema(ChapterExtractorSchema::getSchema())
-                ->withPrompt("Story:\n\n" . $linedContent['content'])
-                ->asStructured();
+            $response = new ChapterExtractorAgent()
+                ->prompt("Story:\n\n" . $linedContent['content']);
 
             $chapters = NumberedLineExtractorHelper::handle(
                 $linedContent['content'],
-                $response->structured['chapters']
+                $response['chapters']
             );
 
             $this->story->chapters()->createMany($chapters);
