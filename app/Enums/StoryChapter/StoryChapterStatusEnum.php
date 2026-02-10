@@ -11,43 +11,40 @@ enum StoryChapterStatusEnum: string implements HasLabel
 {
     use EnumToArray;
 
-    case AWAITING_PARAPHRASE_REQUEST = 'awaiting-paraphrase-request';
-    case PARAPHRASING = 'paraphrasing';
-    case AWAITING_PARAPHRASE_REVIEW = 'awaiting-paraphrase-review';
+    case AWAITING_WRITER_REVIEW = 'awaiting-writer-review';
     case APPROVED_BY_WRITER = 'approved-by-writer';
     case AWAITING_MANAGER_REVIEW = 'awaiting-manager-review';
-    case REJECTED = 'rejected';
-    case AWAITING_EVENT_EXTRACTION = 'awaiting-event-extraction';
+    case APPROVED_BY_MANAGER = 'approved-by-manager';
+    case AWAITING_EXTRACTING_EVENTS_REQUEST = 'awaiting-extracting-events-request';
     case EXTRACTING_EVENTS = 'extracting-events';
     case READY_TO_PLAY = 'ready-to-play';
+    case REJECTED = 'rejected';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
-            self::AWAITING_PARAPHRASE_REQUEST => 'Awaiting Paraphrase Request',
-            self::PARAPHRASING => 'Paraphrasing',
-            self::AWAITING_PARAPHRASE_REVIEW => 'Awaiting Paraphrase Review',
+            self::AWAITING_WRITER_REVIEW => 'Awaiting Writer Review',
             self::APPROVED_BY_WRITER => 'Approved by Writer',
             self::AWAITING_MANAGER_REVIEW => 'Awaiting Manager Review',
-            self::REJECTED => 'Rejected',
-            self::AWAITING_EVENT_EXTRACTION => 'Awaiting Event Extraction',
+            self::APPROVED_BY_MANAGER => 'Approved by Manager',
+            self::AWAITING_EXTRACTING_EVENTS_REQUEST => 'Awaiting Event Extraction Request',
             self::EXTRACTING_EVENTS => 'Extracting Events',
             self::READY_TO_PLAY => 'Ready to Play',
+            self::REJECTED => 'Rejected',
         };
     }
 
     public function getSeverity(): string
     {
         return match ($this) {
-            self::AWAITING_PARAPHRASE_REQUEST => 'warning',
-            self::PARAPHRASING => 'info',
-            self::AWAITING_PARAPHRASE_REVIEW => 'warning',
+            self::AWAITING_WRITER_REVIEW => 'warning',
             self::APPROVED_BY_WRITER => 'success',
             self::AWAITING_MANAGER_REVIEW => 'warning',
-            self::REJECTED => 'danger',
-            self::AWAITING_EVENT_EXTRACTION => 'warning',
+            self::APPROVED_BY_MANAGER => 'success',
+            self::AWAITING_EXTRACTING_EVENTS_REQUEST => 'warning',
             self::EXTRACTING_EVENTS => 'info',
             self::READY_TO_PLAY => 'success',
+            self::REJECTED => 'danger',
         };
     }
 }

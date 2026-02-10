@@ -6,7 +6,7 @@ namespace App\Filament\Writer\Resources\Stories\Pages;
 
 use App\Enums\Story\StoryStatusEnum;
 use App\Filament\Writer\Resources\Stories\StoryResource;
-use App\Jobs\Story\StoryChapterExtractionJob;
+use App\Jobs\Story\ChapterExtractorJob;
 use App\Models\Story;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
@@ -34,7 +34,7 @@ final class CreateStory extends CreateRecord
                 'status' => StoryStatusEnum::AWAITING_EXTRACTING_CHAPTERS_REQUEST,
             ]);
 
-            StoryChapterExtractionJob::dispatch($story);
+            ChapterExtractorJob::dispatch($story);
         } else {
             $story->update([
                 'status' => StoryStatusEnum::DRAFT,

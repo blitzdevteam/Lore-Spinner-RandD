@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('story_chapter_events', function (Blueprint $table): void {
+        Schema::create('events', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('story_chapter_id')->constrained()->cascadeOnUpdate();
+            $table->unsignedInteger('position')->default(0);
             $table->string('title');
             $table->text('text');
             $table->text('objectives');
-            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('story_chapter_events');
+        Schema::dropIfExists('events');
     }
 };

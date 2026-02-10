@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('teaser');
             $table->longText('content')->nullable();
-            $table->string('status')->default(StoryChapterStatusEnum::AWAITING_PARAPHRASE_REQUEST->value);
+            $table->string('status');
             $table->timestamps();
         });
     }

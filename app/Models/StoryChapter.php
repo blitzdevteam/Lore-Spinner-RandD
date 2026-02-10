@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\StoryChapter\StoryChapterStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class StoryChapter extends Model
 {
@@ -27,5 +28,13 @@ final class StoryChapter extends Model
     public function story(): BelongsTo
     {
         return $this->belongsTo(Story::class);
+    }
+
+    /**
+     * @return HasMany<$this, Event>
+     */
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
     }
 }

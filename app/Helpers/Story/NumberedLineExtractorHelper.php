@@ -7,22 +7,20 @@ namespace App\Helpers\Story;
 final class NumberedLineExtractorHelper
 {
     /**
-     * Extract content segments from full text using line number markers.
+     * Extract content segment from full text using line number markers.
      *
-     * @param  string  $fullText  The complete text with #{line}# markers
-     * @param  array<int, array{position: int, title: string, teaser: string, start_line: int, end_line: int}>  $segments
-     * @return array<int, array{position: int, title: string, teaser: string, content: string}>
+     * @param string $fullText The complete text with #{line}# markers
+     * @param int $startLine Starting line number
+     * @param int $endLine Ending line number
+     * @return string
      */
-    public static function handle(string $fullText, array $segments): array
+    public static function handle(string $fullText, int $startLine, int $endLine): string
     {
-        $lines = self::parseNumberedLines($fullText);
-
-        return array_map(fn (array $segment): array => [
-            'position' => $segment['position'],
-            'title' => $segment['title'],
-            'teaser' => $segment['teaser'],
-            'content' => self::extractContent($lines, $segment['start_line'], $segment['end_line']),
-        ], $segments);
+        return self::extractContent(
+            self::parseNumberedLines($fullText),
+            $startLine,
+            $endLine
+        );
     }
 
     /**
@@ -37,7 +35,7 @@ final class NumberedLineExtractorHelper
 
         foreach ($rawLines as $rawLine) {
             if (preg_match('/^#(\d+)#\s?(.*)$/', $rawLine, $matches)) {
-                $lineNumber = (int) $matches[1];
+                $lineNumber = (int)$matches[1];
                 $lines[$lineNumber] = $matches[2];
             }
         }
