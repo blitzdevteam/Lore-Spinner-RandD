@@ -51,11 +51,9 @@ final class ChapterExtractorJob implements ShouldQueue
         $response = new ChapterExtractorAgent()
             ->prompt("Story:\n\n" . $linedContent['content']);
 
-        $chapters = DB::transaction(function () use ($linedContent, $response): array {
-            $chapters = [];
-
+        DB::transaction(function () use ($linedContent, $response) {
             foreach ($response['chapters'] as $chapter) {
-                $chapters[] = $this->story->chapters()->create([
+                $this->story->chapters()->create([
                     'title' => $chapter['title'],
                     'position' => $chapter['position'],
                     'teaser' => $chapter['teaser'],
@@ -71,12 +69,6 @@ final class ChapterExtractorJob implements ShouldQueue
             $this->story->update([
                 'status' => StoryStatusEnum::DRAFT,
             ]);
-
-            return $chapters;
         });
-
-        foreach ($chapters as $chapter) {
-            EventExtractorJob::dispatch($chapter);
-        }
     }
 }
