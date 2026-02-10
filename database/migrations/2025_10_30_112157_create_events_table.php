@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('chapter_id')->constrained()->cascadeOnUpdate();
             $table->unsignedInteger('position')->default(0);
             $table->string('title');
-            $table->text('text');
+            $table->text('content');
             $table->text('objectives');
             $table->text('attributes');
             $table->timestamps();

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('position');
             $table->string('title');
             $table->text('teaser');
-            $table->longText('content')->nullable();
+            $table->longText('content');
             $table->string('status');
             $table->timestamps();
         });

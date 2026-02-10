@@ -6,6 +6,8 @@ namespace App\Jobs\Event;
 
 use App\Ai\Agents\EventExtractorAgent;
 use App\Enums\Chapter\ChapterStatusEnum;
+use App\Helpers\LineNumberFormatterHelper;
+use App\Helpers\TextRangeExtractorHelper;
 use App\Models\Chapter;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -43,16 +45,29 @@ final class EventExtractorJob implements ShouldQueue
                 'status' => ChapterStatusEnum::EXTRACTING_EVENTS,
             ]);
 
-            $response = EventExtractorAgent::make()
-                ->prompt($this->chapter->content);
+            $linedContent = LineNumberFormatterHelper::handle($this->chapter->content);
 
-            foreach ($response['events'] as $event) {
-                $this->chapter->events()->create([
-                    'title' => $event['title'],
+            $response = EventExtractorAgent::make()
+                ->prompt(implode("\n", [
+                    'Line Lengths:',
+                    '',
+                    $linedContent['length'],
+                    '',
+                    '',
+                    'Chapter Content:',
+                    '',
+                    $linedContent['content']
+                ]));
+
+            $events = array_map(function (array $event) {
+                return [
                     'position' => $event['position'],
-                    'text' => $event['']
-                ]);
-            }
+                    'title' => $event['title'],
+                    'content' => TextRangeExtractorHelper::handle($this->chapter->content, $event['start'], $event['end']),
+                ];
+            }, $response['events']);
+
+            $this->chapter->events()->createMany($events);
         } catch (Throwable $exception) {
             $this->chapter->update([
                 'status' => ChapterStatusEnum::AWAITING_EXTRACTING_EVENTS_REQUEST,
