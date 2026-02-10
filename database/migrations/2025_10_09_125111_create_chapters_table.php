@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\StoryChapter\StoryChapterStatusEnum;
+use App\Enums\Chapter\ChapterStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('story_chapters', function (Blueprint $table): void {
+        Schema::create('chapters', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('story_id')->constrained()->cascadeOnUpdate();
             $table->unsignedInteger('position');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('story_chapters');
+        Schema::dropIfExists('chapters');
     }
 };

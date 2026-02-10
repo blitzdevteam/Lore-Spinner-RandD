@@ -2,18 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs\StoryChapter;
+namespace App\Jobs\Event;
 
-use App\Ai\Agents\ChapterExtractorAgent;
 use App\Ai\Agents\EventExtractorAgent;
-use App\Enums\Story\StoryStatusEnum;
-use App\Helpers\Story\LineNumberFormatterHelper;
-use App\Helpers\Story\NumberedLineExtractorHelper;
-use App\Models\Story;
-use App\Models\StoryChapter;
+use App\Models\Chapter;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 final class EventExtractorJob implements ShouldQueue
@@ -26,13 +20,13 @@ final class EventExtractorJob implements ShouldQueue
 
     public int $backoff = 60;
 
-    private StoryChapter $chapter;
+    private Chapter $chapter;
 
     /**
      * Create a new job instance.
      */
     public function __construct(
-        StoryChapter $chapter,
+        Chapter $chapter,
     ) {
         $this->onQueue('event-extraction');
         $this->chapter = $chapter;

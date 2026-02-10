@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs\Story;
+namespace App\Jobs\Chapter;
 
 use App\Ai\Agents\ChapterExtractorAgent;
 use App\Enums\Story\StoryStatusEnum;
-use App\Enums\StoryChapter\StoryChapterStatusEnum;
+use App\Enums\Chapter\ChapterStatusEnum;
 use App\Helpers\Story\LineNumberFormatterHelper;
 use App\Helpers\Story\NumberedLineExtractorHelper;
-use App\Jobs\StoryChapter\EventExtractorJob;
+use App\Jobs\Event\EventExtractorJob;
 use App\Models\Story;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -59,7 +59,7 @@ final class ChapterExtractorJob implements ShouldQueue
                     'title' => $chapter['title'],
                     'position' => $chapter['position'],
                     'teaser' => $chapter['teaser'],
-                    'status' => StoryChapterStatusEnum::AWAITING_WRITER_REVIEW,
+                    'status' => ChapterStatusEnum::AWAITING_WRITER_REVIEW,
                     'content' => NumberedLineExtractorHelper::handle(
                         $linedContent['content'],
                         $chapter['start_line'],

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Writer\Resources\Stories\Resources\Chapters\Tables;
 
-use App\Enums\StoryChapter\StoryChapterStatusEnum;
+use App\Enums\Chapter\ChapterStatusEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -23,7 +23,7 @@ final class ChaptersTable
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (StoryChapterStatusEnum $state): string => $state->getSeverity())
+                    ->color(fn (ChapterStatusEnum $state): string => $state->getSeverity())
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')

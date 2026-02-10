@@ -2,7 +2,7 @@
 
 namespace App\Filament\Writer\Resources\Stories\Resources\Chapters\Schemas;
 
-use App\Enums\StoryChapter\StoryChapterStatusEnum;
+use App\Enums\Chapter\ChapterStatusEnum;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
@@ -27,7 +27,7 @@ class ChapterInfolist
                                     ->label('Story')
                                     ->placeholder('-'),
                                 TextEntry::make('status')
-                                    ->color(fn (StoryChapterStatusEnum $state): string => $state->getSeverity())
+                                    ->color(fn (ChapterStatusEnum $state): string => $state->getSeverity())
                                     ->badge()
                                     ->placeholder('-'),
                             ])

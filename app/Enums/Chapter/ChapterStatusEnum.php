@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Enums\StoryChapter;
+namespace App\Enums\Chapter;
 
 use App\Traits\EnumToArray;
 use Filament\Support\Contracts\HasLabel;
 
-enum StoryChapterStatusEnum: string implements HasLabel
+enum ChapterStatusEnum: string implements HasLabel
 {
     use EnumToArray;
 

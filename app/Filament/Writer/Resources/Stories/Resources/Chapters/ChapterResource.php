@@ -10,7 +10,6 @@ use App\Filament\Writer\Resources\Stories\Resources\Chapters\Schemas\ChapterInfo
 use App\Filament\Writer\Resources\Stories\Resources\Chapters\Tables\ChaptersTable;
 use App\Filament\Writer\Resources\Stories\StoryResource;
 use App\Models\Chapter;
-use App\Models\StoryChapter;
 use BackedEnum;
 use Filament\Resources\ParentResourceRegistration;
 use Filament\Resources\Resource;
@@ -20,7 +19,7 @@ use Filament\Tables\Table;
 
 class ChapterResource extends Resource
 {
-    protected static ?string $model = StoryChapter::class;
+    protected static ?string $model = Chapter::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\StoryChapter\StoryChapterStatusEnum;
+use App\Enums\Chapter\ChapterStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-final class StoryChapter extends Model
+final class Chapter extends Model
 {
     protected $guarded = [
         'id', 'created_at', 'updated_at',
@@ -18,7 +18,7 @@ final class StoryChapter extends Model
     protected function casts(): array
     {
         return [
-            'status' => StoryChapterStatusEnum::class,
+            'status' => ChapterStatusEnum::class,
         ];
     }
 

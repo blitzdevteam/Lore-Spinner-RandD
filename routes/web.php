@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Ai\Schema\Story\StoryChapterEventExtractorSchema;
 use App\Helpers\Story\LineNumberFormatterHelper;
 use App\Helpers\Story\NumberedLineExtractorHelper;
 use App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
-use Prism\Prism\Enums\Provider;
-use Prism\Prism\Facades\Prism;
 
 require __DIR__.'/routes/user.php';
 

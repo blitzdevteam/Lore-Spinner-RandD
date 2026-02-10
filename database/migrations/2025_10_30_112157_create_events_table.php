@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('story_chapter_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('chapter_id')->constrained()->cascadeOnUpdate();
             $table->unsignedInteger('position')->default(0);
             $table->string('title');
             $table->text('text');
             $table->text('objectives');
+            $table->text('attributes');
             $table->timestamps();
         });
     }

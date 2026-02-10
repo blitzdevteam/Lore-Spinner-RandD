@@ -14,10 +14,10 @@ final class Event extends Model
     ];
 
     /**
-     * @return BelongsTo<$this, StoryChapter>
+     * @return BelongsTo<$this, Chapter>
      */
     public function chapter(): BelongsTo
     {
-        return $this->belongsTo(StoryChapter::class);
+        return $this->belongsTo(Chapter::class);
     }
 }

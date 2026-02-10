@@ -6,7 +6,7 @@ namespace App\Filament\Writer\Resources\Stories\Pages;
 
 use App\Enums\Story\StoryStatusEnum;
 use App\Filament\Writer\Resources\Stories\StoryResource;
-use App\Jobs\Story\ChapterExtractorJob;
+use App\Jobs\Chapter\ChapterExtractorJob;
 use App\Models\Story;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;

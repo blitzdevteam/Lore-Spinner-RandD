@@ -57,11 +57,11 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @return HasMany<$this, StoryChapter>
+     * @return HasMany<$this, Chapter>
      */
     public function chapters(): HasMany
     {
-        return $this->hasMany(StoryChapter::class);
+        return $this->hasMany(Chapter::class);
     }
 
     /**
