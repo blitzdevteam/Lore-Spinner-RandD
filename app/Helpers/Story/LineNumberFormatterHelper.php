@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Story;
+namespace App\Helpers\Story;
 
-readonly final class StoryAddLineToContentService
+readonly final class LineNumberFormatterHelper
 {
     /**
      * Return an array with:

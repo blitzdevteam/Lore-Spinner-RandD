@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Story;
+namespace App\Helpers\Story;
 
-use Illuminate\Support\Collection;
-
-final class StoryChapterExtractorByContentService
+final class NumberedLineExtractorHelper
 {
     /**
      * Extract chapters content from full story text using line number markers.

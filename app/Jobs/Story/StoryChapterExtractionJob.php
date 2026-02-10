@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Jobs\Story;
 
 use App\Ai\Schema\ChapterExtractorSchema;
+use App\Helpers\Story\LineNumberFormatterHelper;
+use App\Helpers\Story\NumberedLineExtractorHelper;
 use App\Models\Story;
-use App\Services\Story\StoryAddLineToContentService;
-use App\Services\Story\StoryChapterExtractorByContentService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +37,7 @@ final class StoryChapterExtractionJob implements ShouldQueue
 
     public function handle(): void {
         DB::transaction(function () {
-            $linedContent = StoryAddLineToContentService::handle(
+            $linedContent = LineNumberFormatterHelper::handle(
                 file_get_contents($this->story->getFirstMediaPath('script'))
             );
 
@@ -53,7 +53,7 @@ final class StoryChapterExtractionJob implements ShouldQueue
                 ->withPrompt("Story:\n\n" . $linedContent['content'])
                 ->asStructured();
 
-            $chapters = StoryChapterExtractorByContentService::handle(
+            $chapters = NumberedLineExtractorHelper::handle(
                 $linedContent['content'],
                 $response->structured['chapters']
             );
