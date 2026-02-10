@@ -9,7 +9,6 @@ use App\Enums\Story\StoryStatusEnum;
 use App\Enums\Chapter\ChapterStatusEnum;
 use App\Helpers\Story\LineNumberFormatterHelper;
 use App\Helpers\Story\NumberedLineExtractorHelper;
-use App\Jobs\Event\EventExtractorJob;
 use App\Models\Story;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -44,31 +43,43 @@ final class ChapterExtractorJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $linedContent = LineNumberFormatterHelper::handle(
-            file_get_contents($this->story->getFirstMediaPath('script'))
-        );
-
-        $response = new ChapterExtractorAgent()
-            ->prompt("Story:\n\n" . $linedContent['content']);
-
-        DB::transaction(function () use ($linedContent, $response) {
-            foreach ($response['chapters'] as $chapter) {
-                $this->story->chapters()->create([
-                    'title' => $chapter['title'],
-                    'position' => $chapter['position'],
-                    'teaser' => $chapter['teaser'],
-                    'status' => ChapterStatusEnum::AWAITING_WRITER_REVIEW,
-                    'content' => NumberedLineExtractorHelper::handle(
-                        $linedContent['content'],
-                        $chapter['start_line'],
-                        $chapter['end_line']
-                    ),
-                ]);
-            }
-
+        try {
             $this->story->update([
-                'status' => StoryStatusEnum::DRAFT,
+                'status' => StoryStatusEnum::EXTRACTING_CHAPTERS,
             ]);
-        });
+
+            $linedContent = LineNumberFormatterHelper::handle(
+                file_get_contents($this->story->getFirstMediaPath('script'))
+            );
+
+            $response = new ChapterExtractorAgent()
+                ->prompt("Story:\n\n" . $linedContent['content']);
+
+            DB::transaction(function () use ($linedContent, $response) {
+                foreach ($response['chapters'] as $chapter) {
+                    $this->story->chapters()->create([
+                        'title' => $chapter['title'],
+                        'position' => $chapter['position'],
+                        'teaser' => $chapter['teaser'],
+                        'status' => ChapterStatusEnum::AWAITING_WRITER_REVIEW,
+                        'content' => NumberedLineExtractorHelper::handle(
+                            $linedContent['content'],
+                            $chapter['start_line'],
+                            $chapter['end_line']
+                        ),
+                    ]);
+                }
+
+                $this->story->update([
+                    'status' => StoryStatusEnum::DRAFT,
+                ]);
+            });
+        } catch (Throwable $exception) {
+            $this->story->update([
+                'status' => StoryStatusEnum::AWAITING_EXTRACTING_CHAPTERS_REQUEST,
+            ]);
+
+            throw $exception;
+        }
     }
 }
