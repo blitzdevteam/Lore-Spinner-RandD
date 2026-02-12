@@ -9,6 +9,7 @@ import { WriterInterface } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { SwiperSlide } from 'swiper/vue';
 import CommunitySignup from '@/components/CommunitySignup.vue';
+import BaseContentTitle from '@/components/BaseContentTitle.vue';
 
 withDefaults(
     defineProps<{
@@ -36,9 +37,32 @@ withDefaults(
 
         <div class="py-18">
             <div class="container">
+                <div class="flex flex-col gap-12">
+                    <BaseContentTitle title="Stories">
+                        <template #description>
+                            Explore
+                            <span class="text-primary">original worlds</span>
+                            created by writers and unlocked gradually as you read
+                        </template>
+                    </BaseContentTitle>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="col-span-1">
+                            asd
+                        </div>
+                        <div class="col-span-1">
+                            <BaseStoryCard />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-18">
+            <div class="container">
                 <CommunitySignup />
             </div>
         </div>
+
         <div class="pt-18 pb-16">
             <div class="container">
                 <FrequentlyAskedQuestion />
