@@ -52,7 +52,7 @@ onMounted(() => {
 
 @layer components {
     [data-sonner-toast] {
-        @apply flex! items-center! gap-2! rounded-lg! border-none! bg-gray-900/75! p-4! outline-4! backdrop-blur-xl;
+        @apply flex! items-center! gap-2! rounded-xl! border-none! bg-gray-900/75! p-4! outline-4! backdrop-blur-xl;
         [data-icon] {
             all: unset !important;
             @apply m-0! flex! h-6! w-6! items-center! justify-center! rounded-md! p-0!;

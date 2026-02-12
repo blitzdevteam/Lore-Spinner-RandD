@@ -29,11 +29,11 @@ import { LucideBookmark, LucidePlay, LucideStar } from 'lucide-vue-next';
                 </p>
                 <div class="mt-auto">
                     <div class="flex items-center gap-1.5">
-                        <div class="flex items-center gap-1 rounded-lg bg-white/5 px-1.5 py-1 text-secondary-300">
+                        <div class="flex items-center gap-1 rounded-xl bg-white/5 px-1.5 py-1 text-secondary-300">
                             <LucideStar class="size-3.5 fill-current" />
                             <span class="mt-0.5 text-xs">4.5</span>
                         </div>
-                        <div class="flex items-center gap-1 rounded-lg bg-white/5 px-1.5 py-1 text-gray-50">
+                        <div class="flex items-center gap-1 rounded-xl bg-white/5 px-1.5 py-1 text-gray-50">
                             <LucidePlay class="size-3.5 fill-current" />
                             <span class="mt-0.5 text-xs">4.5</span>
                         </div>
