@@ -45,12 +45,16 @@ withDefaults(
                             created by writers and unlocked gradually as you read
                         </template>
                     </BaseContentTitle>
-                    <div class="grid grid-cols-2 gap-8">
+                    <div class="grid grid-cols-2 gap-3">
                         <div class="col-span-1">
-                            asd
+                            <div class="flex flex-col gap-3">
+                                <BaseStoryCard />
+                                <BaseStoryCard />
+                                <BaseStoryCard />
+                            </div>
                         </div>
                         <div class="col-span-1">
-                            <BaseStoryCard />
+                            asd
                         </div>
                     </div>
                 </div>

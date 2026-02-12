@@ -12,7 +12,7 @@ import BaseButton from '@/components/BaseButton.vue';
         <div class="overflow-hidden rounded-xl relative">
             <img src="@/assets/temp/story.png" alt="" class="h-full w-48 object-cover object-center" />
             <div class="absolute top-2 start-2">
-                <BaseButton severity="glass" :icon-only="true" class="rounded-full">
+                <BaseButton severity="glass" :icon-only="true">
                     <LucideBookmark class="size-6 text-secondary-200" :stroke-width="1.5" />
                 </BaseButton>
             </div>

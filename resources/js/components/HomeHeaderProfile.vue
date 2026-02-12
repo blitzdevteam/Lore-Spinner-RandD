@@ -38,7 +38,7 @@ const profileDrawerVisibility = ref(false);
                                 </button>
                             </div>
                             <div class="flex flex-1 flex-col gap-6 px-8">
-                                <div class="flex flex-col gap-4 rounded border border-gray-700/75 bg-white/5 p-4">
+                                <div class="flex flex-col gap-4 rounded-xl border border-gray-700/75 bg-white/5 p-4">
                                     <div class="flex items-center gap-4">
                                         <div class="flex flex-1 items-center gap-3">
                                             <img :src="auth.avatar" alt="" class="size-13 rounded-full" />
@@ -57,7 +57,7 @@ const profileDrawerVisibility = ref(false);
                                     <BaseButton>Buy Spinner</BaseButton>
                                 </div>
                                 <h6 class="text-lg text-white">Settings</h6>
-                                <div class="flex flex-col rounded border border-gray-700/75 bg-white/5">
+                                <div class="flex flex-col rounded-xl border border-gray-700/75 bg-white/5">
                                     <ul class="divide divide-y divide-gray-700/75">
                                         <li>
                                             <Link href="#" class="flex items-center justify-between p-4 text-white transition-all hover:px-6">
@@ -80,7 +80,7 @@ const profileDrawerVisibility = ref(false);
                                     </ul>
                                 </div>
                                 <h6 class="text-lg text-white">Other</h6>
-                                <div class="flex flex-col rounded border border-gray-700/75 bg-white/5">
+                                <div class="flex flex-col rounded-xl border border-gray-700/75 bg-white/5">
                                     <ul class="divide divide-y divide-gray-700/75">
                                         <li>
                                             <Link href="#" class="flex items-center justify-between p-4 text-white transition-all hover:px-6">
