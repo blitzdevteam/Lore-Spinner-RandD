@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedInteger('position')->default(0);
             $table->string('title');
             $table->text('content');
-            $table->text('objectives');
-            $table->text('attributes');
+            $table->text('objectives')->nullable();
+            $table->json('attributes')->nullable();
             $table->timestamps();
         });
     }

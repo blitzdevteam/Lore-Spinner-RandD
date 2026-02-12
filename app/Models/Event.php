@@ -14,6 +14,16 @@ final class Event extends Model
     ];
 
     /**
+     * @return string[]
+     */
+    protected function casts(): array
+    {
+        return [
+            'attributes' => 'json'
+        ];
+    }
+
+    /**
      * @return BelongsTo<$this, Chapter>
      */
     public function chapter(): BelongsTo

@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Jobs\Event;
+
+use App\Ai\Agents\EventObjectiveAndAttributesExtractor;
+use App\Models\Chapter;
+use App\Models\Event;
+use Illuminate\Bus\Batchable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Collection;
+use Throwable;
+
+class EventObjectiveAndAttributeExtractor implements ShouldQueue
+{
+    use Batchable, Queueable;
+
+    private Event $event;
+
+    private Chapter $chapter;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct(int $id)
+    {
+        $this->event = Event::query()
+            ->with('chapter')
+            ->findOrFail($id);
+
+        $this->chapter = $this->event->chapter;
+    }
+
+    /**
+     * Execute the job.
+     * @throws Throwable
+     */
+    public function handle(): void
+    {
+        if ($this->batch()->cancelled()) {
+            return;
+        }
+
+        $response = EventObjectiveAndAttributesExtractor::make()
+            ->prompt(
+                view('ai.agents.event-objective-and-attribute-extractor.prompt', [
+                    'targetEvent' => $this->event,
+                    'nextEvents' => $this->nextEvents()
+                ])->render()
+            );
+
+        $this->event->update([
+            'attributes' => $response['attributes'],
+            'objectives' => $response['objective'],
+        ]);
+    }
+
+    /**
+     * @param Event $currentEvent
+     * @param int $take
+     * @return Collection<Event>
+     */
+    private function previousEvents(int $take = 5): Collection
+    {
+        return $this->chapter->events()
+            ->orderByDesc('position')
+            ->where('position', '<', $this->event->position)
+            ->take($take)
+            ->get()
+            ->reverse();
+    }
+
+    /**
+     * @param Event $currentEvent
+     * @param int $take
+     * @return Collection<Event>
+     */
+    private function nextEvents(int $take = 5): Collection
+    {
+        return $this->chapter->events()
+            ->orderBy('position')
+            ->where('position', '>', $this->event->position)
+            ->take($take)
+            ->get();
+    }
+}

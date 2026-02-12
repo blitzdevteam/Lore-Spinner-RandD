@@ -53,7 +53,11 @@ final class ChapterExtractorJob implements ShouldQueue
             );
 
             $response = new ChapterExtractorAgent()
-                ->prompt("Story:\n\n" . $linedContent['content']);
+                ->prompt(
+                    view('ai.agents.chapter-extractor.prompt', [
+                        'content' => $linedContent['content'],
+                    ])->render()
+                );
 
             DB::transaction(function () use ($linedContent, $response) {
                 foreach ($response['chapters'] as $chapter) {

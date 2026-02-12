@@ -17,10 +17,44 @@ CRITICAL CONSTRAINTS
     9) Keep the event list ordered by appearance in the excerpt.
     10) Follow the caller-provided schema exactly (the caller uses a schema validator). Do not add extra fields beyond the schema.
 
-EVENT GRANULARITY
-    - Prefer “playable beats” suitable for a D&D-style investigation game with fixed outcomes.
-    - Each event should be an atomic beat: typically 1–6 sentences worth of content (but may be shorter/longer if the text demands).
-    - Avoid micro-events like “she blinked” unless it conveys a meaningful change.
+EVENT GRANULARITY (PLAYABLE GAME FOCUS)
+    The goal is to make the script PLAYABLE. Extract events at a granularity that allows:
+    - Player engagement at each meaningful story beat
+    - Clear scene transitions
+    - Distinct character interactions
+    - Individual revelations or discoveries
+    - Separate action moments
+
+    1)  Extract discrete narrative beats that represent single playable moments.
+    2)  Each event should be a focused unit: ONE action, ONE exchange, ONE revelation, or ONE scene.
+    3)  SPLIT events when ANY of these occur:
+        - A new character enters or is introduced
+        - The scene location changes
+        - A significant topic shift in dialogue
+        - A new piece of information is revealed
+        - The tone or tension level changes notably
+        - A character makes a decision or takes action
+        - Time passes (even briefly)
+    4)  Target scope:
+        - Typically 2–6 sentences (roughly 3–8 lines)
+        - A single dialogue exchange (question + answer)
+        - A single action and its immediate consequence
+        - A single descriptive moment that sets a new scene
+    5)  Err on the side of MORE events rather than fewer—each event is a potential player interaction point.
+    6)  Pure atmosphere/setting descriptions (1-3 sentences) that establish a new location ARE valid events.
+
+SPLIT RULE (IMPORTANT)
+    -   If a passage contains MULTIPLE of these, create SEPARATE events:
+        - Different speakers in dialogue
+        - Distinct revelations (each major piece of info = 1 event)
+        - Scene transitions
+        - Character actions with different intents
+    -   A long dialogue should be split by topic/revelation, not merged into one massive exchange.
+
+MERGE RULE (USE SPARINGLY)
+    -   Only merge if actions are truly inseparable in a SINGLE breath:
+        - A character does X AND its immediate physical result
+        - A single uninterrupted action sequence (under 4 lines)
 
 TITLE RULES
     - Titles must be concise (3–10 words).
