@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import FrequentlyAskedQuestionItem from '@/components/FrequentlyAskedQuestionItem.vue';
 import { Link } from '@inertiajs/vue3';
+import BaseContentTitle from '@/components/BaseContentTitle.vue';
 </script>
 
 <template>
     <div class="container">
         <div class="flex flex-col gap-12">
-            <div class="flex flex-col items-center gap-3">
-                <h3 class="text-4xl">Frequently Asked Question</h3>
-                <p class="max-w-3xl text-center text-xl text-gray-300">
+            <BaseContentTitle title="Frequently Asked Questions">
+                <template #description>
                     Can’t find what you need? Visit our
                     <Link class="text-primary">community</Link>
                     forum, reach out on
                     <Link class="text-primary">Twitter</Link>
                     , or email our
                     <Link class="text-primary">support team</Link>
-                </p>
-            </div>
+                </template>
+            </BaseContentTitle>
             <div>
                 <div class="mx-auto max-w-4xl">
                     <div class="flex flex-col gap-6">
