@@ -8,6 +8,7 @@ import HomeLayout from '@/layouts/HomeLayout.vue';
 import { WriterInterface } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { SwiperSlide } from 'swiper/vue';
+import CommunitySignup from '@/components/CommunitySignup.vue';
 
 withDefaults(
     defineProps<{
@@ -33,8 +34,15 @@ withDefaults(
             </div>
         </div>
 
-        <div class="pt-48 pb-16">
-            <FrequentlyAskedQuestion />
+        <div class="py-18">
+            <div class="container">
+                <CommunitySignup />
+            </div>
+        </div>
+        <div class="pt-18 pb-16">
+            <div class="container">
+                <FrequentlyAskedQuestion />
+            </div>
         </div>
     </HomeLayout>
 </template>
