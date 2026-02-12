@@ -5,7 +5,7 @@ import { computed } from 'vue';
 
 const props = withDefaults(
     defineProps<{
-        severity?: 'primary' | 'secondary' | 'secondary-muted-outline' | 'muted';
+        severity?: 'primary' | 'secondary' | 'secondary-muted-outline' | 'muted' | 'glass';
         iconOnly?: boolean;
         type?: 'internal-link' | 'external-link' | 'button' | 'submit' | 'span';
         href?: string;
@@ -42,22 +42,33 @@ const getComponentTag = computed((): string | typeof Link => {
     }
 });
 
-const getComponentClass = computed((): string => {
-    const severityClass = {
+const isDisabled = computed(() => props.disabled || props.processing);
+
+const severityClass = computed(() => {
+    const classes: Record<typeof props.severity, string> = {
         primary: 'bg-primary-400 text-black outline-primary-200/20',
         secondary: 'bg-secondary-400 text-black outline-secondary-400/30',
         'secondary-muted-outline': 'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 outline-secondary-200/20',
         muted: 'bg-gray-900 text-gray-300 font-normal outline-gray-500/15',
-    }[props.severity];
+        glass: 'bg-white/10 [background-blend-mode:plus-lighter,normal] shadow-[inset_0.25px_0.5px_0.5px_0.25px_rgba(255,255,255,0.22),inset_-0.2px_-0.5px_0.15px_0.5px_rgba(255,255,255,0.05)] drop-shadow-[0_4px_80px_rgba(0,0,0,0.20)] backdrop-blur-[3px]',
+    };
+    return classes[props.severity];
+});
 
-    const roundedClass = props.iconOnly ? 'w-12 grid place-items-center' : ' px-4';
+const getComponentClass = computed((): string => {
+    const base = 'relative justify-center flex items-center transition-all';
+    const rounded = props.iconOnly ? 'rounded-full grid place-items-center' : 'rounded-xl px-4';
+    const size = props.iconOnly ? '!size-9' : 'h-12';
 
-    const notAllowedClass =
-        props.type === 'button' && (props.disabled || props.processing)
-            ? 'cursor-not-allowed opacity-60 outline-none'
-            : 'cursor-pointer outline-0 opacity-100 hover:outline-4 focus:outline-4';
+    if (isDisabled.value) {
+        return `${base} ${size} ${severityClass.value} ${rounded} cursor-not-allowed opacity-60 outline-none pointer-events-none`;
+    }
 
-    return `relative justify-center flex items-center transition-all rounded-xl h-12 ${severityClass} ${roundedClass} ${notAllowedClass}`;
+    const hoverClass = props.severity === 'glass'
+        ? 'hover:scale-110 hover:bg-white/20'
+        : 'hover:outline-4 focus:outline-4';
+
+    return `${base} ${size} ${severityClass.value} ${rounded} cursor-pointer outline-0 ${hoverClass}`;
 });
 
 const emitHandleClick = (event: MouseEvent) => {
@@ -78,7 +89,7 @@ const emitHandleSubmit = (event: SubmitEvent) => {
         :is="getComponentTag"
         :href="['internal-link', 'external-link'].includes(props.type) ? props.href : undefined"
         :class="getComponentClass"
-        :disabled="['submit', 'button'].includes(type) && processing"
+        :disabled="['submit', 'button'].includes(type) && isDisabled"
         @click="emitHandleClick"
         @submit="['submit', 'button'].includes(type) ? emitHandleSubmit : undefined"
     >

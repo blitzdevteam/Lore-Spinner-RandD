@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { LucideBookmark, LucidePlay, LucideStar } from 'lucide-vue-next';
+import BaseButton from '@/components/BaseButton.vue';
 </script>
 
 <template>
@@ -11,11 +12,9 @@ import { LucideBookmark, LucidePlay, LucideStar } from 'lucide-vue-next';
         <div class="overflow-hidden rounded-xl relative">
             <img src="@/assets/temp/story.png" alt="" class="h-full w-48 object-cover object-center" />
             <div class="absolute top-2 start-2">
-                <button
-                    class="size-8 grid place-items-center rounded-full"
-                >
-                    <LucideBookmark class="size-6 text-gray-300 transition hover:scale-110 hover:text-primary-500" :stroke-width="1.5" />
-                </button>
+                <BaseButton severity="glass" :icon-only="true" class="rounded-full">
+                    <LucideBookmark class="size-6 text-secondary-200" :stroke-width="1.5" />
+                </BaseButton>
             </div>
         </div>
         <div class="flex h-full flex-1 flex-col gap-1.5">
