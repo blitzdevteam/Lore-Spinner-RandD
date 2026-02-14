@@ -2,6 +2,7 @@
 import { WriterInterface } from '@/types';
 import BaseButton from '@/components/BaseButton.vue';
 import { LucideBookmark } from 'lucide-vue-next';
+import { show } from '@/wayfinder/routes/writers';
 
 defineProps<{
     writer: WriterInterface
@@ -30,7 +31,12 @@ defineProps<{
                 </div>
             </div>
             <p class="text-gray-400 line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid beatae cupiditate ducimus exercitationem expedita, in inventore laudantium magnam magni modi odit officia quo, sapiente sequi tenetur ullam unde, voluptates.</p>
-            <BaseButton severity="glass" class="text-primary hover:bg-primary-400! hover:text-black hover:scale-100!">
+            <BaseButton
+                severity="glass"
+                class="text-primary hover:bg-primary-400! hover:text-black hover:scale-100!"
+                type="internal-link"
+                :href="show(writer.username as string).url"
+            >
                 View Profile
             </BaseButton>
         </div>

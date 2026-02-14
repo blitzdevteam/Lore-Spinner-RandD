@@ -12,10 +12,13 @@ final class IndexController extends Controller
     {
         return inertia('Index', [
             'writers' => fn () => Writer::query()
-                ->select(['id', 'first_name', 'last_name', 'avatar'])
+                ->select([
+                    'id', 'username', 'first_name', 'last_name', 'avatar'
+                ])
                 ->take(3)
                 ->latest()
-                ->get(),
+                ->get()
+                ->toResourceCollection()
         ]);
     }
 }

@@ -22,7 +22,7 @@ final class UserFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'nickname' => fake()->userName(),
+            'username' => fake()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => 'password',
             'gender' => fake()->randomElement(GenderEnum::values()),
