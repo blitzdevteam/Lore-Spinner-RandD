@@ -1,0 +1,21 @@
+<script setup>
+import BaseLogo from '@/components/BaseLogo.vue';
+import HomeHeaderMenu from '@/components/HomeHeaderMenu.vue';
+import HomeHeaderProfile from '@/components/HomeHeaderProfile.vue';
+import HomeHeaderSearchBar from '@/components/HomeHeaderSearchBar.vue';
+</script>
+
+<template>
+    <header class="h-19 border-b border-b-gray-900 bg-black shadow">
+        <div class="container flex h-19 items-center justify-between">
+            <div class="flex items-center gap-16">
+                <BaseLogo class="w-36" />
+                <HomeHeaderMenu />
+            </div>
+            <div class="flex items-center gap-8">
+                <HomeHeaderSearchBar />
+                <HomeHeaderProfile />
+            </div>
+        </div>
+    </header>
+</template>

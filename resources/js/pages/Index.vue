@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import BannerImage from '@/assets/banner.png';
 import BaseLogo from '@/components/BaseLogo.vue';
-import BaseSlider from '@/components/BaseSlider.vue';
 import BaseStoryCard from '@/components/BaseStoryCard.vue';
 import FrequentlyAskedQuestion from '@/components/FrequentlyAskedQuestion.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
 import { WriterInterface } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { SwiperSlide } from 'swiper/vue';
 import CommunitySignup from '@/components/CommunitySignup.vue';
 import BaseContentTitle from '@/components/BaseContentTitle.vue';
 
