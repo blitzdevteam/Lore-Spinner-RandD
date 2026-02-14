@@ -42,7 +42,7 @@ const getComponent = computed(() => (isColumn.value ? 'div' : Link));
                 }"
                 class="rounded-xl"
             />
-            <div class="absolute top-2 start-2">
+            <div class="absolute top-3 start-3">
                 <BaseButton severity="glass" :icon-only="true">
                     <LucideBookmark class="size-6 text-secondary-200" :stroke-width="1.5" />
                 </BaseButton>

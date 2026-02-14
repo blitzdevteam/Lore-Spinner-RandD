@@ -16,9 +16,10 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-final class Writer extends Authenticatable implements FilamentUser, HasName
+final class Writer extends Authenticatable implements FilamentUser, HasName, HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
@@ -100,6 +101,16 @@ final class Writer extends Authenticatable implements FilamentUser, HasName
     {
         return Attribute::make(
             get: fn (): string => $this->first_name.' '.$this->last_name
+        );
+    }
+
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): string => $this?->getFirstMediaUrl('avatar')
         );
     }
 }

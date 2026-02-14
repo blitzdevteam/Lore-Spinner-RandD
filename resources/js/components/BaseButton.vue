@@ -5,7 +5,7 @@ import { computed } from 'vue';
 
 const props = withDefaults(
     defineProps<{
-        severity?: 'primary' | 'secondary' | 'secondary-muted-outline' | 'muted' | 'glass';
+        severity?: 'primary' | 'secondary' | 'secondary-muted-outline' | 'muted' | 'glass' | 'transparent';
         iconOnly?: boolean;
         type?: 'internal-link' | 'external-link' | 'button' | 'submit' | 'span';
         href?: string;
@@ -27,20 +27,15 @@ const emits = defineEmits<{
     (e: 'submit', ev: SubmitEvent): void;
 }>();
 
-const getComponentTag = computed((): string | typeof Link => {
-    switch (props.type) {
-        case 'internal-link':
-            return Link;
-        case 'external-link':
-            return 'a';
-        case 'span':
-            return 'span';
-        case 'submit':
-        case 'button':
-        default:
-            return 'button';
-    }
-});
+const componentTagMap: Record<typeof props.type, string | typeof Link> = {
+    'internal-link': Link,
+    'external-link': 'a',
+    'span': 'span',
+    'submit': 'button',
+    'button': 'button',
+};
+
+const getComponentTag = computed((): string | typeof Link => componentTagMap[props.type]);
 
 const isDisabled = computed(() => props.disabled || props.processing);
 
@@ -51,8 +46,15 @@ const severityClass = computed(() => {
         'secondary-muted-outline': 'bg-secondary-300/20 text-black border border-secondary-300/75 text-secondary-300 outline-secondary-200/20',
         muted: 'bg-gray-900 text-gray-300 font-normal outline-gray-500/15',
         glass: 'bg-white/10 [background-blend-mode:plus-lighter,normal] shadow-[inset_0.25px_0.5px_0.5px_0.25px_rgba(255,255,255,0.22),inset_-0.2px_-0.5px_0.15px_0.5px_rgba(255,255,255,0.05)] drop-shadow-[0_4px_80px_rgba(0,0,0,0.20)] backdrop-blur-[3px]',
+        transparent: 'bg-transparent text-primary outline-transparent',
     };
     return classes[props.severity];
+});
+
+const hoverClass = computed(() => {
+    if (props.severity === 'glass') return 'hover:scale-110 hover:bg-white/20';
+    if (props.severity === 'transparent') return 'hover:bg-primary-50/10 hover:outline-primary-200/30';
+    return 'hover:outline-4 focus:outline-4';
 });
 
 const getComponentClass = computed((): string => {
@@ -64,34 +66,33 @@ const getComponentClass = computed((): string => {
         return `${base} ${size} ${severityClass.value} ${rounded} cursor-not-allowed opacity-60 outline-none pointer-events-none`;
     }
 
-    const hoverClass = props.severity === 'glass'
-        ? 'hover:scale-110 hover:bg-white/20'
-        : 'hover:outline-4 focus:outline-4';
-
-    return `${base} ${size} ${severityClass.value} ${rounded} cursor-pointer outline-0 ${hoverClass}`;
+    return `${base} ${size} ${severityClass.value} ${rounded} cursor-pointer outline-0 ${hoverClass.value}`;
 });
 
 const emitHandleClick = (event: MouseEvent) => {
-    if (!props.disabled && !props.processing) {
+    if (!isDisabled.value) {
         emits('click', event);
     }
 };
 
 const emitHandleSubmit = (event: SubmitEvent) => {
-    if (!props.disabled && !props.processing) {
+    if (!isDisabled.value) {
         emits('submit', event);
     }
 };
+
+const isLink = computed(() => props.type === 'internal-link' || props.type === 'external-link');
+const isButtonType = computed(() => props.type === 'submit' || props.type === 'button');
 </script>
 
 <template>
     <component
         :is="getComponentTag"
-        :href="['internal-link', 'external-link'].includes(props.type) ? props.href : undefined"
+        :href="isLink ? props.href : undefined"
         :class="getComponentClass"
-        :disabled="['submit', 'button'].includes(type) && isDisabled"
+        :disabled="isButtonType && isDisabled"
         @click="emitHandleClick"
-        @submit="['submit', 'button'].includes(type) ? emitHandleSubmit : undefined"
+        @submit="isButtonType ? emitHandleSubmit : undefined"
     >
         <template v-if="processing">
             <LoaderCircle class="animate-spin opacity-50" />
