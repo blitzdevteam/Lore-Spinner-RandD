@@ -44,6 +44,14 @@ final class StoryForm
                         TextInput::make('title')
                             ->required()
                             ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn ($state, callable $set) => $set('slug', \Illuminate\Support\Str::slug($state)))
+                            ->columnSpan(2),
+                        TextInput::make('slug')
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->helperText('Auto-generated from title, but you can edit it if needed.')
                             ->columnSpan(2),
                         Textarea::make('teaser')
                             ->required()

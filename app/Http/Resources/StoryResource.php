@@ -18,6 +18,7 @@ class StoryResource extends BaseResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'teaser' => $this->teaser,
             'status' => $this->status,
             'rating' => $this->rating,

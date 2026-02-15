@@ -60,7 +60,6 @@ final class HandleInertiaRequests extends Middleware
                             'last_name',
                             'full_name',
                             'gender',
-                            'nickname',
                             'username',
                             'email',
                             'avatar',

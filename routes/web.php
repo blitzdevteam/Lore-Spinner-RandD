@@ -14,3 +14,9 @@ Route::resource('writers', Controllers\WriterController::class)
         'writer' => 'username'
     ])
     ->only(['index', 'show']);
+
+Route::resource('stories', Controllers\StoryController::class)
+    ->scoped([
+        'story' => 'slug'
+    ])
+    ->only(['index', 'show']);

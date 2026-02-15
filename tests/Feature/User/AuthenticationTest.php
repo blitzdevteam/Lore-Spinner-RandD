@@ -174,7 +174,6 @@ describe('profile completion', function () {
             'first_name' => 'John',
             'last_name' => 'Doe',
             'username' => 'johndoe',
-            'nickname' => 'Johnny',
             'gender' => GenderEnum::MALE->value,
         ];
 
@@ -186,7 +185,7 @@ describe('profile completion', function () {
 
         $user->refresh();
 
-        expect($user->only(['first_name', 'last_name', 'username', 'nickname', 'gender']))
+        expect($user->only(['first_name', 'last_name', 'username', 'gender']))
             ->toMatchArray($payload);
     });
 });

@@ -50,11 +50,6 @@ const genderEnumOptions = Object.values(GenderEnum).map((value) => ({
                                 />
                             </BaseInputFormat>
                         </div>
-                        <div class="col-span-full">
-                            <BaseInputFormat label="Nickname" :error="errors.nickname">
-                                <PrimeInputText name="nickname" placeholder="Enter your nickname" />
-                            </BaseInputFormat>
-                        </div>
                     </div>
                     <BaseButton :processing>Submit</BaseButton>
                 </div>

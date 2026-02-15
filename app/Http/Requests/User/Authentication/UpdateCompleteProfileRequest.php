@@ -37,7 +37,6 @@ final class UpdateCompleteProfileRequest extends FormRequest
             'first_name' => ['required', 'string', 'min:3', 'max:64'],
             'last_name' => ['required', 'string', 'min:3', 'max:64'],
             'gender' => ['required', 'string', Rule::in(GenderEnum::values())],
-            'nickname' => ['required', 'string', 'min:3', 'max:64'],
         ];
     }
 

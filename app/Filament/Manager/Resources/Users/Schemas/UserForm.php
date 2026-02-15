@@ -34,9 +34,6 @@ final class UserForm
                                 TextInput::make('last_name')
                                     ->required()
                                     ->maxLength(255),
-                                TextInput::make('nickname')
-                                    ->nullable()
-                                    ->maxLength(255),
                             ])
                             ->columns(3)
                             ->columnSpanFull(),

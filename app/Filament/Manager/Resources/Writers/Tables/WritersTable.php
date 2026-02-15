@@ -17,8 +17,6 @@ final class WritersTable
     {
         return $table
             ->columns([
-                TextColumn::make('nickname')
-                    ->searchable(),
                 TextColumn::make('username')
                     ->searchable(),
                 TextColumn::make('full_name')
