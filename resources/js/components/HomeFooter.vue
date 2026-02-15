@@ -58,7 +58,7 @@ const links: {
                 <div class="col-span-2">
                     <div class="flex flex-col gap-3">
                         <BaseLogo type="orb-typography" class="w-48" />
-                        <p class="text-gray-500 text-lg">For dreamers, writers, and wanderers; Lorespinner brings your stories to life.</p>
+                        <p class="text-gray-500 text-lg">For dreamers, creators, and wanderers; Lorespinner brings your stories to life.</p>
                     </div>
                 </div>
                 <div class="col-span-3">

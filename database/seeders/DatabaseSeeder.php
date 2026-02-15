@@ -15,7 +15,7 @@ final class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            WriterSeeder::class,
+            CreatorSeeder::class,
             CategorySeeder::class,
 //            StorySeeder::class,
 //            CommentSeeder::class,

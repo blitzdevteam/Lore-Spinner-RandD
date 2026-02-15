@@ -30,7 +30,7 @@ final class CommentInfolist
                                     ->badge()
                                     ->color(fn ($record): string => match (class_basename($record->author_type)) {
                                         'User' => 'success',
-                                        'Writer' => 'info',
+                                        'Creator' => 'info',
                                         default => 'secondary',
                                     }),
                                 TextEntry::make('author.full_name')

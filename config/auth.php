@@ -46,9 +46,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'writer' => [
+        'creator' => [
             'driver' => 'session',
-            'provider' => 'writers',
+            'provider' => 'creators',
         ],
     ],
 
@@ -78,9 +78,9 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        'writers' => [
+        'creators' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Writer::class,
+            'model' => App\Models\Creator::class,
         ],
     ],
 

@@ -9,9 +9,9 @@ require __DIR__.'/routes/user.php';
 
 Route::get('/', Controllers\IndexController::class)->name('index');
 
-Route::resource('writers', Controllers\WriterController::class)
+Route::resource('creators', Controllers\CreatorController::class)
     ->scoped([
-        'writer' => 'username'
+        'creator' => 'username'
     ])
     ->only(['index', 'show']);
 

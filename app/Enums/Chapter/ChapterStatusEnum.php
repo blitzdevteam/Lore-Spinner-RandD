@@ -11,7 +11,7 @@ enum ChapterStatusEnum: string implements HasLabel
 {
     use EnumToArray;
 
-    case AWAITING_WRITER_REVIEW = 'awaiting-writer-review';
+    case AWAITING_CREATOR_REVIEW = 'awaiting-creator-review';
     case AWAITING_EXTRACTING_EVENTS_REQUEST = 'awaiting-extracting-events-request';
     case EXTRACTING_EVENTS = 'extracting-events';
     case WAITING_FOR_EVENT_PREPARATION = 'waiting-for-event-preparation';
@@ -21,7 +21,7 @@ enum ChapterStatusEnum: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::AWAITING_WRITER_REVIEW => 'Awaiting Writer Review',
+            self::AWAITING_CREATOR_REVIEW => 'Awaiting Creator Review',
             self::AWAITING_EXTRACTING_EVENTS_REQUEST => 'Awaiting Event Extraction Request',
             self::EXTRACTING_EVENTS => 'Extracting Events',
             self::WAITING_FOR_EVENT_PREPARATION => 'Waiting for Event Preparation',
@@ -33,7 +33,7 @@ enum ChapterStatusEnum: string implements HasLabel
     public function getSeverity(): string
     {
         return match ($this) {
-            self::AWAITING_WRITER_REVIEW => 'warning',
+            self::AWAITING_CREATOR_REVIEW => 'warning',
             self::AWAITING_EXTRACTING_EVENTS_REQUEST => 'warning',
             self::EXTRACTING_EVENTS => 'info',
             self::WAITING_FOR_EVENT_PREPARATION => 'warning',

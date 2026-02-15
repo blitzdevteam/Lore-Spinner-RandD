@@ -10252,7 +10252,7 @@
                 {
                     "name": "Nathanael Esayeas",
                     "email": "nathanael.esayeas@protonmail.com",
-                    "homepage": "https://github.com/ghostwriter",
+                    "homepage": "https://github.com/ghostcreator",
                     "role": "Lead Developer"
                 }
             ],
@@ -11066,7 +11066,7 @@
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-phar": "*",
-                "ext-xmlwriter": "*",
+                "ext-xmlcreator": "*",
                 "phar-io/version": "^3.0.1",
                 "php": "^7.2 || ^8.0"
             },
@@ -11411,7 +11411,7 @@
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
-                "ext-xmlwriter": "*",
+                "ext-xmlcreator": "*",
                 "nikic/php-parser": "^5.7.0",
                 "php": ">=8.3",
                 "phpunit/php-file-iterator": "^6.0",
@@ -11748,7 +11748,7 @@
                 "ext-libxml": "*",
                 "ext-mbstring": "*",
                 "ext-xml": "*",
-                "ext-xmlwriter": "*",
+                "ext-xmlcreator": "*",
                 "myclabs/deep-copy": "^1.13.4",
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
@@ -12994,7 +12994,7 @@
             "require": {
                 "ext-dom": "*",
                 "ext-tokenizer": "*",
-                "ext-xmlwriter": "*",
+                "ext-xmlcreator": "*",
                 "php": "^8.1"
             },
             "type": "library",

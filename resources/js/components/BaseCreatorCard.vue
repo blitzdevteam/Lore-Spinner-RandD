@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { WriterInterface } from '@/types';
+import { CreatorInterface } from '@/types';
 import BaseButton from '@/components/BaseButton.vue';
 import { LucideBookmark } from 'lucide-vue-next';
-import { show } from '@/wayfinder/routes/writers';
+import { show } from '@/wayfinder/routes/creators';
 
 defineProps<{
-    writer: WriterInterface
+    creator: CreatorInterface
 }>()
 </script>
 
@@ -19,11 +19,11 @@ defineProps<{
             </BaseButton>
         </div>
         <div class="grid place-items-center">
-            <img :src="writer.avatar" alt="" class="rounded-full size-40">
+            <img :src="creator.avatar" alt="" class="rounded-full size-40">
         </div>
         <div class="flex flex-col gap-3">
             <div class="flex flex-col">
-                <h3 class="font-semibold text-lg">{{writer.full_name}}</h3>
+                <h3 class="font-semibold text-lg">{{creator.full_name}}</h3>
                 <div class="flex items-center gap-3">
                     <span class="text-primary font-light">18 Stories</span>
                     <span class="w-px h-4 bg-primary"></span>
@@ -35,7 +35,7 @@ defineProps<{
                 severity="glass"
                 class="text-primary hover:bg-primary-400! hover:text-black hover:scale-100!"
                 type="internal-link"
-                :href="show(writer.username as string).url"
+                :href="show(creator.username as string).url"
             >
                 View Profile
             </BaseButton>

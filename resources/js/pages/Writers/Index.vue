@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import WritersBannerImage from '@/assets/writers-banner.png';
+import CreatorsBannerImage from '@/assets/creators-banner.png';
 import BaseLogo from '@/components/BaseLogo.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
-import { WriterInterface } from '@/types';
+import { CreatorInterface } from '@/types';
 import BaseContentTitle from '@/components/BaseContentTitle.vue';
 import BaseCreatorCard from '@/components/BaseCreatorCard.vue';
 
 withDefaults(
     defineProps<{
-        writers?: WriterInterface[];
+        creators?: CreatorInterface[];
     }>(),
     {
-        writers: () => [],
+        creators: () => [],
     },
 );
 
@@ -21,7 +21,7 @@ withDefaults(
     <HomeLayout>
         <div
             class="grid h-108 place-items-center bg-cover"
-            :style="{ background: `url(${WritersBannerImage}) center center no-repeat`, backgroundSize: 'cover' }"
+            :style="{ background: `url(${CreatorsBannerImage}) center center no-repeat`, backgroundSize: 'cover' }"
         >
             <div class="container">
                 <div class="-ms-20 flex w-86 flex-col items-center gap-4">
@@ -42,8 +42,8 @@ withDefaults(
                     </BaseContentTitle>
                     <div class="grid grid-cols-3 gap-6">
                         <BaseCreatorCard
-                            v-for="writer in writers"
-                            :writer
+                            v-for="creator in creators"
+                            :creator
                         />
                     </div>
                 </div>

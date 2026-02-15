@@ -18,7 +18,7 @@ export enum StoryRatingEnum {
 }
 
 export enum ChapterStatusEnum {
-    AWAITING_WRITER_REVIEW = 'awaiting-writer-review',
+    AWAITING_CREATOR_REVIEW = 'awaiting-creator-review',
     AWAITING_EXTRACTING_EVENTS_REQUEST = 'awaiting-extracting-events-request',
     EXTRACTING_EVENTS = 'extracting-events',
     WAITING_FOR_EVENT_PREPARATION = 'waiting-for-event-preparation',

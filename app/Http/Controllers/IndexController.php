@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Writer;
+use App\Models\Creator;
 
 final class IndexController extends Controller
 {
     public function __invoke()
     {
         return inertia('Index', [
-            'writers' => fn () => Writer::query()
+            'creators' => fn () => Creator::query()
                 ->select([
                     'id', 'username', 'first_name', 'last_name', 'avatar'
                 ])

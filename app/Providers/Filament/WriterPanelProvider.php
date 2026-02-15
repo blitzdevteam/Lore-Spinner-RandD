@@ -19,24 +19,24 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-final class WriterPanelProvider extends PanelProvider
+final class CreatorPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
             ->brandName('Lore Spinner')
-            ->id('writer')
-            ->path('writer')
+            ->id('creator')
+            ->path('creator')
             ->login()
             ->loginRouteSlug('authentication/login')
             ->colors([
                 'primary' => Color::Purple,
             ])
             ->topbar(false)
-            ->discoverResources(in: app_path('Filament/Writer/Resources'), for: 'App\Filament\Writer\Resources')
-            ->discoverPages(in: app_path('Filament/Writer/Pages'), for: 'App\Filament\Writer\Pages')
-            ->discoverWidgets(in: app_path('Filament/Writer/Widgets'), for: 'App\Filament\Writer\Widgets')
+            ->discoverResources(in: app_path('Filament/Creator/Resources'), for: 'App\Filament\Creator\Resources')
+            ->discoverPages(in: app_path('Filament/Creator/Pages'), for: 'App\Filament\Creator\Pages')
+            ->discoverWidgets(in: app_path('Filament/Creator/Widgets'), for: 'App\Filament\Creator\Widgets')
             ->pages([
                 Dashboard::class,
             ])
@@ -55,6 +55,6 @@ final class WriterPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->authGuard('writer');
+            ->authGuard('creator');
     }
 }

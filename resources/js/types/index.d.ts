@@ -12,7 +12,7 @@ export interface UserInterface {
     bio: string | null;
 }
 
-export interface WriterInterface {
+export interface CreatorInterface {
     id: number;
     first_name: string | null;
     last_name: string | null;
@@ -36,7 +36,7 @@ export interface StoryInterface {
 
     // Relations
     category?: CategoryInterface;
-    writer?: WriterInterface;
+    creator?: CreatorInterface;
     chapters?: ChapterInterface[];
 }
 

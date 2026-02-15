@@ -26,7 +26,7 @@ class StoryResource extends BaseResource
 
             // Relations
             'category' => CategoryResource::make($this->whenLoaded('category')),
-            'writer' => WriterResource::make($this->whenLoaded('writer')),
+            'creator' => CreatorResource::make($this->whenLoaded('creator')),
             'chapters' => ChapterResource::collection($this->whenLoaded('chapters')),
         ];
     }

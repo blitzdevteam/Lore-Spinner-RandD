@@ -21,8 +21,8 @@ final class EnsureProfileIsIncompleted
             return to_route('user.dashboard.index');
         }
 
-        if ($request->user('writer')?->is_profile_completed) {
-            return to_route('writer.dashboard.index');
+        if ($request->user('creator')?->is_profile_completed) {
+            return to_route('creator.dashboard.index');
         }
 
         return $next($request);

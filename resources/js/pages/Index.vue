@@ -4,7 +4,7 @@ import BaseLogo from '@/components/BaseLogo.vue';
 import BaseStoryCard from '@/components/BaseStoryCard.vue';
 import FrequentlyAskedQuestion from '@/components/FrequentlyAskedQuestion.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
-import { WriterInterface } from '@/types';
+import { CreatorInterface } from '@/types';
 import CommunitySignup from '@/components/CommunitySignup.vue';
 import BaseContentTitle from '@/components/BaseContentTitle.vue';
 import BaseCreatorCard from '@/components/BaseCreatorCard.vue';
@@ -12,10 +12,10 @@ import BaseButton from '@/components/BaseButton.vue';
 
 withDefaults(
     defineProps<{
-        writers?: WriterInterface[];
+        creators?: CreatorInterface[];
     }>(),
     {
-        writers: () => [],
+        creators: () => [],
     },
 );
 
@@ -47,13 +47,13 @@ withDefaults(
                     <div class="flex flex-col gap-6">
                         <div class="grid grid-cols-3 gap-6">
                             <BaseCreatorCard
-                                v-for="writer in writers"
-                                :writer
+                                v-for="creator in creators"
+                                :creator
                             />
                         </div>
                         <div class="mx-auto">
                             <BaseButton class="w-64 text-lg" severity="transparent">
-                                View All ({{writers.length}})
+                                View All ({{creators.length}})
                             </BaseButton>
                         </div>
                     </div>
@@ -68,7 +68,7 @@ withDefaults(
                         <template #description>
                             Explore
                             <span class="text-primary">original worlds</span>
-                            created by writers and unlocked gradually as you read
+                            created by creators and unlocked gradually as you read
                         </template>
                     </BaseContentTitle>
                     <div class="grid grid-cols-2 gap-6">

@@ -45,8 +45,8 @@ final class StoryInfolist
                                 TextEntry::make('category.title')
                                     ->label('Category')
                                     ->placeholder('-'),
-                                TextEntry::make('writer.full_name')
-                                    ->label('Writer')
+                                TextEntry::make('creator.full_name')
+                                    ->label('Creator')
                                     ->placeholder('-'),
                                 TextEntry::make('status')
                                     ->color(fn (StoryStatusEnum $state): string => $state->getSeverity())

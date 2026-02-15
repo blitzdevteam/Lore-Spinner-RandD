@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { WriterInterface } from '@/types';
+import { CreatorInterface } from '@/types';
 
 defineProps<{
-    writer: WriterInterface
+    creator: CreatorInterface
 }>()
 </script>
 
 <template>
-    {{writer}}
+    {{creator}}
 </template>
 
 <style scoped>

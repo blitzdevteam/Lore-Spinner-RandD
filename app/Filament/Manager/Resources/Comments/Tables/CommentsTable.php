@@ -23,7 +23,7 @@ final class CommentsTable
                     ->badge()
                     ->color(fn ($record): string => match (class_basename($record->author_type)) {
                         'User' => 'success',
-                        'Writer' => 'info',
+                        'Creator' => 'info',
                         default => 'secondary',
                     })
                     ->searchable()

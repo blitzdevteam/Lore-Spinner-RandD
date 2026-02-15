@@ -40,8 +40,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 return route('user.authentication.login.create');
             }
 
-            if ($request->is('writer/*')) {
-                return route('writer.authentication.login.create');
+            if ($request->is('creator/*')) {
+                return route('creator.authentication.login.create');
             }
 
             return route('index');
@@ -55,8 +55,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 return route('user.dashboard.index');
             }
 
-            if ($request->user('writer')) {
-                return route('writer.dashboard.index');
+            if ($request->user('creator')) {
+                return route('creator.dashboard.index');
             }
 
             if ($request->user('manager')) {

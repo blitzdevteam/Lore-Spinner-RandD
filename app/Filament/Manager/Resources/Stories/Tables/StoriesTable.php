@@ -26,7 +26,7 @@ final class StoriesTable
                     ->badge()
                     ->color('primary')
                     ->sortable(),
-                TextColumn::make('writer.full_name')
+                TextColumn::make('creator.full_name')
                     ->searchable(['first_name', 'last_name']),
                 TextColumn::make('title')
                     ->searchable(),

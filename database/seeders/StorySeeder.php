@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Story;
-use App\Models\Writer;
+use App\Models\Creator;
 use Illuminate\Database\Seeder;
 
 final class StorySeeder extends Seeder
@@ -18,7 +18,7 @@ final class StorySeeder extends Seeder
     {
         Story::factory()
             ->recycle(Category::all())
-            ->recycle(Writer::all())
+            ->recycle(Creator::all())
             ->count(25)
             ->create();
     }

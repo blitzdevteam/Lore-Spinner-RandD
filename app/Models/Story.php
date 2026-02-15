@@ -41,11 +41,11 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @return BelongsTo<$this, Writer>
+     * @return BelongsTo<$this, Creator>
      */
-    public function writer(): BelongsTo
+    public function creator(): BelongsTo
     {
-        return $this->belongsTo(Writer::class);
+        return $this->belongsTo(Creator::class);
     }
 
     /**

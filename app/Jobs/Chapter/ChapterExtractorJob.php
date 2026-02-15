@@ -65,7 +65,7 @@ final class ChapterExtractorJob implements ShouldQueue
                         'title' => $chapter['title'],
                         'position' => $chapter['position'],
                         'teaser' => $chapter['teaser'],
-                        'status' => ChapterStatusEnum::AWAITING_WRITER_REVIEW,
+                        'status' => ChapterStatusEnum::AWAITING_CREATOR_REVIEW,
                         'content' => NumberedLineExtractorHelper::handle(
                             $linedContent['content'],
                             $chapter['start_line'],

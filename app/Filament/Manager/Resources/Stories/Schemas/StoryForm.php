@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Manager\Resources\Stories\Schemas;
 
 use App\Enums\Story\StoryRatingEnum;
-use App\Models\Writer;
+use App\Models\Creator;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
@@ -33,12 +33,12 @@ final class StoryForm
                                     ->preload()
                                     ->relationship('category', 'title')
                                     ->required(),
-                                Select::make('writer_id')
+                                Select::make('creator_id')
                                     ->searchable()
                                     ->required()
                                     ->preload()
-                                    ->relationship('writer')
-                                    ->getOptionLabelFromRecordUsing(fn (Writer $record) => $record->full_name),
+                                    ->relationship('creator')
+                                    ->getOptionLabelFromRecordUsing(fn (Creator $record) => $record->full_name),
                                 Select::make('rating')
                                     ->label('Rating')
                                     ->options(StoryRatingEnum::class)
