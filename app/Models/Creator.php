@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -92,6 +93,26 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
             'is_active' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function firstName(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value): string => str($value)->lower()->ucfirst()->toString(),
+        );
+    }
+
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function lastName(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value): string => str($value)->lower()->ucfirst()->toString(),
+        );
     }
 
     /**

@@ -29,7 +29,7 @@ final class CreatorController extends Controller
         ]);
 
         return inertia('Creators/Show', [
-            'creator' => $creator->only(['id', 'first_name', 'last_name', 'avatar', 'stories'])
+            'creator' => $creator->only(['id', 'first_name', 'last_name', 'full_name', 'avatar', 'stories'])
         ]);
     }
 }
