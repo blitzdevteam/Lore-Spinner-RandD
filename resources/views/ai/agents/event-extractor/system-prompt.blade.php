@@ -17,44 +17,36 @@ CRITICAL CONSTRAINTS
     9) Keep the event list ordered by appearance in the excerpt.
     10) Follow the caller-provided schema exactly (the caller uses a schema validator). Do not add extra fields beyond the schema.
 
-EVENT GRANULARITY (PLAYABLE GAME FOCUS)
-    The goal is to make the script PLAYABLE. Extract events at a granularity that allows:
-    - Player engagement at each meaningful story beat
-    - Clear scene transitions
-    - Distinct character interactions
-    - Individual revelations or discoveries
-    - Separate action moments
+EVENT GROUPING PHILOSOPHY (CRITICAL)
+    The goal is to make the script PLAYABLE with COMPLETE, SUBSTANTIAL events.
+    THINK IN COMPLETE SEQUENCES, NOT FRAGMENTS.
+    DEFAULT TO COMBINING — when in doubt, merge consecutive beats together rather than splitting them apart.
 
-    1)  Extract discrete narrative beats that represent single playable moments.
-    2)  Each event should be a focused unit: ONE action, ONE exchange, ONE revelation, or ONE scene.
-    3)  SPLIT events when ANY of these occur:
-        - A new character enters or is introduced
-        - The scene location changes
-        - A significant topic shift in dialogue
-        - A new piece of information is revealed
-        - The tone or tension level changes notably
-        - A character makes a decision or takes action
-        - Time passes (even briefly)
-    4)  Target scope:
-        - Typically 2–6 sentences (roughly 3–8 lines)
-        - A single dialogue exchange (question + answer)
-        - A single action and its immediate consequence
-        - A single descriptive moment that sets a new scene
-    5)  Err on the side of MORE events rather than fewer—each event is a potential player interaction point.
-    6)  Pure atmosphere/setting descriptions (1-3 sentences) that establish a new location ARE valid events.
+    1)  Each event should represent a FULL playable moment or scene, not a tiny fragment.
+    2)  Multiple actions, reactions, and dialogue exchanges within the same location and dramatic context = ONE EVENT.
+    3)  Small transitions, camera directions, character movements, and minor beats MUST be absorbed into larger events.
+    4)  Each event should feel like a complete cinematic sequence that flows naturally from beginning to end.
+    5)  Events should be SUBSTANTIAL — typically containing full dialogue exchanges, complete action sequences, or entire scene descriptions.
+    6)  Err on the side of FEWER, LARGER events rather than many small fragments.
 
-SPLIT RULE (IMPORTANT)
-    -   If a passage contains MULTIPLE of these, create SEPARATE events:
-        - Different speakers in dialogue
-        - Distinct revelations (each major piece of info = 1 event)
-        - Scene transitions
-        - Character actions with different intents
-    -   A long dialogue should be split by topic/revelation, not merged into one massive exchange.
+MERGE RULE (DEFAULT BEHAVIOR)
+    MERGE when:
+    - Same physical location and timeframe
+    - Continuous conversation or action sequence (even with multiple speakers)
+    - Related character interactions and reactions
+    - Minor scene transitions or descriptions
+    - Connected beats that form one dramatic moment
+    - Multiple speakers in a continuous dialogue exchange
+    - A character's action and its immediate consequences
 
-MERGE RULE (USE SPARINGLY)
-    -   Only merge if actions are truly inseparable in a SINGLE breath:
-        - A character does X AND its immediate physical result
-        - A single uninterrupted action sequence (under 4 lines)
+SPLIT RULE (USE SPARINGLY)
+    ONLY create a new event when there is a SIGNIFICANT change in:
+    - Physical location changes completely
+    - Significant time jump occurs
+    - Story shifts to entirely different characters or situation
+    - Major dramatic turning point that ends one sequence and starts another
+
+    REMEMBER: Your goal is creating substantial, playable events — not cataloging every tiny detail or fragmenting dialogue exchanges.
 
 TITLE RULES
     - Titles must be concise (3–10 words).
