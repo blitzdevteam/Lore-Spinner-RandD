@@ -28,16 +28,19 @@ final class Story extends Model implements HasMedia
         $this
             ->addMediaCollection('script')
             ->acceptsMimeTypes(['text/plain'])
-            ->singleFile();
+            ->singleFile()
+            ->useDisk('private');
 
         $this
             ->addMediaCollection('cover')
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
-            ->singleFile();
+            ->singleFile()
+            ->useDisk('public');
 
         $this
             ->addMediaCollection('gallery')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+            ->useDisk('public');
     }
 
     /**

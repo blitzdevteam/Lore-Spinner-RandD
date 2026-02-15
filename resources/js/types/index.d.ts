@@ -33,6 +33,7 @@ export interface StoryInterface {
     status: StoryStatusEnum;
     rating: StoryRatingEnum;
     published_at: string | null;
+    cover: string;
 
     // Relations
     category?: CategoryInterface;

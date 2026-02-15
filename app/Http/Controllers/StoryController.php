@@ -18,7 +18,7 @@ final class StoryController extends Controller
     public function show(Story $story)
     {
         return inertia('Stories/Show', [
-            'story' => $story
+            'story' => $story->toResource()
         ]);
     }
 }
