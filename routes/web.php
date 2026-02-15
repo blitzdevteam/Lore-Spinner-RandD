@@ -13,4 +13,4 @@ Route::resource('writers', Controllers\WriterController::class)
     ->scoped([
         'writer' => 'username'
     ])
-    ->only(['show']);
+    ->only(['index', 'show']);
