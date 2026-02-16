@@ -26,6 +26,9 @@ class CreatorResource extends BaseResource
 
             // Relations
             'stories' => StoryResource::collection($this->whenLoaded('stories')),
+
+            // Counts
+            'stories_count' => $this->whenCounted('stories'),
         ];
     }
 }

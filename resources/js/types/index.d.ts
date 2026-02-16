@@ -24,6 +24,9 @@ export interface CreatorInterface {
 
     // Relations
     stories?: StoryInterface[];
+
+    // Counts
+    stories_count?: number;
 }
 
 export interface StoryInterface {

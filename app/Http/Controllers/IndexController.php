@@ -15,6 +15,9 @@ final class IndexController extends Controller
                 ->select([
                     'id', 'username', 'first_name', 'last_name', 'avatar'
                 ])
+                ->withCount([
+                    'stories'
+                ])
                 ->take(3)
                 ->latest()
                 ->get()

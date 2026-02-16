@@ -29,6 +29,9 @@ class StoryResource extends BaseResource
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'creator' => CreatorResource::make($this->whenLoaded('creator')),
             'chapters' => ChapterResource::collection($this->whenLoaded('chapters')),
+
+            // Counts
+            'chapters_count' => $this->whenCounted('chapters'),
         ];
     }
 }

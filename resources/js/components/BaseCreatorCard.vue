@@ -25,9 +25,9 @@ defineProps<{
             <div class="flex flex-col">
                 <h3 class="font-semibold text-lg">{{creator.full_name}}</h3>
                 <div class="flex items-center gap-3">
-                    <span class="text-primary font-light">18 Stories</span>
-                    <span class="w-px h-4 bg-primary"></span>
-                    <span class="text-primary font-light">200K Reads</span>
+                    <span class="text-primary font-light">{{creator.stories_count}} Stories</span>
+<!--                    <span class="w-px h-4 bg-primary"></span>-->
+<!--                    <span class="text-primary font-light">200K Reads</span>-->
                 </div>
             </div>
             <p class="text-gray-400 line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid beatae cupiditate ducimus exercitationem expedita, in inventore laudantium magnam magni modi odit officia quo, sapiente sequi tenetur ullam unde, voluptates.</p>
