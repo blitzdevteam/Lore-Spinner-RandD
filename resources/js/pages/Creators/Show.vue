@@ -34,15 +34,32 @@ defineProps<{
                 </div>
             </div>
         </div>
-        <div class="py-16">
+        <Tabs value="stories">
+            <TabList
+                pt:tab-list="flex justify-center"
+                pt:content="bg-gray-800"
+            >
+                <Tab class="text-lg font-light!" value="stories">Stories</Tab>
+                <Tab class="text-lg font-light!" value="about">About</Tab>
+                <Tab class="text-lg font-light!" value="activity">Activity</Tab>
+            </TabList>
+            <TabPanels class="container">
+                <TabPanel value="stories" class="py-16 grid grid-cols-2 gap-6">
+                    <BaseStoryCard />
+                    <BaseStoryCard />
+                    <BaseStoryCard />
+                    <BaseStoryCard />
+                </TabPanel>
+                <TabPanel value="about" class="py-16">
 
-        </div>
+                </TabPanel>
+                <TabPanel value="activity" class="py-16">
+
+                </TabPanel>
+            </TabPanels>
+        </Tabs>
     </HomeLayout>
 </template>
 
 <style>
-.p-tablist-tab-list {
-    display: flex;
-    justify-content: center;
-}
 </style>

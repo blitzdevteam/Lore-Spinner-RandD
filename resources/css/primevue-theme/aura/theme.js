@@ -322,8 +322,8 @@ export default {
             950: '#013231',
         },
         formField: {
-            paddingX: '0.75rem',
-            paddingY: '0.75rem',
+            paddingX: '0.85rem',
+            paddingY: '0.85rem',
             sm: {
                 fontSize: '0.875rem',
                 paddingX: '0.625rem',
@@ -454,6 +454,7 @@ export default {
                     floatLabelInvalidColor: '{form.field.invalid.placeholder.color}',
                     iconColor: '{gray.400}',
                     shadow: '0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(18, 18, 23, 0.05)',
+                    borderRadius: '{border.radius.lg}',
                 },
                 text: {
                     color: '{gray.700}',
@@ -562,10 +563,10 @@ export default {
                 formField: {
                     background: '{gray.950}',
                     disabledBackground: '{gray.700}',
-                    filledBackground: '{gray.800}',
+                    filledBackground: '{gray.700}',
                     filledHoverBackground: '{gray.800}',
                     filledFocusBackground: '{gray.800}',
-                    borderColor: '{gray.600}',
+                    borderColor: '#ffffff00',
                     hoverBorderColor: '{gray.500}',
                     focusBorderColor: '{primary.color}',
                     invalidBorderColor: '{red.300}',
@@ -578,7 +579,10 @@ export default {
                     floatLabelActiveColor: '{gray.400}',
                     floatLabelInvalidColor: '{form.field.invalid.placeholder.color}',
                     iconColor: '{gray.400}',
-                    shadow: '0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(18, 18, 23, 0.05)',
+                    shadow: '0.25px 0.5px 0.5px 0.25px rgba(255, 255, 255, 0.22) inset, -0.2px -0.5px 0.15px 0.5px rgba(255, 255, 255, 0.05) inset',
+                    borderRadius: '{border.radius.lg}',
+                    backgroundBlendMode: 'plus-lighter, normal',
+                    backdropFilter: 'blur(3px)',
                 },
                 text: {
                     color: '{gray.0}',
@@ -587,7 +591,7 @@ export default {
                     hoverMutedColor: '{gray.300}',
                 },
                 content: {
-                    background: '{gray.900}',
+                    background: 'transparent',
                     hoverBackground: '{gray.800}',
                     borderColor: '{gray.700}',
                     color: '{text.color}',
