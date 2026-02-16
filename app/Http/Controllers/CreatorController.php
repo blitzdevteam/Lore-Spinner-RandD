@@ -24,12 +24,12 @@ final class CreatorController extends Controller
     public function show(Creator $creator)
     {
         $creator->load([
-            'stories:id,creator_id,category_id,title,rating,status,published_at,created_at,updated_at',
+            'stories:id,creator_id,category_id,title,teaser,slug,rating,status,published_at,created_at,updated_at',
             'stories.category:id,title',
         ]);
 
         return inertia('Creators/Show', [
-            'creator' => $creator->only(['id', 'first_name', 'last_name', 'full_name', 'avatar', 'stories'])
+            'creator' => $creator->toResource()
         ]);
     }
 }

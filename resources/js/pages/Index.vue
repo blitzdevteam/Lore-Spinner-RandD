@@ -4,7 +4,7 @@ import BaseLogo from '@/components/BaseLogo.vue';
 import BaseStoryCard from '@/components/BaseStoryCard.vue';
 import FrequentlyAskedQuestion from '@/components/FrequentlyAskedQuestion.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
-import { CreatorInterface } from '@/types';
+import { CreatorInterface, StoryInterface } from '@/types';
 import CommunitySignup from '@/components/CommunitySignup.vue';
 import BaseContentTitle from '@/components/BaseContentTitle.vue';
 import BaseCreatorCard from '@/components/BaseCreatorCard.vue';
@@ -13,9 +13,11 @@ import BaseButton from '@/components/BaseButton.vue';
 withDefaults(
     defineProps<{
         creators?: CreatorInterface[];
+        stories?: StoryInterface[]
     }>(),
     {
         creators: () => [],
+        stories: () => [],
     },
 );
 
@@ -74,13 +76,14 @@ withDefaults(
                     <div class="grid grid-cols-2 gap-6">
                         <div class="col-span-1">
                             <div class="flex flex-col gap-6">
-                                <BaseStoryCard />
-                                <BaseStoryCard />
-                                <BaseStoryCard />
+                                <BaseStoryCard
+                                    v-for="story in [...stories, ...stories, ...stories]"
+                                    :story
+                                />
                             </div>
                         </div>
                         <div class="col-span-1">
-                            <BaseStoryCard type="column" />
+                            <BaseStoryCard :story="stories[0]" type="column" />
                         </div>
                     </div>
                 </div>

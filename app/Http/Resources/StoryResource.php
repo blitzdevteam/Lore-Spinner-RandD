@@ -20,8 +20,8 @@ class StoryResource extends BaseResource
             'title' => $this->title,
             'slug' => $this->slug,
             'teaser' => $this->teaser,
-            'status' => $this->status,
-            'rating' => $this->rating,
+            'status' => $this->status->toResource(),
+            'rating' => $this->rating->toResource(),
             'published_at' => $this->published_at,
             'cover' => $this->getFirstMediaUrl('cover'),
 
@@ -32,6 +32,7 @@ class StoryResource extends BaseResource
 
             // Counts
             'chapters_count' => $this->whenCounted('chapters'),
+            'comments_count' => $this->whenCounted('comments'),
         ];
     }
 }

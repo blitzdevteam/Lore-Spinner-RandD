@@ -45,10 +45,11 @@ defineProps<{
             </TabList>
             <TabPanels class="container">
                 <TabPanel value="stories" class="py-16 grid grid-cols-2 gap-6">
-                    <BaseStoryCard />
-                    <BaseStoryCard />
-                    <BaseStoryCard />
-                    <BaseStoryCard />
+                    <BaseStoryCard
+                        v-for="story in creator.stories ?? []"
+                        :key="story.id"
+                        :story
+                    />
                 </TabPanel>
                 <TabPanel value="about" class="py-16">
 

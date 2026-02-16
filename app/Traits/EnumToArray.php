@@ -41,4 +41,17 @@ trait EnumToArray
             'label' => self::from($value)->getLabel(),
         ], self::values(), self::names());
     }
+
+    /**
+     * Transform the enum instance to an array with value and label for API resources.
+     *
+     * @return array{value: string, label: string|null}
+     */
+    public function toResource(): array
+    {
+        return [
+            'value' => $this->value,
+            'label' => $this->getLabel(),
+        ];
+    }
 }

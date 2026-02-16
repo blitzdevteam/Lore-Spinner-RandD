@@ -1,5 +1,10 @@
 import { ChapterStatusEnum, GenderEnum, StoryRatingEnum, StoryStatusEnum } from '@/types/enum';
 
+export interface EnumResource<T = string> {
+    value: T;
+    label: string;
+}
+
 export interface UserInterface {
     id: number;
     first_name: string | null;
@@ -32,9 +37,10 @@ export interface CreatorInterface {
 export interface StoryInterface {
     id: number;
     title: string;
+    slug: string;
     teaser: string | null;
-    status: StoryStatusEnum;
-    rating: StoryRatingEnum;
+    status: EnumResource<StoryStatusEnum>;
+    rating: EnumResource<StoryRatingEnum>;
     published_at: string | null;
     cover: string;
 
@@ -42,6 +48,10 @@ export interface StoryInterface {
     category?: CategoryInterface;
     creator?: CreatorInterface;
     chapters?: ChapterInterface[];
+
+    // Counts
+    chapters_count?: number;
+    comments_count?: number;
 }
 
 export interface CategoryInterface {

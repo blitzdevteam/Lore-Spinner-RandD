@@ -6,6 +6,8 @@ namespace App\Models;
 
 use App\Enums\Story\StoryRatingEnum;
 use App\Enums\Story\StoryStatusEnum;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -82,5 +84,45 @@ final class Story extends Model implements HasMedia
             'rating' => StoryRatingEnum::class,
             'published_at' => 'datetime',
         ];
+    }
+
+    /**
+     * @param Builder $query
+     * @return void
+     */
+    #[Scope]
+    protected function draft(Builder $query): void
+    {
+        $query->where('status', StoryStatusEnum::DRAFT);
+    }
+
+    /**
+     * @param Builder $query
+     * @return void
+     */
+    #[Scope]
+    protected function awaitingExtractingChaptersRequest(Builder $query): void
+    {
+        $query->where('status', StoryStatusEnum::AWAITING_EXTRACTING_CHAPTERS_REQUEST);
+    }
+
+    /**
+     * @param Builder $query
+     * @return void
+     */
+    #[Scope]
+    protected function extractingChapters(Builder $query): void
+    {
+        $query->where('status', StoryStatusEnum::EXTRACTING_CHAPTERS);
+    }
+
+    /**
+     * @param Builder $query
+     * @return void
+     */
+    #[Scope]
+    protected function published(Builder $query): void
+    {
+        $query->where('status', StoryStatusEnum::PUBLISHED);
     }
 }
