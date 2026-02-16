@@ -41,9 +41,10 @@ Route::prefix('user')->name('user.')->group(function (): void {
         'verified:user.authentication.verify.index',
         'guard.profile-is-completed',
     ])
-        ->prefix('dashboard')
-        ->name('dashboard.')
         ->group(function () {
-            Route::get('/', User\Dashboard\IndexController::class)->name('index');
+            Route::get('dashboard', User\DashboardController::class)->name('dashboard.index');
+
+            Route::resource('games', User\GameController::class)
+                ->only(['index', 'show']);
         });
 });

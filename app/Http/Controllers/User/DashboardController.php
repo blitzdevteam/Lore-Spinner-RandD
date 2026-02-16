@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\User\Dashboard;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 
-final class IndexController extends Controller
+final class DashboardController extends Controller
 {
     public function __invoke(): void
     {
