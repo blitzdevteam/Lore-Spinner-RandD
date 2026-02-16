@@ -36,7 +36,7 @@ defineProps<{
         </div>
         <Tabs value="stories">
             <TabList
-                pt:tab-list="flex justify-center"
+                pt:tab-list="flex justify-center border-y!"
                 pt:content="bg-gray-800"
             >
                 <Tab class="text-lg font-light!" value="stories">Stories</Tab>
