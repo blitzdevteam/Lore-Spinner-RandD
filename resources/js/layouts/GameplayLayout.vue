@@ -33,7 +33,13 @@ import GameplayInput from '@/components/GameplayInput.vue';
                     </BaseButton>
                 </div>
             </div>
-
+            <div class="h-svh">
+                <div class="max-w-3xl mx-auto flex flex-col justify-end min-h-svh py-28">
+                    <div class="flex flex-col divide-y divide-gray-100/20">
+                        <slot />
+                    </div>
+                </div>
+            </div>
             <div class="fixed bottom-0 left-1/2 -translate-x-1/2">
                 <div class="h-28 grid place-items-center">
                     <GameplayInput />

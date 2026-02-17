@@ -32,7 +32,7 @@ defineProps<{
             </div>
             <p class="text-gray-400 line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid beatae cupiditate ducimus exercitationem expedita, in inventore laudantium magnam magni modi odit officia quo, sapiente sequi tenetur ullam unde, voluptates.</p>
             <BaseButton
-                severity="glass"
+                severity="muted-glass"
                 class="text-primary hover:bg-primary-400! hover:text-black hover:scale-100!"
                 type="internal-link"
                 :href="show(creator.username as string).url"
