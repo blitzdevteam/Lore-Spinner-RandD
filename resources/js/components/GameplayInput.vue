@@ -6,9 +6,9 @@ import { LucideArrowUp } from 'lucide-vue-next';
 
 <template>
     <div
-        class="relative w-3xl h-16 rounded-full bg-[linear-gradient(90deg,var(--color-primary-300)_0%,rgba(0,0,0,1)_25%)] flex items-center px-2 border border-gray-700 overflow-hidden"
+        class="relative w-3xl h-16 rounded-full flex items-center px-2 border border-gray-700 overflow-hidden bg-glass-effect"
     >
-        <div class="absolute w-full h-full top-0 right-0 bottom-0 left-0 backdrop-blur-xl"></div>
+        <div class="absolute w-full h-full top-0 right-0 bottom-0 left-0 bg-[linear-gradient(90deg,var(--color-primary-300)_0%,rgba(0,0,0,1)_25%)]"></div>
         <PrimeInputText
             class="relative rounded-full! p-2.5! w-full border-gray-700! focus:border-primary-600! shadow-none! outline-none! bg-gray-800!"
             placeholder="What do you do?"
