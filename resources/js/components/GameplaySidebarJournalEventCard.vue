@@ -9,7 +9,7 @@ defineProps<{
         :class="isPassed
             ? 'border-gray-700/50 opacity-60'
             : 'border-secondary-400 bg-secondary-400/5'"
-        class="border p-3 rounded-lg transition-all"
+        class="border p-3 rounded-xl transition-all"
     >
         <div class="flex items-center gap-3">
             <span

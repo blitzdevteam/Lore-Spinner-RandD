@@ -24,7 +24,7 @@ const isSidebarOpen = ref(true)
                             'px-24': !isSidebarOpen,
                             'px-8': isSidebarOpen
                         }"
-                        class="h-28 flex items-center justify-between bg-linear-to-b from-gray-950 via-gray-950/50 to-transparent z-50"
+                        class="h-28 flex items-center justify-between bg-linear-to-b from-gray-950 via-gray-950/50 to-transparent z-50 transition-all duration-300"
                     >
                         <div class="flex-1">
                             <BaseButton severity="glass" :icon-only="true" class="size-12!">
@@ -67,50 +67,61 @@ const isSidebarOpen = ref(true)
                     </div>
                 </div>
             </div>
-            <template v-if="isSidebarOpen">
-                <div class="w-md h-svh border-s border-gray-700 bg-gray-900 sticky top-0 bottom-0 flex flex-col">
-                    <Tabs value="journals" class="w-full px-8" :show-navigators="false" unstyled>
-                        <TabList
-                            pt:tab-list="h-28 flex items-center gap-4"
-                            pt:content=""
-                            pt:active-bar="hidden"
-                        >
-                            <Tab class="flex-1" value="journals" v-slot="slotProps" as-child>
-                                <BaseButton
-                                    @click="slotProps.onClick"
-                                    class="w-full"
-                                    :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
-                                >
-                                    Journals
-                                </BaseButton>
-                            </Tab>
-                            <Tab class="flex-1" value="characters" v-slot="slotProps" as-child>
-                                <BaseButton
-                                    @click="slotProps.onClick"
-                                    class="w-full"
-                                    :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
-                                >
-                                    Characters
-                                </BaseButton>
-                            </Tab>
-                        </TabList>
-                        <TabPanels class="container">
-                            <TabPanel value="journals">
-                                <div class="flex flex-col gap-4">
-                                    <slot name="journals" />
-                                </div>
-                            </TabPanel>
-                            <TabPanel value="characters">
-                                <slot name="characters" />
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs>
+            <Transition name="sidebar-slide">
+                <div v-if="isSidebarOpen" class="w-md h-svh border-s border-gray-700 bg-gray-900 sticky top-0 bottom-0 flex flex-col shrink-0 overflow-hidden">
+                    <div class="w-md flex flex-col h-full">
+                        <Tabs value="journals" class="w-full px-8" :show-navigators="false" unstyled>
+                            <TabList
+                                pt:tab-list="h-28 flex items-center gap-4"
+                                pt:content=""
+                                pt:active-bar="hidden"
+                            >
+                                <Tab class="flex-1" value="journals" v-slot="slotProps" as-child>
+                                    <BaseButton
+                                        @click="slotProps.onClick"
+                                        class="w-full"
+                                        :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
+                                    >
+                                        Journals
+                                    </BaseButton>
+                                </Tab>
+                                <Tab class="flex-1" value="characters" v-slot="slotProps" as-child>
+                                    <BaseButton
+                                        @click="slotProps.onClick"
+                                        class="w-full"
+                                        :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
+                                    >
+                                        Characters
+                                    </BaseButton>
+                                </Tab>
+                            </TabList>
+                            <TabPanels class="container">
+                                <TabPanel value="journals">
+                                    <div class="flex flex-col gap-4">
+                                        <slot name="journals" />
+                                    </div>
+                                </TabPanel>
+                                <TabPanel value="characters">
+                                    <slot name="characters" />
+                                </TabPanel>
+                            </TabPanels>
+                        </Tabs>
+                    </div>
                 </div>
-            </template>
+            </Transition>
         </div>
     </div>
 </template>
 
 <style scoped>
+.sidebar-slide-enter-active,
+.sidebar-slide-leave-active {
+    transition: all 0.3s ease;
+}
 
+.sidebar-slide-enter-from,
+.sidebar-slide-leave-to {
+    width: 0;
+    opacity: 0;
+}
 </style>
