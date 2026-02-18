@@ -18,13 +18,13 @@ const isSidebarOpen = ref(true)
         <BaseBackgroundGradient />
         <div class="min-h-svh flex relative">
             <div class="flex-1">
-                <div class="sticky top-0 w-full left-0 right-0">
+                <div class="sticky top-0 w-full left-0 right-0 z-10">
                     <div
                         :class="{
                             'px-24': !isSidebarOpen,
                             'px-8': isSidebarOpen
                         }"
-                        class="h-28 flex items-center justify-between"
+                        class="h-28 flex items-center justify-between bg-linear-to-b from-gray-950 via-gray-950/50 to-transparent z-50"
                     >
                         <div class="flex-1">
                             <BaseButton severity="glass" :icon-only="true" class="size-12!">
@@ -56,12 +56,12 @@ const isSidebarOpen = ref(true)
                         </div>
                     </div>
                 </div>
-                <div class="max-w-3xl mx-auto flex flex-col justify-end">
+                <div class="max-w-3xl mx-auto flex flex-col justify-end z-5">
                     <div class="flex flex-col divide-y divide-gray-100/20">
                         <slot name="game" />
                     </div>
                 </div>
-                <div class="sticky bottom-0 w-full left-0 right-0">
+                <div class="sticky bottom-0 w-full left-0 right-0 z-10">
                     <div class="h-28 grid place-items-center">
                         <GameplayInput />
                     </div>

@@ -13,7 +13,7 @@ const getChoiceClass = (choice: string) => {
     const baseClass = 'p-3 rounded-lg border cursor-pointer transition-colors';
 
     if (props.selectedChoice === choice) {
-        return `${baseClass} border-primary-400 bg-primary-400/10 text-primary`;
+        return `${baseClass} border-primary-400 bg-primary-400/10 text-primary pointer-events-none`;
     }
 
     if (props.selectedChoice) {
