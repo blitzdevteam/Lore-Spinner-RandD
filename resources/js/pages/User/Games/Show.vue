@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import GameplayLayout from '@/layouts/GameplayLayout.vue';
 import GameplayChatCard from '@/components/GameplayChatCard.vue';
+import GameplaySidebarJournalEventCard from '@/components/GameplaySidebarJournalEventCard.vue';
 
 const data = [
     {
@@ -45,13 +46,21 @@ const data = [
 
 <template>
     <GameplayLayout>
-        <GameplayChatCard
-            v-for="a in data"
-            :prompt="a.prompt"
-            :response="a.response"
-            :choices="a.choices"
-            :selected-choice="a.selectedChoice"
-        />
+        <template #game>
+            <GameplayChatCard
+                v-for="a in data"
+                :prompt="a.prompt"
+                :response="a.response"
+                :choices="a.choices"
+                :selected-choice="a.selectedChoice"
+            />
+        </template>
+        <template #journals>
+            <GameplaySidebarJournalEventCard :is-passed="false" />
+            <GameplaySidebarJournalEventCard :is-passed="true" />
+            <GameplaySidebarJournalEventCard :is-passed="true" />
+            <GameplaySidebarJournalEventCard :is-passed="true" />
+        </template>
     </GameplayLayout>
 </template>
 
