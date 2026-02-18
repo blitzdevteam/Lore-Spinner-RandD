@@ -25,5 +25,3 @@ export enum ChapterStatusEnum {
     READY_TO_PLAY = 'ready-to-play',
     REJECTED = 'rejected',
 }
-
-

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import BaseContentTitle from '@/components/BaseContentTitle.vue';
 import FrequentlyAskedQuestionItem from '@/components/FrequentlyAskedQuestionItem.vue';
 import { Link } from '@inertiajs/vue3';
-import BaseContentTitle from '@/components/BaseContentTitle.vue';
 </script>
 
 <template>
@@ -22,8 +22,7 @@ import BaseContentTitle from '@/components/BaseContentTitle.vue';
                     <FrequentlyAskedQuestionItem>
                         <template #question>How do I publish my first story?</template>
                         <template #answer>
-                            Create an account, click “New Story”, write your draft, then hit Publish. You can publish as a full story or by
-                            chapters.
+                            Create an account, click “New Story”, write your draft, then hit Publish. You can publish as a full story or by chapters.
                         </template>
                     </FrequentlyAskedQuestionItem>
                     <FrequentlyAskedQuestionItem>
@@ -45,8 +44,7 @@ import BaseContentTitle from '@/components/BaseContentTitle.vue';
                     <FrequentlyAskedQuestionItem>
                         <template #question>How do ratings and reviews work?</template>
                         <template #answer>
-                            Readers can rate from 1–5 stars and leave reviews. You can report abusive comments and moderate your story’s
-                            discussion.
+                            Readers can rate from 1–5 stars and leave reviews. You can report abusive comments and moderate your story’s discussion.
                         </template>
                     </FrequentlyAskedQuestionItem>
                     <FrequentlyAskedQuestionItem>

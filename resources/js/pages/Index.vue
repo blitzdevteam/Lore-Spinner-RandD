@@ -1,26 +1,25 @@
 <script setup lang="ts">
 import BannerImage from '@/assets/banner.png';
+import BaseButton from '@/components/BaseButton.vue';
+import BaseContentTitle from '@/components/BaseContentTitle.vue';
+import BaseCreatorCard from '@/components/BaseCreatorCard.vue';
 import BaseLogo from '@/components/BaseLogo.vue';
 import BaseStoryCard from '@/components/BaseStoryCard.vue';
+import CommunitySignup from '@/components/CommunitySignup.vue';
 import FrequentlyAskedQuestion from '@/components/FrequentlyAskedQuestion.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
 import { CreatorInterface, StoryInterface } from '@/types';
-import CommunitySignup from '@/components/CommunitySignup.vue';
-import BaseContentTitle from '@/components/BaseContentTitle.vue';
-import BaseCreatorCard from '@/components/BaseCreatorCard.vue';
-import BaseButton from '@/components/BaseButton.vue';
 
 withDefaults(
     defineProps<{
         creators?: CreatorInterface[];
-        stories?: StoryInterface[]
+        stories?: StoryInterface[];
     }>(),
     {
         creators: () => [],
         stories: () => [],
     },
 );
-
 </script>
 
 <template>
@@ -48,15 +47,10 @@ withDefaults(
                     </BaseContentTitle>
                     <div class="flex flex-col gap-6">
                         <div class="grid grid-cols-3 gap-6">
-                            <BaseCreatorCard
-                                v-for="creator in creators"
-                                :creator
-                            />
+                            <BaseCreatorCard v-for="creator in creators" :key="creator.username" :creator />
                         </div>
                         <div class="mx-auto">
-                            <BaseButton class="w-64 text-lg" severity="transparent">
-                                View All ({{creators.length}})
-                            </BaseButton>
+                            <BaseButton class="w-64 text-lg" severity="transparent"> View All ({{ creators.length }}) </BaseButton>
                         </div>
                     </div>
                 </div>
@@ -76,10 +70,7 @@ withDefaults(
                     <div class="grid grid-cols-2 gap-6">
                         <div class="col-span-1">
                             <div class="flex flex-col gap-6">
-                                <BaseStoryCard
-                                    v-for="story in [...stories, ...stories, ...stories]"
-                                    :story
-                                />
+                                <BaseStoryCard v-for="story in [...stories, ...stories, ...stories]" :story />
                             </div>
                         </div>
                         <div class="col-span-1">

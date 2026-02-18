@@ -17,8 +17,8 @@ const links: {
             { title: 'Facebook', href: '#' },
             { title: 'Youtube', href: '#' },
             { title: 'Instagram', href: '#' },
-            { title: 'X', href: '#' }
-        ]
+            { title: 'X', href: '#' },
+        ],
     },
     {
         title: 'Navigate',
@@ -26,8 +26,8 @@ const links: {
             { title: 'Home', href: '#' },
             { title: 'Library', href: '#' },
             { title: 'creators', href: '#' },
-            { title: 'Profile', href: '#' }
-        ]
+            { title: 'Profile', href: '#' },
+        ],
     },
     {
         title: 'Categories',
@@ -37,37 +37,37 @@ const links: {
             { title: 'Horror', href: '#' },
             { title: 'Sci-Fi', href: '#' },
             { title: 'Historical', href: '#' },
-            { title: 'Apocalyptic', href: '#' }
-        ]
+            { title: 'Apocalyptic', href: '#' },
+        ],
     },
     {
         title: 'Support',
         children: [
             { title: 'Help Center', href: '#' },
             { title: 'Terms of Service', href: '#' },
-            { title: 'Privacy Policy', href: '#' }
-        ]
-    }
-]
+            { title: 'Privacy Policy', href: '#' },
+        ],
+    },
+];
 </script>
 
 <template>
-    <footer class="py-12 bg-linear-to-r from-transparent to-primary-400/15 bg-black">
+    <footer class="bg-black bg-linear-to-r from-transparent to-primary-400/15 py-12">
         <div class="container">
             <div class="grid grid-cols-5 gap-6">
                 <div class="col-span-2">
                     <div class="flex flex-col gap-3">
                         <BaseLogo type="orb-typography" class="w-48" />
-                        <p class="text-gray-500 text-lg">For dreamers, creators, and wanderers; Lorespinner brings your stories to life.</p>
+                        <p class="text-lg text-gray-500">For dreamers, creators, and wanderers; Lorespinner brings your stories to life.</p>
                     </div>
                 </div>
                 <div class="col-span-3">
                     <div class="grid grid-cols-4 gap-6">
                         <div v-for="section in links" :key="section.title" class="flex flex-col gap-3">
-                            <h3 class="text-xl text-white ">{{ section.title }}</h3>
+                            <h3 class="text-xl text-white">{{ section.title }}</h3>
                             <ul class="flex flex-col gap-1.5">
                                 <li v-for="link in section.children" :key="link.title">
-                                    <a :href="link.href" class="text-gray-400 hover:text-primary-400 transition-colors block">
+                                    <a :href="link.href" class="block text-gray-400 transition-colors hover:text-primary-400">
                                         {{ link.title }}
                                     </a>
                                 </li>

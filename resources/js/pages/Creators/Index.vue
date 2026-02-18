@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import CreatorsBannerImage from '@/assets/creators-banner.png';
+import BaseContentTitle from '@/components/BaseContentTitle.vue';
+import BaseCreatorCard from '@/components/BaseCreatorCard.vue';
 import BaseLogo from '@/components/BaseLogo.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
 import { CreatorInterface } from '@/types';
-import BaseContentTitle from '@/components/BaseContentTitle.vue';
-import BaseCreatorCard from '@/components/BaseCreatorCard.vue';
 
 withDefaults(
     defineProps<{
@@ -14,7 +14,6 @@ withDefaults(
         creators: () => [],
     },
 );
-
 </script>
 
 <template>
@@ -41,10 +40,7 @@ withDefaults(
                         </template>
                     </BaseContentTitle>
                     <div class="grid grid-cols-3 gap-6">
-                        <BaseCreatorCard
-                            v-for="creator in creators"
-                            :creator
-                        />
+                        <BaseCreatorCard v-for="creator in creators" :key="creator.username" :creator />
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import BaseLogo from '@/components/BaseLogo.vue';
 import HomeHeaderMenu from '@/components/HomeHeaderMenu.vue';
 import HomeHeaderProfile from '@/components/HomeHeaderProfile.vue';

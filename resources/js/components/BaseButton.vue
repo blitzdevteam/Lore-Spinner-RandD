@@ -3,7 +3,16 @@ import { Link } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 import { computed } from 'vue';
 
-type Severity = 'primary' | 'secondary' | 'secondary-muted-outline' | 'muted' | 'gray-muted' | 'glass' | 'muted-glass' | 'primary-glass' | 'transparent';
+type Severity =
+    | 'primary'
+    | 'secondary'
+    | 'secondary-muted-outline'
+    | 'muted'
+    | 'gray-muted'
+    | 'glass'
+    | 'muted-glass'
+    | 'primary-glass'
+    | 'transparent';
 type ButtonType = 'internal-link' | 'external-link' | 'button' | 'submit' | 'span';
 
 const props = withDefaults(
@@ -33,9 +42,9 @@ const emits = defineEmits<{
 const componentTagMap: Record<ButtonType, string | typeof Link> = {
     'internal-link': Link,
     'external-link': 'a',
-    'span': 'span',
-    'submit': 'button',
-    'button': 'button',
+    span: 'span',
+    submit: 'button',
+    button: 'button',
 };
 
 const severityClasses: Record<Severity, string> = {
@@ -80,9 +89,7 @@ const componentClass = computed(() => {
 
 const glassSpanClass = computed(() => {
     const base = 'absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-primary-glass-effect';
-    return props.iconOnly
-        ? `${base} rounded-full w-8/10 h-8/10`
-        : `${base} rounded-[calc(0.75rem-2px)] w-[calc(100%-1px)] h-[calc(100%-1px)]`;
+    return props.iconOnly ? `${base} rounded-full w-8/10 h-8/10` : `${base} rounded-[calc(0.75rem-2px)] w-[calc(100%-1px)] h-[calc(100%-1px)]`;
 });
 
 const handleClick = (event: MouseEvent) => {

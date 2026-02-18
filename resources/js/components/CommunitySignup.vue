@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import BaseButton from '@/components/BaseButton.vue';
 import BaseContentTitle from '@/components/BaseContentTitle.vue';
 import BaseInputFormat from '@/components/BaseInputFormat.vue';
-import BaseButton from '@/components/BaseButton.vue';
 </script>
 
 <template>
@@ -16,22 +16,12 @@ import BaseButton from '@/components/BaseButton.vue';
         <div class="flex items-center justify-center">
             <div class="relative">
                 <BaseInputFormat>
-                    <PrimeInputText
-                        name="email"
-                        placeholder="Email address"
-                        class="!py-4 !pe-28 min-w-175 !rounded-2xl"
-                    />
+                    <PrimeInputText name="email" placeholder="Email address" class="min-w-175 !rounded-2xl !py-4 !pe-28" />
                 </BaseInputFormat>
-                <BaseButton
-                    type="button"
-                    severity="primary"
-                    class="!absolute !end-2 !top-1/2 !-translate-y-1/2 !h-10 !rounded-xl"
-                >Submit</BaseButton>
+                <BaseButton type="button" severity="primary" class="!absolute !end-2 !top-1/2 !h-10 !-translate-y-1/2 !rounded-xl">Submit</BaseButton>
             </div>
         </div>
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

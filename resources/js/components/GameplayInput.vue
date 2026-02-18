@@ -1,29 +1,21 @@
 <script setup lang="ts">
 import BaseButton from '@/components/BaseButton.vue';
 import { LucideArrowUp } from 'lucide-vue-next';
-
 </script>
 
 <template>
-    <div
-        class="relative w-3xl h-16 rounded-full flex items-center px-2 border border-gray-700 overflow-hidden bg-glass-effect"
-    >
-        <div class="absolute w-full h-full top-0 right-0 bottom-0 left-0 bg-[linear-gradient(90deg,var(--color-primary-300)_0%,rgba(0,0,0,1)_25%)]"></div>
+    <div class="bg-glass-effect relative flex h-16 w-3xl items-center overflow-hidden rounded-full border border-gray-700 px-2">
+        <div
+            class="absolute top-0 right-0 bottom-0 left-0 h-full w-full bg-[linear-gradient(90deg,var(--color-primary-300)_0%,rgba(0,0,0,1)_25%)]"
+        ></div>
         <PrimeInputText
-            class="relative rounded-full! p-2.5! w-full border-gray-700! focus:border-primary-600! shadow-none! outline-none! bg-gray-800!"
+            class="relative w-full rounded-full! border-gray-700! bg-gray-800! p-2.5! shadow-none! outline-none! focus:border-primary-600!"
             placeholder="What do you do?"
         />
-        <BaseButton
-            severity="primary"
-            :icon-only="true"
-            class="size-8! absolute! end-3.75"
-            type="button"
-        >
-            <LucideArrowUp class="text-gray-900 size-6" />
+        <BaseButton severity="primary" :icon-only="true" class="absolute! end-3.75 size-8!" type="button">
+            <LucideArrowUp class="size-6 text-gray-900" />
         </BaseButton>
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

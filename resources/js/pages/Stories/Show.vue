@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { StoryInterface } from '@/types';
-import { LucideBookmark, LucideX, LucideShare2 } from 'lucide-vue-next';
 import BaseButton from '@/components/BaseButton.vue';
-import Tabs from 'primevue/tabs';
-import TabList from 'primevue/tablist';
+import { StoryInterface } from '@/types';
+import { LucideBookmark, LucideShare2, LucideX } from 'lucide-vue-next';
 import Tab from 'primevue/tab';
-import TabPanels from 'primevue/tabpanels';
+import TabList from 'primevue/tablist';
 import TabPanel from 'primevue/tabpanel';
+import TabPanels from 'primevue/tabpanels';
+import Tabs from 'primevue/tabs';
 
 defineProps<{
-    story: StoryInterface
+    story: StoryInterface;
 }>();
 </script>
 
 <template>
-    <div class="h-svh flex">
-        <div class="flex-1 h-full relative overflow-hidden">
+    <div class="flex h-svh">
+        <div class="relative h-full flex-1 overflow-hidden">
             <template v-if="false">
-                <div class="z-0 absolute top-0 right-0 left-0 bottom-0 h-full w-full blur-2xl">
-                    <img :src="story.cover" alt="" class="w-[200%] object-cover object-center opacity-50">
+                <div class="absolute top-0 right-0 bottom-0 left-0 z-0 h-full w-full blur-2xl">
+                    <img :src="story.cover" alt="" class="w-[200%] object-cover object-center opacity-50" />
                 </div>
                 <div class="p-12">
                     <div class="flex flex-col gap-12">
@@ -36,20 +36,16 @@ defineProps<{
                             </div>
                         </div>
                         <div class="grid place-items-center">
-                            <img :src="story.cover" alt="" class="rounded-3xl">
+                            <img :src="story.cover" alt="" class="rounded-3xl" />
                         </div>
                     </div>
                 </div>
             </template>
         </div>
-        <div class="w-lg h-full border-s border-gray-700">
+        <div class="h-full w-lg border-s border-gray-700">
             <div class="py-8">
                 <Tabs value="details" class="px-8" :show-navigators="false" unstyled>
-                    <TabList
-                        pt:tab-list="flex items-center gap-4"
-                        pt:content=""
-                        pt:active-bar="hidden"
-                    >
+                    <TabList pt:tab-list="flex items-center gap-4" pt:content="" pt:active-bar="hidden">
                         <Tab class="flex-1" value="details" v-slot="slotProps" as-child>
                             <BaseButton
                                 @click="slotProps.onClick"
@@ -70,9 +66,7 @@ defineProps<{
                         </Tab>
                     </TabList>
                     <TabPanels class="container">
-                        <TabPanel value="stories">
-
-                        </TabPanel>
+                        <TabPanel value="stories"> </TabPanel>
                     </TabPanels>
                 </Tabs>
             </div>

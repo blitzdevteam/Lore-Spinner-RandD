@@ -27,28 +27,25 @@ const getChoiceClass = (choice: string) => {
 <template>
     <div class="flex flex-col gap-4 py-8">
         <div class="flex flex-col gap-2">
-            <p class="py-2 text-lg  text-secondary-300">{{ prompt }}</p>
-            <p class="font-light text-lg">{{ response }}</p>
+            <p class="py-2 text-lg text-secondary-300">{{ prompt }}</p>
+            <p class="text-lg font-light">{{ response }}</p>
         </div>
         <div class="flex flex-col gap-2">
-            <div
-                v-for="choice in choices"
-                :key="choice"
-                :class="getChoiceClass(choice)"
-            >
+            <div v-for="choice in choices" :key="choice" :class="getChoiceClass(choice)">
                 <p class="font-light">{{ choice }}</p>
             </div>
         </div>
         <div class="flex items-center gap-2">
             <BaseButton severity="primary-glass" :icon-only="true" class="size-12!">
-                <LucidePlay fill="white" class="text-white size-5" />
+                <LucidePlay fill="white" class="size-5 text-white" />
             </BaseButton>
-            <BaseButton severity="glass" class="rounded-full! ps-1.5! pe-3! py-1!">
-                <div class="flex gap-1.5 items-center">
-                    <div class="size-9 rounded-full grid place-items-center relative">
+            <BaseButton severity="glass" class="rounded-full! py-1! ps-1.5! pe-3!">
+                <div class="flex items-center gap-1.5">
+                    <div class="relative grid size-9 place-items-center rounded-full">
                         <span
-                            class="bg-primary-glass-effect w-full h-full absolute top-0 left-0 bottom-0 right-0 rounded-full grid place-items-center"></span>
-                        <LucideSparkles fill="white" class="text-white size-5 z-5" />
+                            class="bg-primary-glass-effect absolute top-0 right-0 bottom-0 left-0 grid h-full w-full place-items-center rounded-full"
+                        ></span>
+                        <LucideSparkles fill="white" class="z-5 size-5 text-white" />
                     </div>
                     <span class="text-primary">Continue</span>
                 </div>
@@ -57,5 +54,4 @@ const getChoiceClass = (choice: string) => {
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
