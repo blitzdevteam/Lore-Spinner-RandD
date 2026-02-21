@@ -14,6 +14,7 @@ import TabPanel from 'primevue/tabpanel';
 import TabPanels from 'primevue/tabpanels';
 import Tabs from 'primevue/tabs';
 import StoryGallery from '@/components/StoryGallery.vue';
+import StoryChapterCard from '@/components/StoryChapterCard.vue';
 
 defineProps<{
     story: StoryInterface;
@@ -84,38 +85,60 @@ defineProps<{
                 </div>
             </div>
         </div>
-        <div class="sticky top-0 bottom-0 flex h-svh w-120 border-s border-gray-700">
-            <div class="py-8 w-full">
-                <Tabs value="details_chapters" class="px-8" :show-navigators="false" unstyled>
-                    <TabList pt:tab-list="flex items-center gap-4" pt:content="" pt:active-bar="hidden">
-                        <Tab class="flex-1" value="details_chapters" v-slot="slotProps" as-child>
-                            <BaseButton
-                                @click="slotProps.onClick"
-                                class="w-full"
-                                :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
-                            >
-                                Details / Chapters
-                            </BaseButton>
-                        </Tab>
-                        <Tab class="flex-1" value="comments" v-slot="slotProps" as-child>
-                            <BaseButton
-                                @click="slotProps.onClick"
-                                class="w-full"
-                                :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
-                            >
-                                Comments
-                            </BaseButton>
-                        </Tab>
-                    </TabList>
-                    <TabPanels class="container">
-                        <TabPanel value="stories">
-                            <div class="flex flex-col gap-8">
-
+        <div class="sticky top-0 bottom-0 flex h-svh w-120 border-s border-gray-700 bg-gray-900">
+            <Tabs value="details_chapters" class="px-8 flex flex-col gap-8 py-8 w-full overflow-y-scroll" :show-navigators="false" unstyled>
+                <TabList pt:tab-list="flex items-center gap-4" pt:content="" pt:active-bar="hidden">
+                    <Tab class="flex-1" value="details_chapters" v-slot="slotProps" as-child>
+                        <BaseButton
+                            @click="slotProps.onClick"
+                            class="w-full"
+                            :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
+                        >
+                            Details / Chapters
+                        </BaseButton>
+                    </Tab>
+                    <Tab class="flex-1" value="comments" v-slot="slotProps" as-child>
+                        <BaseButton
+                            @click="slotProps.onClick"
+                            class="w-full"
+                            :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
+                        >
+                            Comments
+                        </BaseButton>
+                    </Tab>
+                </TabList>
+                <TabPanels class="container">
+                    <TabPanel value="details_chapters">
+                        <div class="flex flex-col gap-8">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-700 px-4 py-3 bg-gray-800/50">
+                                    <p class="text-gray-300 uppercase font-semibold">Chapters</p>
+                                    <span class="text-lg text-center  text-white">{{ story.chapters_count }}</span>
+                                </div>
+                                <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-700 px-4 py-3 bg-gray-800/50">
+                                    <p class="text-gray-300 uppercase font-semibold">Rating</p>
+                                    <span class="text-lg text-center  text-white">{{ story.rating.label }}</span>
+                                </div>
+                                <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-700 px-4 py-3 bg-gray-800/50">
+                                    <p class="text-gray-300 uppercase font-semibold">Status</p>
+                                    <span class="text-lg text-center  text-white">{{ story.status.label }}</span>
+                                </div>
+                                <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-700 px-4 py-3 bg-gray-800/50">
+                                    <p class="text-gray-300 uppercase font-semibold">Updated</p>
+                                    <span class="text-lg text-center  text-white">2 Months Ago</span>
+                                </div>
                             </div>
-                        </TabPanel>
-                    </TabPanels>
-                </Tabs>
-            </div>
+                            <div class="flex flex-col gap-4">
+                                <StoryChapterCard
+                                    v-for="chapter in story.chapters"
+                                    :key="chapter.id"
+                                    :chapter
+                                />
+                            </div>
+                        </div>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </div>
     </div>
 </template>

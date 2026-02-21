@@ -74,6 +74,9 @@ export interface ChapterInterface {
     // Relations
     story?: StoryInterface;
     events?: EventInterface[];
+
+    // Counts
+    events_count?: number;
 }
 
 export interface EventInterface {

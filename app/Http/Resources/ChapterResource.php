@@ -21,11 +21,14 @@ class ChapterResource extends BaseResource
             'title' => $this->title,
             'teaser' => $this->teaser,
             'content' => $this->content,
-            'status' => $this->status,
+            'status' => $this->status->toResource(),
 
             // Relations
             'story' => StoryResource::make($this->whenLoaded('story')),
             'events' => EventResource::collection($this->whenLoaded('events')),
+
+            // Counts
+            'events_count' => $this->whenCounted('events'),
         ];
     }
 }
