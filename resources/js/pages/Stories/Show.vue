@@ -108,7 +108,11 @@ defineProps<{
                         </Tab>
                     </TabList>
                     <TabPanels class="container">
-                        <TabPanel value="stories"> </TabPanel>
+                        <TabPanel value="stories">
+                            <div class="flex flex-col gap-8">
+
+                            </div>
+                        </TabPanel>
                     </TabPanels>
                 </Tabs>
             </div>
