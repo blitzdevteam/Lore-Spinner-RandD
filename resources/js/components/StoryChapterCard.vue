@@ -3,11 +3,14 @@ import { ChapterInterface } from '@/types';
 import { LucideChevronDown } from 'lucide-vue-next';
 import { ref } from 'vue';
 
-const isOpen = ref<boolean>(false);
-
-defineProps<{
+const props = withDefaults(defineProps<{
     chapter: ChapterInterface
-}>();
+    isOpen: boolean
+}>(), {
+    isOpen: true
+});
+
+const isOpen = ref<boolean>(props.isOpen);
 </script>
 
 <template>
@@ -34,6 +37,13 @@ defineProps<{
                     alt=""
                     class="min-w-36 min-h-36 w-full h-full object-center object-cover"
                 >
+                <div
+                    :class="{
+                        'to-transparent': isOpen,
+                        'to-black/75': ! isOpen
+                    }"
+                    class="absolute inset-0 bg-linear-to-r from-black/75 pointer-events-none"
+                ></div>
                 <div class="absolute top-2 left-2 right-2">
                     <div class="flex items-center">
                         <span class="px-3 py-1 bg-muted-glass-effect rounded-full text-secondary-300 text-sm">
@@ -42,7 +52,12 @@ defineProps<{
                     </div>
                 </div>
             </div>
-            <div class="flex-1 flex flex-col gap-2">
+            <div
+                :class="{
+                    'h-36': isOpen,
+                }"
+                class="flex-1 flex flex-col gap-2"
+            >
                 <div class="flex items-center justify-between">
                     <h3 class="flex-1 line-clamp-1 text-lg text-secondary-300">{{ chapter.title }}</h3>
                     <button class="size-6 grid place-items-center mx-2.5">

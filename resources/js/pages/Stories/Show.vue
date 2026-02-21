@@ -130,9 +130,10 @@ defineProps<{
                             </div>
                             <div class="flex flex-col gap-4">
                                 <StoryChapterCard
-                                    v-for="chapter in story.chapters"
+                                    v-for="(chapter, index) in story.chapters"
                                     :key="chapter.id"
                                     :chapter
+                                    :is-open="index === 0"
                                 />
                             </div>
                         </div>
