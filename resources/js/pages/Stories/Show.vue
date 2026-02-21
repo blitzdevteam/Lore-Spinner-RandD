@@ -31,7 +31,7 @@ defineProps<{
             <div class="p-12">
                 <div class="flex flex-col gap-8">
                     <div class="relative overflow-hidden rounded-3xl aspect-video">
-                        <div class="z-5 absolute top-0 right-0 left-0 p-8 w-full">
+                        <div class="z-10 absolute top-0 right-0 left-0 p-8 w-full">
                             <div class="flex items-center justify-between">
                                 <BaseButton :icon-only="true" type="button" severity="glass" class="size-12!">
                                     <LucideChevronLeft class="size-8" :stroke-width="1.5" />
@@ -46,14 +46,10 @@ defineProps<{
                                 </div>
                             </div>
                         </div>
-                        <div class="grid">
+                        <div class="grid relative">
+                            <div class="absolute bg-linear-to-b from-black/35 to-transparent top-0 right-0 bottom-0 left-0 w-full h-full z-5"></div>
                             <StoryGallery
-                                :gallery="[
-                                story.cover,
-                                story.cover,
-                                story.cover,
-                                story.cover,
-                            ]"
+                                :gallery="[story.cover]"
                             />
                         </div>
                     </div>
@@ -89,7 +85,7 @@ defineProps<{
             </div>
         </div>
         <div class="sticky top-0 bottom-0 flex h-svh w-120 border-s border-gray-700 bg-gray-900">
-            <Tabs value="comments" class="px-8 flex flex-col gap-8 py-8 w-full overflow-y-scroll" :show-navigators="false" unstyled>
+            <Tabs value="details_chapters" class="px-8 flex flex-col gap-8 py-8 w-full overflow-y-scroll" :show-navigators="false" unstyled>
                 <TabList pt:tab-list="flex items-center gap-4" pt:content="" pt:active-bar="hidden">
                     <Tab class="flex-1" value="details_chapters" v-slot="slotProps" as-child>
                         <BaseButton
