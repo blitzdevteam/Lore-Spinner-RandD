@@ -5,6 +5,7 @@ import { computed } from 'vue';
 
 type Severity =
     | 'primary'
+    | 'primary-muted-outline'
     | 'secondary'
     | 'secondary-muted-outline'
     | 'muted'
@@ -49,6 +50,7 @@ const componentTagMap: Record<ButtonType, string | typeof Link> = {
 
 const severityClasses: Record<Severity, string> = {
     primary: 'bg-primary-400 text-black outline-primary-200/20 border-transparent',
+    'primary-muted-outline': 'bg-primary-300/20 text-black border-primary-300/75 text-primary-300 outline-primary-200/20',
     secondary: 'bg-secondary-400 text-black outline-secondary-400/30 border-transparent',
     'secondary-muted-outline': 'bg-secondary-300/20 text-black border-secondary-300/75 text-secondary-300 outline-secondary-200/20',
     muted: 'bg-gray-900 text-gray-300 font-normal outline-gray-500/15 border-transparent',

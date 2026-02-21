@@ -92,7 +92,7 @@ defineProps<{
                         <BaseButton
                             @click="slotProps.onClick"
                             class="w-full"
-                            :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
+                            :severity="slotProps.active ? 'primary-muted-outline' : 'gray-muted'"
                         >
                             Details / Chapters
                         </BaseButton>
@@ -101,7 +101,7 @@ defineProps<{
                         <BaseButton
                             @click="slotProps.onClick"
                             class="w-full"
-                            :severity="slotProps.active ? 'secondary-muted-outline' : 'gray-muted'"
+                            :severity="slotProps.active ? 'primary-muted-outline' : 'gray-muted'"
                         >
                             Comments
                         </BaseButton>
