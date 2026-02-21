@@ -143,7 +143,6 @@ defineProps<{
                     </TabPanel>
                     <TabPanel value="comments">
                         <div class="flex flex-col gap-4">
-
                             <StoryCommentCard />
                             <StoryCommentCard />
                             <StoryCommentCard />
