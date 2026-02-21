@@ -28,6 +28,8 @@ import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
 import Select from 'primevue/select';
 import Textarea from 'primevue/textarea';
+import Rating from 'primevue/rating';
+import Inplace from 'primevue/inplace';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -56,6 +58,8 @@ createInertiaApp({
             .component('PrimeIconField', IconField)
             .component('PrimeInputIcon', InputIcon)
             .component('PrimeDrawer', Drawer)
+            .component('PrimeRating', Rating)
+            .component('PrimeInplace', Inplace)
 
             .mount(el);
     },

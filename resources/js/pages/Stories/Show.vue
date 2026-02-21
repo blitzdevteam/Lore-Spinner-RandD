@@ -15,6 +15,7 @@ import TabPanels from 'primevue/tabpanels';
 import Tabs from 'primevue/tabs';
 import StoryGallery from '@/components/StoryGallery.vue';
 import StoryChapterCard from '@/components/StoryChapterCard.vue';
+import StoryCommentCard from '@/components/StoryCommentCard.vue';
 
 defineProps<{
     story: StoryInterface;
@@ -88,7 +89,7 @@ defineProps<{
             </div>
         </div>
         <div class="sticky top-0 bottom-0 flex h-svh w-120 border-s border-gray-700 bg-gray-900">
-            <Tabs value="details_chapters" class="px-8 flex flex-col gap-8 py-8 w-full overflow-y-scroll" :show-navigators="false" unstyled>
+            <Tabs value="comments" class="px-8 flex flex-col gap-8 py-8 w-full overflow-y-scroll" :show-navigators="false" unstyled>
                 <TabList pt:tab-list="flex items-center gap-4" pt:content="" pt:active-bar="hidden">
                     <Tab class="flex-1" value="details_chapters" v-slot="slotProps" as-child>
                         <BaseButton
@@ -138,6 +139,15 @@ defineProps<{
                                     :is-open="index === 0"
                                 />
                             </div>
+                        </div>
+                    </TabPanel>
+                    <TabPanel value="comments">
+                        <div class="flex flex-col gap-4">
+
+                            <StoryCommentCard />
+                            <StoryCommentCard />
+                            <StoryCommentCard />
+                            <StoryCommentCard />
                         </div>
                     </TabPanel>
                 </TabPanels>
