@@ -17,6 +17,22 @@ final class StoryController extends Controller
 
     public function show(Story $story)
     {
+        $story
+            ->load([
+                'category:id,title',
+                'creator:id,first_name,last_name,username,avatar',
+                'chapters' => function ($query) {
+                    $query
+                        ->orderBy('position')
+                        ->select(['id', 'story_id', 'title', 'status', 'teaser'])
+                        ->withCount(['events']);
+                },
+            ])
+            ->loadCount([
+                'chapters',
+                'comments'
+            ]);
+
         return inertia('Stories/Show', [
             'story' => $story->toResource()
         ]);
