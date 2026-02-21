@@ -23,6 +23,7 @@ class StoryResource extends BaseResource
             'status' => $this->status->toResource(),
             'rating' => $this->rating->toResource(),
             'published_at' => $this->published_at,
+            'updated_at' => $this->updated_at,
             'cover' => $this->getFirstMediaUrl('cover'),
 
             // Relations

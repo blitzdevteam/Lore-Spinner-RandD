@@ -42,6 +42,7 @@ export interface StoryInterface {
     status: EnumResource<StoryStatusEnum>;
     rating: EnumResource<StoryRatingEnum>;
     published_at: string | null;
+    updated_at: string | null;
     cover: string;
 
     // Relations
