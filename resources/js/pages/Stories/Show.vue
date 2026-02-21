@@ -23,7 +23,7 @@ defineProps<{
 
 <template>
     <div class="flex min-h-svh">
-        <div class="relative h-full flex-1 overflow-hidden">
+        <div class="relative h-full flex-1">
             <div class="absolute top-0 right-0 bottom-0 -start-7.5 z-0 h-full w-[115%] blur-xl">
                 <img :src="story.cover" alt="" class="object-cover object-center opacity-75" />
             </div>
@@ -45,14 +45,16 @@ defineProps<{
                                 </div>
                             </div>
                         </div>
-                        <StoryGallery
-                            :gallery="[
+                        <div class="grid">
+                            <StoryGallery
+                                :gallery="[
                                 story.cover,
                                 story.cover,
                                 story.cover,
                                 story.cover,
                             ]"
-                        />
+                            />
+                        </div>
                     </div>
                     <div class="flex flex-col gap-4 relative">
                         <div class="flex justify-between items-center">

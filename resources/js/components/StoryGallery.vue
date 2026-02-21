@@ -30,7 +30,11 @@ defineProps<{
 @reference "tailwindcss";
 
 .story-gallery-swiper {
-    @apply aspect-video;
+    @apply aspect-video w-full overflow-hidden;
+
+    .swiper-slide {
+        @apply w-full;
+    }
 
     .swiper-pagination {
         @apply h-2 p-0 m-0 absolute bottom-8 left-1/2 flex items-center gap-2 justify-center -translate-x-1/2;
