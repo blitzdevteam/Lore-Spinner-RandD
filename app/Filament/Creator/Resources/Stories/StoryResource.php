@@ -34,6 +34,7 @@ final class StoryResource extends Resource
     /**
      * @return Builder<Story>
      */
+    #[\Override]
     public static function getEloquentQuery(): Builder
     {
         /** @var Creator $guard */

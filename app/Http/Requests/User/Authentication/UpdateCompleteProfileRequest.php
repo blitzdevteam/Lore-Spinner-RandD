@@ -24,9 +24,8 @@ final class UpdateCompleteProfileRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @param User $user
      * @return array<string, ValidationRule|array<int, mixed>|string>
- */
+     */
     public function rules(#[CurrentUser] User $user): array
     {
         return [

@@ -89,7 +89,6 @@ final class Story extends Model implements HasMedia
 
     /**
      * @param Builder<Story> $query
-     * @return void
      */
     #[Scope]
     protected function draft(Builder $query): void
@@ -99,7 +98,6 @@ final class Story extends Model implements HasMedia
 
     /**
      * @param Builder<Story> $query
-     * @return void
      */
     #[Scope]
     protected function awaitingExtractingChaptersRequest(Builder $query): void
@@ -109,7 +107,6 @@ final class Story extends Model implements HasMedia
 
     /**
      * @param Builder<Story> $query
-     * @return void
      */
     #[Scope]
     protected function extractingChapters(Builder $query): void
@@ -119,7 +116,6 @@ final class Story extends Model implements HasMedia
 
     /**
      * @param Builder<Story> $query
-     * @return void
      */
     #[Scope]
     protected function published(Builder $query): void

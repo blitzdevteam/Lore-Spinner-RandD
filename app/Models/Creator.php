@@ -83,6 +83,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     /**
      * Send the email verification notification.
      */
+    #[\Override]
     public function sendEmailVerificationNotification(): void
     {
         /** @var int $verificationExpire */
@@ -111,6 +112,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     /**
      * @return string[]
      */
+    #[\Override]
     protected function casts(): array
     {
         return [

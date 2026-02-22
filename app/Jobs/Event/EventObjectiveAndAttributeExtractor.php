@@ -18,6 +18,7 @@ class EventObjectiveAndAttributeExtractor implements ShouldQueue
     use Queueable;
 
     private Event $event;
+
     private Chapter $chapter;
 
     /**

@@ -46,9 +46,6 @@ final class NumberedLineExtractorHelper
      *  Extract content between start and end line numbers.
      *
      * @param string[] $lines
-     * @param int $startLine
-     * @param int $endLine
-     * @return string
      */
     private static function extractContent(array $lines, int $startLine, int $endLine): string
     {
