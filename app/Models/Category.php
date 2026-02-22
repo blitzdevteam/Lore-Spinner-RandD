@@ -16,7 +16,6 @@ use Illuminate\Support\Carbon;
  * @property string $title
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read Collection<int, Story> $stories
  * @property-read int|null $stories_count
  */

@@ -30,7 +30,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property Carbon|null $published_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read Creator $creator
  * @property-read Category $category
  * @property-read Collection<int, Chapter> $chapters

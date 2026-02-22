@@ -21,7 +21,6 @@ use Illuminate\Support\Carbon;
  * @property ChapterStatusEnum $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read Story $story
  * @property-read Collection<int, Event> $events
  * @property-read int|null $events_count
