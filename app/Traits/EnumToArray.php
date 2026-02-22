@@ -31,7 +31,7 @@ trait EnumToArray
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return list<array{value: string, name: string, label: mixed}>
      */
     public static function fullCase(): array
     {
