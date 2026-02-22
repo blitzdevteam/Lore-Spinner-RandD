@@ -17,9 +17,13 @@ import StoryGallery from '@/components/StoryGallery.vue';
 import StoryChapterCard from '@/components/StoryChapterCard.vue';
 import StoryCommentCard from '@/components/StoryCommentCard.vue';
 
-defineProps<{
+const props = defineProps<{
     story: StoryInterface;
 }>();
+
+const handleStartStory = (): void => {
+
+};
 </script>
 
 <template>
@@ -86,13 +90,16 @@ defineProps<{
             <div class="sticky bottom-0 w-full">
                 <div class="p-12">
                     <div class="relative z-5">
-                        <BaseButton severity="primary" class="w-full py-4 text-lg font-semibold shadow-primary shadow-[0_0px_50px_-12px]">
+                        <BaseButton
+                            severity="primary"
+                            class="w-full py-4 text-lg font-semibold shadow-primary shadow-[0_0px_50px_-12px]"
+                            type="button"
+                            @click="handleStartStory"
+                        >
                             Start
                         </BaseButton>
                     </div>
-                    <div class="absolute bottom-0 left-0 right-0 w-full h-full bg-linear-to-t from-black/75 from-50% to-transparent pointer-events-none">
-
-                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 w-full h-full bg-linear-to-t from-black/75 from-50% to-transparent pointer-events-none"></div>
                 </div>
             </div>
         </div>
