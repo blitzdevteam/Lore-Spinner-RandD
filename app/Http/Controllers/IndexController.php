@@ -6,10 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Creator;
 use App\Models\Story;
+use Inertia\Response;
 
 final class IndexController extends Controller
 {
-    public function __invoke()
+    public function __invoke(): Response
     {
         return inertia('Index', [
             'creators' => fn() => Creator::query()

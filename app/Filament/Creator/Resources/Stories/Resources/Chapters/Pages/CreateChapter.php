@@ -10,10 +10,9 @@ class CreateChapter extends CreateRecord
 {
     protected static string $resource = ChapterResource::class;
 
-    #[\Override]
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['status'] = ChapterStatusEnum::AWAITING_MANAGER_REVIEW;
+        $data['status'] = ChapterStatusEnum::AWAITING_CREATOR_REVIEW;
 
         return parent::mutateFormDataBeforeCreate($data);
     }

@@ -36,11 +36,7 @@ final class Comment extends Model
         return $this->morphTo();
     }
 
-    #[\Override]
-    protected function casts(): array
-    {
-        return [
-            'status' => CommentStatusEnum::class,
-        ];
-    }
+    protected $casts = [
+        'status' => CommentStatusEnum::class,
+    ];
 }

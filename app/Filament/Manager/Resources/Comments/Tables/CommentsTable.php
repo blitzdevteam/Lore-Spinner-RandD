@@ -19,9 +19,9 @@ final class CommentsTable
         return $table
             ->columns([
                 TextColumn::make('author_type')
-                    ->formatStateUsing(fn ($record): string => class_basename($record->author_type))
+                    ->formatStateUsing(fn (Comment $record): string => class_basename($record->author_type))
                     ->badge()
-                    ->color(fn ($record): string => match (class_basename($record->author_type)) {
+                    ->color(fn (Comment $record): string => match (class_basename($record->author_type)) {
                         'User' => 'success',
                         'Creator' => 'info',
                         default => 'secondary',

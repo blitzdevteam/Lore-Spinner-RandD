@@ -27,7 +27,10 @@ final readonly class LoginAuthenticatableGuardAction
         ]);
 
         if ($check) {
-            return auth($guard)->user();
+            /** @var User|Creator $user */
+            $user = auth($guard)->user();
+
+            return $user;
         }
 
         return false;

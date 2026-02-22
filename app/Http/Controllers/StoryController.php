@@ -5,23 +5,25 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Story;
+use Illuminate\Database\Eloquent\Builder;
+use Inertia\Response;
 
 final class StoryController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         return inertia('Stories/Index', [
             'stories' => []
         ]);
     }
 
-    public function show(Story $story)
+    public function show(Story $story): Response
     {
         $story
             ->load([
                 'category:id,title',
                 'creator:id,first_name,last_name,username,avatar',
-                'chapters' => function ($query): void {
+                'chapters' => function (Builder $query): void {
                     $query
                         ->orderBy('position')
                         ->select(['id', 'story_id', 'title', 'status', 'teaser'])

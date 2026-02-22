@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Manager\Resources\Comments\Schemas;
 
 use App\Enums\Comment\CommentStatusEnum;
+use App\Models\Comment;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
@@ -26,9 +27,9 @@ final class CommentInfolist
                         Fieldset::make('Author information')
                             ->schema([
                                 TextEntry::make('author_type')
-                                    ->formatStateUsing(fn ($record): string => class_basename($record->author_type))
+                                    ->formatStateUsing(fn (Comment $record): string => class_basename($record->author_type))
                                     ->badge()
-                                    ->color(fn ($record): string => match (class_basename($record->author_type)) {
+                                    ->color(fn (Comment $record): string => match (class_basename($record->author_type)) {
                                         'User' => 'success',
                                         'Creator' => 'info',
                                         default => 'secondary',
@@ -40,7 +41,7 @@ final class CommentInfolist
                         Fieldset::make('Commentable information')
                             ->schema([
                                 TextEntry::make('commentable_type')
-                                    ->formatStateUsing(fn ($record): string => class_basename($record->commentable_type))
+                                    ->formatStateUsing(fn (Comment $record): string => class_basename($record->commentable_type))
                                     ->badge()
                                     ->color('primary'),
                                 TextEntry::make('commentable.title')

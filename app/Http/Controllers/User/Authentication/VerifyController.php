@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Inertia\Response;
 
 final class VerifyController implements HasMiddleware
 {
@@ -21,7 +22,10 @@ final class VerifyController implements HasMiddleware
     {
         return [
             function (Request $request, Closure $next) {
-                if ($request->user()->hasVerifiedEmail()) {
+                /** @var User $user */
+                $user = $request->user('user');
+
+                if ($user->hasVerifiedEmail()) {
                     return to_route('user.dashboard.index');
                 }
 
@@ -33,7 +37,7 @@ final class VerifyController implements HasMiddleware
     /**
      * Show the verify page.
      */
-    public function index()
+    public function index(): Response
     {
         return inertia('User/Authentication/Verify');
     }
