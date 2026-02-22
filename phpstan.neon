@@ -8,6 +8,3 @@ parameters:
         - app/
 
     level: max
-
-    ignoreErrors:
-         - '#Call to an undefined method Filament\\Tables\\Columns\\TextColumn::jalaliDate#'
