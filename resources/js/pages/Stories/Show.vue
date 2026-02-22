@@ -28,7 +28,7 @@ defineProps<{
             <div class="absolute top-0 right-0 bottom-0 -start-7.5 z-0 h-full w-[115%] blur-xl">
                 <img :src="story.cover" alt="" class="object-cover object-center opacity-75" />
             </div>
-            <div class="p-12">
+            <div class="pt-12 px-12">
                 <div class="flex flex-col gap-8">
                     <div class="relative overflow-hidden rounded-3xl aspect-video">
                         <div class="z-10 absolute top-0 right-0 left-0 p-8 w-full">
@@ -80,6 +80,18 @@ defineProps<{
                             </div>
                         </div>
                         <p class="leading-relaxed text-xl font-light text-gray-100">{{ story.teaser }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="sticky bottom-0 w-full">
+                <div class="p-12">
+                    <div class="relative z-5">
+                        <BaseButton severity="primary" class="w-full py-4 text-lg font-semibold shadow-primary shadow-[0_0px_50px_-12px]">
+                            Start
+                        </BaseButton>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 w-full h-full bg-linear-to-t from-black/75 from-50% to-transparent pointer-events-none">
+
                     </div>
                 </div>
             </div>
