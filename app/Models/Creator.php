@@ -10,6 +10,7 @@ use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,7 +19,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
+use Override;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -36,16 +37,17 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read string $full_name
+ * @property-read Collection<int, Story> $stories
+ * @property-read int|null $stories_count
  */
-final class Creator extends Authenticatable implements FilamentUser, HasName, HasMedia
+final class Creator extends Authenticatable implements FilamentUser, HasMedia, HasName
 {
     /** @use HasFactory<CreatorFactory> */
     use HasFactory;
 
-    use Notifiable;
     use InteractsWithMedia;
+    use Notifiable;
 
     protected $guarded = [
         'id', 'created_at', 'updated_at',
@@ -83,7 +85,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     /**
      * Send the email verification notification.
      */
-    #[\Override]
+    #[Override]
     public function sendEmailVerificationNotification(): void
     {
         /** @var int $verificationExpire */
@@ -112,7 +114,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     /**
      * @return string[]
      */
-    #[\Override]
+    #[Override]
     protected function casts(): array
     {
         return [

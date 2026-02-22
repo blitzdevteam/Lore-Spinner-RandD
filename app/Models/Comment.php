@@ -11,6 +11,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $author_type
+ * @property int $author_id
+ * @property string $commentable_type
+ * @property int $commentable_id
+ * @property string $content
+ * @property CommentStatusEnum $status
+ * @property Carbon|null $approved_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property-read Model $commentable
+ * @property-read Model $author
+ */
 final class Comment extends Model
 {
     /** @use HasFactory<CommentFactory> */
@@ -18,6 +33,10 @@ final class Comment extends Model
 
     protected $guarded = [
         'id', 'created_at', 'updated_at',
+    ];
+
+    protected $casts = [
+        'status' => CommentStatusEnum::class,
     ];
 
     /**
@@ -35,8 +54,4 @@ final class Comment extends Model
     {
         return $this->morphTo();
     }
-
-    protected $casts = [
-        'status' => CommentStatusEnum::class,
-    ];
 }

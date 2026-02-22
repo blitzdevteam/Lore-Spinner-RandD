@@ -4,14 +4,28 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
-class Game extends Model
+/**
+ * @property string $id
+ * @property int $story_id
+ * @property int $user_id
+ * @property int $current_event_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Story $story
+ * @property-read User $user
+ * @property-read Event $currentEvent
+ */
+final class Game extends Model
 {
+    use HasUlids;
+
     protected $guarded = [
-        'id', 'created_at', 'updated_at'
+        'id', 'created_at', 'updated_at',
     ];
 
     /**

@@ -13,7 +13,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Override;
 
+/**
+ * @property int $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property string $password
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read string $full_name
+ */
 final class Manager extends Authenticatable implements FilamentUser, HasName
 {
     /** @use HasFactory<ManagerFactory> */
@@ -46,7 +58,7 @@ final class Manager extends Authenticatable implements FilamentUser, HasName
         return $this->full_name;
     }
 
-    #[\Override]
+    #[Override]
     protected function casts(): array
     {
         return [

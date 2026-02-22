@@ -9,6 +9,7 @@ use App\Enums\Story\StoryStatusEnum;
 use Database\Factories\StoryFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,25 @@ use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @property int $id
+ * @property int $creator_id
+ * @property int $category_id
+ * @property string $title
+ * @property string|null $description
+ * @property StoryStatusEnum $status
+ * @property StoryRatingEnum $rating
+ * @property Carbon|null $published_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property-read Creator $creator
+ * @property-read Category $category
+ * @property-read Collection<int, Chapter> $chapters
+ * @property-read int|null $chapters_count
+ * @property-read Collection<int, Comment> $comments
+ * @property-read int|null $comments_count
+ */
 final class Story extends Model implements HasMedia
 {
     /** @use HasFactory<StoryFactory> */
@@ -27,6 +47,12 @@ final class Story extends Model implements HasMedia
 
     protected $guarded = [
         'id', 'created_at', 'updated_at',
+    ];
+
+    protected $casts = [
+        'status' => StoryStatusEnum::class,
+        'rating' => StoryRatingEnum::class,
+        'published_at' => 'datetime',
     ];
 
     public function registerMediaCollections(): void
@@ -81,14 +107,8 @@ final class Story extends Model implements HasMedia
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    protected $casts = [
-        'status' => StoryStatusEnum::class,
-        'rating' => StoryRatingEnum::class,
-        'published_at' => 'datetime',
-    ];
-
     /**
-     * @param Builder<Story> $query
+     * @param  Builder<Story>  $query
      */
     #[Scope]
     protected function draft(Builder $query): void
@@ -97,7 +117,7 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @param Builder<Story> $query
+     * @param  Builder<Story>  $query
      */
     #[Scope]
     protected function awaitingExtractingChaptersRequest(Builder $query): void
@@ -106,7 +126,7 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @param Builder<Story> $query
+     * @param  Builder<Story>  $query
      */
     #[Scope]
     protected function extractingChapters(Builder $query): void
@@ -115,7 +135,7 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @param Builder<Story> $query
+     * @param  Builder<Story>  $query
      */
     #[Scope]
     protected function published(Builder $query): void

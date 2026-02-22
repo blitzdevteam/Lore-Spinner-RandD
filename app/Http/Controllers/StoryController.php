@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Story;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Inertia\Response;
 
 final class StoryController extends Controller
@@ -13,7 +13,7 @@ final class StoryController extends Controller
     public function index(): Response
     {
         return inertia('Stories/Index', [
-            'stories' => []
+            'stories' => [],
         ]);
     }
 
@@ -23,7 +23,7 @@ final class StoryController extends Controller
             ->load([
                 'category:id,title',
                 'creator:id,first_name,last_name,username,avatar',
-                'chapters' => function (Builder $query): void {
+                'chapters' => function (HasMany $query): void {
                     $query
                         ->orderBy('position')
                         ->select(['id', 'story_id', 'title', 'status', 'teaser'])
@@ -32,11 +32,11 @@ final class StoryController extends Controller
             ])
             ->loadCount([
                 'chapters',
-                'comments'
+                'comments',
             ]);
 
         return inertia('Stories/Show', [
-            'story' => $story->toResource()
+            'story' => $story->toResource(),
         ]);
     }
 }

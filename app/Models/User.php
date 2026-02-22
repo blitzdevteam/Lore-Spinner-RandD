@@ -8,13 +8,16 @@ use Database\Factories\UserFactory;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Override;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -33,9 +36,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read string $full_name
  * @property-read bool $is_profile_completed
+ * @property-read Collection<int, Comment> $comments
+ * @property-read int|null $comments_count
+ * @property-read Collection<int, Game> $games
+ * @property-read int|null $games_count
  */
 final class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
@@ -58,6 +64,12 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'is_profile_completed',
     ];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'is_active' => 'boolean',
+        'password' => 'hashed',
+    ];
+
     /**
      * Register the media collections.
      */
@@ -72,7 +84,7 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
     /**
      * Send the email verification notification.
      */
-    #[\Override]
+    #[Override]
     public function sendEmailVerificationNotification(): void
     {
         /** @var int $verificationExpire */
@@ -99,16 +111,11 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
     }
 
     /**
-     * @return string[]
+     * @return HasMany<Game, $this>
      */
-    #[\Override]
-    protected function casts(): array
+    public function games(): HasMany
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'is_active' => 'boolean',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Game::class);
     }
 
     /**
