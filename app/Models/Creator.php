@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\CreatorFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -20,9 +22,29 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @property int $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $username
+ * @property string $email
+ * @property string $password
+ * @property string|null $avatar
+ * @property string|null $bio
+ * @property bool $is_active
+ * @property Carbon|null $email_verified_at
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property-read string $full_name
+ */
 final class Creator extends Authenticatable implements FilamentUser, HasName, HasMedia
 {
+    /** @use HasFactory<CreatorFactory> */
     use HasFactory;
+
+    use Notifiable;
     use InteractsWithMedia;
 
     protected $guarded = [
@@ -55,17 +77,21 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
         $this->addMediaCollection('avatar')
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
             ->singleFile()
-            ->useFallbackUrl(Storage::disk('public')->url('avatar/'.str($this->id)->substr(0, 1).'.png'));
+            ->useFallbackUrl(Storage::disk('public')->url('avatar/'.str((string) $this->id)->substr(0, 1).'.png'));
     }
 
     /**
      * Send the email verification notification.
      */
+    #[\Override]
     public function sendEmailVerificationNotification(): void
     {
-        VerifyEmail::createUrlUsing(fn ($notifiable) => URL::temporarySignedRoute(
+        /** @var int $verificationExpire */
+        $verificationExpire = Config::get('auth.verification.expire', 60);
+
+        VerifyEmail::createUrlUsing(fn (self $notifiable) => URL::temporarySignedRoute(
             'user.authentication.verify.confirm',
-            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            Carbon::now()->addMinutes($verificationExpire),
             [
                 'id' => $notifiable->getKey(),
                 'hash' => sha1((string) $notifiable->getEmailForVerification()),
@@ -76,7 +102,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     }
 
     /**
-     * @return HasMany<$this, Story>
+     * @return HasMany<Story, $this>
      */
     public function stories(): HasMany
     {
@@ -86,6 +112,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     /**
      * @return string[]
      */
+    #[\Override]
     protected function casts(): array
     {
         return [
@@ -131,7 +158,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn (): string => $this?->getFirstMediaUrl('avatar')
+            get: fn (): string => $this->getFirstMediaUrl('avatar')
         );
     }
 }

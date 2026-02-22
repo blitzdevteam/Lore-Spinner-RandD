@@ -52,6 +52,7 @@ final class CreatorResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [

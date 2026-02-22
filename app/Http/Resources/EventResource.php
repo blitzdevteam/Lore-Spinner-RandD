@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 
+/**
+ * @mixin Event
+ */
 class EventResource extends BaseResource
 {
     /**
@@ -13,6 +17,7 @@ class EventResource extends BaseResource
      *
      * @return array<string, mixed>
      */
+    #[\Override]
     public function toArray(Request $request): array
     {
         return [
@@ -20,8 +25,8 @@ class EventResource extends BaseResource
             'position' => $this->position,
             'title' => $this->title,
             'content' => $this->content,
-            'objectives' => $this->teaser,
-            'attributes' => $this->status,
+            'attributes' => $this->attributes,
+            'objectives' => $this->objectives,
 
             // Relations
             'chapter' => ChapterResource::make($this->whenLoaded('chapter')),

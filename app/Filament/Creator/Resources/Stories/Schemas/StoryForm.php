@@ -45,7 +45,7 @@ final class StoryForm
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn ($state, callable $set) => $set('slug', \Illuminate\Support\Str::slug($state)))
+                            ->afterStateUpdated(fn (string $value, callable $set) => $set('slug', str($value)->slug()))
                             ->columnSpan(2),
                         TextInput::make('slug')
                             ->required()
@@ -95,8 +95,8 @@ final class StoryForm
                                     ->preserveFilenames()
                                     ->downloadable()
                                     ->openable()
-                                    ->required(fn (Get $get) => (bool) $get('use_script_upload'))
-                                    ->visible(fn (Get $get) => (bool) $get('use_script_upload'))
+                                    ->required(fn (Get $get): bool => (bool) $get('use_script_upload'))
+                                    ->visible(fn (Get $get): bool => (bool) $get('use_script_upload'))
                                     ->columnSpanFull(),
                             ])
                             ->columnSpanFull(),

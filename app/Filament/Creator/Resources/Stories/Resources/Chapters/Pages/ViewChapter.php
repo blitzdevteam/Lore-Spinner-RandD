@@ -14,6 +14,7 @@ class ViewChapter extends ViewRecord
 {
     protected static string $resource = ChapterResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [
@@ -29,10 +30,10 @@ class ViewChapter extends ViewRecord
                 ->color('info')
                 ->requiresConfirmation()
                 ->modal()
-                ->visible(fn (Chapter $chapter) => $chapter->status === ChapterStatusEnum::AWAITING_CREATOR_REVIEW),
+                ->visible(fn (Chapter $chapter): bool => $chapter->status === ChapterStatusEnum::AWAITING_CREATOR_REVIEW),
 
             EditAction::make()
-                ->hidden(fn (Chapter $chapter) => $chapter->status === ChapterStatusEnum::EXTRACTING_EVENTS),
+                ->hidden(fn (Chapter $chapter): bool => $chapter->status === ChapterStatusEnum::EXTRACTING_EVENTS),
         ];
     }
 }

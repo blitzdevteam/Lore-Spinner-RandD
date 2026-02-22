@@ -16,7 +16,7 @@ enum StoryStatusEnum: string implements HasLabel
     case EXTRACTING_CHAPTERS = 'extracting-chapters';
     case PUBLISHED = 'published';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::DRAFT => 'Draft',

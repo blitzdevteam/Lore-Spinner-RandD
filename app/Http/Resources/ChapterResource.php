@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Chapter;
 use Illuminate\Http\Request;
 
+/**
+ * @mixin Chapter
+ */
 class ChapterResource extends BaseResource
 {
     /**
@@ -13,6 +17,7 @@ class ChapterResource extends BaseResource
      *
      * @return array<string, mixed>
      */
+    #[\Override]
     public function toArray(Request $request): array
     {
         return [

@@ -12,6 +12,7 @@ use App\Filament\Creator\Resources\Stories\RelationManagers\ChaptersRelationMana
 use App\Filament\Creator\Resources\Stories\Schemas\StoryForm;
 use App\Filament\Creator\Resources\Stories\Schemas\StoryInfolist;
 use App\Filament\Creator\Resources\Stories\Tables\StoriesTable;
+use App\Models\Creator;
 use App\Models\Story;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -30,9 +31,16 @@ final class StoryResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Entities';
 
+    /**
+     * @return Builder<Story>
+     */
+    #[\Override]
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->whereBelongsTo(auth('creator')->user());
+        /** @var Creator $guard */
+        $guard = auth('creator')->user();
+
+        return parent::getEloquentQuery()->whereBelongsTo($guard);
     }
 
     public static function getNavigationBadge(): string
@@ -66,6 +74,7 @@ final class StoryResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [

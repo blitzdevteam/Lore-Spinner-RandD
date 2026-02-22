@@ -17,7 +17,7 @@ enum StoryRatingEnum: string implements HasLabel
     case YOUNG_ADULT = 'young-adult';
     case MATURE = 'mature';
 
-    public function getLabel(): string|Htmlable|null
+    public function getLabel(): string
     {
         return match ($this) {
             self::EVERYONE => 'Everyone (All Ages)',

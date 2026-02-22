@@ -21,10 +21,6 @@ final class EnsureProfileIsCompleted
             return to_route('user.authentication.complete-profile.edit');
         }
 
-        if ($request->user('creator') && ! $request->user('creator')->is_profile_completed) {
-            return to_route('creator.authentication.complete-profile.edit');
-        }
-
         return $next($request);
     }
 }

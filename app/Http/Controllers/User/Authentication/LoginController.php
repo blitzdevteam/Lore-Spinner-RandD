@@ -8,10 +8,12 @@ use App\Actions\Authentication\LoginAuthenticatableGuardAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Authentication\StoreLoginRequest;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
 
 final class LoginController extends Controller
 {
-    public function create()
+    public function create(): Response
     {
         return inertia('User/Authentication/Login');
     }
@@ -19,11 +21,13 @@ final class LoginController extends Controller
     public function store(
         StoreLoginRequest $request,
         LoginAuthenticatableGuardAction $loginAuthenticatableGuard
-    ) {
-        /**
-         * @var User|false $user
-         */
-        $user = $loginAuthenticatableGuard->handle('user', ...$request->validated());
+    ): RedirectResponse {
+        /** @var User|false $user */
+        $user = $loginAuthenticatableGuard->handle(
+            'user',
+            $request->string('email')->toString(),
+            $request->string('password')->toString(),
+        );
 
         if ($user === false) {
             return back()

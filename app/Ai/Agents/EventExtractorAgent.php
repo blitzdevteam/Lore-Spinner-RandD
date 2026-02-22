@@ -28,6 +28,15 @@ class EventExtractorAgent implements Agent, HasStructuredOutput
 
     /**
      * Get the agent's structured output schema definition.
+     *
+     * @return array{
+     *   events: list<array{
+     *     position: int,
+     *     title: string,
+     *     start: array{start: string, end: string},
+     *     end: array{start: string, end: string}
+     *   }>
+     * }
      */
     public function schema(JsonSchema $schema): array
     {

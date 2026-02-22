@@ -14,7 +14,7 @@ enum GenderEnum: string implements HasLabel
     case MALE = 'male';
     case FEMALE = 'female';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
             self::MALE => 'Male',

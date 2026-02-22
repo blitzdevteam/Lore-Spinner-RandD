@@ -9,13 +9,14 @@ use App\Http\Requests\User\Authentication\UpdateCompleteProfileRequest;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
 
 final class CompleteProfileController
 {
     /**
      * Show the complete profile form.
      */
-    public function edit()
+    public function edit(): Response
     {
         return inertia('User/Authentication/CompleteProfile');
     }

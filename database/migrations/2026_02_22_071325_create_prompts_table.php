@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prompts', function (Blueprint $table) {
+        Schema::create('prompts', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('game_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('event_id')->constrained()->cascadeOnUpdate();

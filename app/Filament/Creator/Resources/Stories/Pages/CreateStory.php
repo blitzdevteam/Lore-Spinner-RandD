@@ -17,6 +17,7 @@ final class CreateStory extends CreateRecord
 
     protected static bool $canCreateAnother = false;
 
+    #[\Override]
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['creator_id'] = auth()->id();
@@ -24,6 +25,7 @@ final class CreateStory extends CreateRecord
         return parent::mutateFormDataBeforeCreate($data);
     }
 
+    #[\Override]
     protected function handleRecordCreation(array $data): Model
     {
         /** @var Story $story */

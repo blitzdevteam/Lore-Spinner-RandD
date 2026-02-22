@@ -9,5 +9,6 @@ parameters:
 
     level: max
 
-    ignoreErrors:
-         - '#Call to an undefined method Filament\\Tables\\Columns\\TextColumn::jalaliDate#'
+    excludePaths:
+        - app/Jobs/**/*
+        - app/Ai/**/*

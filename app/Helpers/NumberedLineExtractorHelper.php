@@ -12,7 +12,6 @@ final class NumberedLineExtractorHelper
      * @param string $fullText The complete text with #{line}# markers
      * @param int $startLine Starting line number
      * @param int $endLine Ending line number
-     * @return string
      */
     public static function handle(string $fullText, int $startLine, int $endLine): string
     {
@@ -44,7 +43,9 @@ final class NumberedLineExtractorHelper
     }
 
     /**
-     * Extract content between start and end line numbers.
+     *  Extract content between start and end line numbers.
+     *
+     * @param string[] $lines
      */
     private static function extractContent(array $lines, int $startLine, int $endLine): string
     {
