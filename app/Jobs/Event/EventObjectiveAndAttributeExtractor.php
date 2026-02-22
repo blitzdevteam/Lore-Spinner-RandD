@@ -9,14 +9,15 @@ use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Collection;
+use Laravel\Ai\Responses\StructuredAgentResponse;
 use Throwable;
 
 class EventObjectiveAndAttributeExtractor implements ShouldQueue
 {
     use Batchable;
     use Queueable;
-    private Event $event;
 
+    private Event $event;
     private Chapter $chapter;
 
     /**
@@ -37,10 +38,11 @@ class EventObjectiveAndAttributeExtractor implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->batch()->cancelled()) {
+        if ($this->batch()?->canceled()) {
             return;
         }
 
+        /** @var StructuredAgentResponse $response */
         $response = EventObjectiveAndAttributesExtractor::make()
             ->prompt(
                 view('ai.agents.event-objective-and-attribute-extractor.prompt', [
@@ -56,8 +58,7 @@ class EventObjectiveAndAttributeExtractor implements ShouldQueue
     }
 
     /**
-     * @param Event $currentEvent
-     * @return Collection<Event>
+     * @return Collection<int, Event>
      */
     private function nextEvents(int $take = 5): Collection
     {

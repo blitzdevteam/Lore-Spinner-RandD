@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\Story\StoryRatingEnum;
 use App\Enums\Story\StoryStatusEnum;
+use Database\Factories\StoryFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,12 +14,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 final class Story extends Model implements HasMedia
 {
+    /** @use HasFactory<StoryFactory> */
     use HasFactory;
+
     use InteractsWithMedia;
 
     protected $guarded = [
@@ -46,7 +50,7 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @return BelongsTo<$this, Creator>
+     * @return BelongsTo<Creator, $this>
      */
     public function creator(): BelongsTo
     {
@@ -54,7 +58,7 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @return BelongsTo<$this, Category>
+     * @return BelongsTo<Category, $this>
      */
     public function category(): BelongsTo
     {
@@ -62,7 +66,7 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @return HasMany<$this, Chapter>
+     * @return HasMany<Chapter, $this>
      */
     public function chapters(): HasMany
     {
@@ -70,41 +74,53 @@ final class Story extends Model implements HasMedia
     }
 
     /**
-     * @return MorphMany<$this, Comment>
+     * @return MorphMany<Comment, $this>
      */
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    #[\Override]
-    protected function casts(): array
-    {
-        return [
-            'status' => StoryStatusEnum::class,
-            'rating' => StoryRatingEnum::class,
-            'published_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'status' => StoryStatusEnum::class,
+        'rating' => StoryRatingEnum::class,
+        'published_at' => 'datetime',
+    ];
 
+    /**
+     * @param Builder<Story> $query
+     * @return void
+     */
     #[Scope]
     protected function draft(Builder $query): void
     {
         $query->where('status', StoryStatusEnum::DRAFT);
     }
 
+    /**
+     * @param Builder<Story> $query
+     * @return void
+     */
     #[Scope]
     protected function awaitingExtractingChaptersRequest(Builder $query): void
     {
         $query->where('status', StoryStatusEnum::AWAITING_EXTRACTING_CHAPTERS_REQUEST);
     }
 
+    /**
+     * @param Builder<Story> $query
+     * @return void
+     */
     #[Scope]
     protected function extractingChapters(Builder $query): void
     {
         $query->where('status', StoryStatusEnum::EXTRACTING_CHAPTERS);
     }
 
+    /**
+     * @param Builder<Story> $query
+     * @return void
+     */
     #[Scope]
     protected function published(Builder $query): void
     {

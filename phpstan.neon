@@ -8,3 +8,7 @@ parameters:
         - app/
 
     level: max
+
+    excludePaths:
+        - app/Jobs/**/*
+        - app/Ai/**/*

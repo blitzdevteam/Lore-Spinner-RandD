@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Story;
 use Illuminate\Http\Request;
 
+/**
+ * @mixin Story
+ */
 class StoryResource extends BaseResource
 {
     /**
@@ -13,7 +17,6 @@ class StoryResource extends BaseResource
      *
      * @return array<string, mixed>
      */
-    #[\Override]
     public function toArray(Request $request): array
     {
         return [

@@ -45,7 +45,7 @@ trait EnumToArray
     /**
      * Transform the enum instance to an array with value and label for API resources.
      *
-     * @return array{value: string, label: string|null}
+     * @return array{value: string, label: mixed}
      */
     public function toResource(): array
     {

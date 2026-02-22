@@ -8,23 +8,33 @@ use App\Enums\Chapter\ChapterStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $story_id
+ * @property int $position
+ * @property string $title
+ * @property string $teaser
+ * @property string $content
+ * @property ChapterStatusEnum $status
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property-read Story $story
+ */
 final class Chapter extends Model
 {
     protected $guarded = [
         'id', 'created_at', 'updated_at',
     ];
 
-    #[\Override]
-    protected function casts(): array
-    {
-        return [
-            'status' => ChapterStatusEnum::class,
-        ];
-    }
+    protected $casts = [
+        'status' => ChapterStatusEnum::class,
+    ];
 
     /**
-     * @return BelongsTo<$this, Story>
+     * @return BelongsTo<Story, $this>
      */
     public function story(): BelongsTo
     {
@@ -32,7 +42,7 @@ final class Chapter extends Model
     }
 
     /**
-     * @return HasMany<$this, Event>
+     * @return HasMany<Event, $this>
      */
     public function events(): HasMany
     {

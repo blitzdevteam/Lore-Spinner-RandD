@@ -13,6 +13,7 @@ use Illuminate\Bus\Batch;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Bus;
+use Laravel\Ai\Responses\StructuredAgentResponse;
 use Throwable;
 
 final class EventExtractorJob implements ShouldQueue
@@ -46,6 +47,8 @@ final class EventExtractorJob implements ShouldQueue
 
             // Extract events using AI agent with line-numbered content
             $linedContent = LineNumberFormatterHelper::handle($this->chapter->content);
+
+            /** @var StructuredAgentResponse $response */
             $response = EventExtractorAgent::make()
                 ->prompt(
                     view('ai.agents.event-extractor.prompt', [

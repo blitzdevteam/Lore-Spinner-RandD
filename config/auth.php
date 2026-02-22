@@ -118,4 +118,18 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Verification Settings
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define the verification settings for the application.
+    | The expire option defines the number of minutes a verification link
+    | is valid for before it expires and a new one must be requested.
+    |
+    */
+    'verification' => [
+        'expire' => env('AUTH_VERIFICATION_EXPIRE', 60),
+    ],
+
 ];

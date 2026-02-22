@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Requests\User\Authentication;
 
 use App\Enums\GenderEnum;
+use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,9 +24,10 @@ final class UpdateCompleteProfileRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @param User $user
+     * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules(#[CurrentUser] User $user): array
     {
         return [
             'username' => [
@@ -32,7 +36,7 @@ final class UpdateCompleteProfileRequest extends FormRequest
                 'min:3',
                 'max:24',
                 'regex:/^[a-zA-Z][a-zA-Z0-9_]*$/',
-                Rule::unique('users', 'username')->ignore($this->user()->id),
+                Rule::unique('users', 'username')->ignore($user->id),
             ],
             'first_name' => ['required', 'string', 'min:3', 'max:64'],
             'last_name' => ['required', 'string', 'min:3', 'max:64'],

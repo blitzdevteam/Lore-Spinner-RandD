@@ -2,9 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Creator;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Creator
+ */
 class CreatorResource extends BaseResource
 {
     /**
@@ -12,7 +15,6 @@ class CreatorResource extends BaseResource
      *
      * @return array<string, mixed>
      */
-    #[\Override]
     public function toArray(Request $request): array
     {
         return [

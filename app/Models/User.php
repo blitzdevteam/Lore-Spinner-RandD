@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -12,15 +13,35 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @property int $id
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $gender
+ * @property string|null $username
+ * @property string $email
+ * @property string $password
+ * @property string|null $avatar
+ * @property string|null $bio
+ * @property bool $is_active
+ * @property Carbon|null $email_verified_at
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property-read string $full_name
+ * @property-read bool $is_profile_completed
+ */
 final class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
+
     use InteractsWithMedia;
     use Notifiable;
 
@@ -54,12 +75,15 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
     #[\Override]
     public function sendEmailVerificationNotification(): void
     {
-        VerifyEmail::createUrlUsing(fn ($notifiable) => URL::temporarySignedRoute(
+        /** @var int $verificationExpire */
+        $verificationExpire = config('auth.verification.expire');
+
+        VerifyEmail::createUrlUsing(fn (self $notifiable) => URL::temporarySignedRoute(
             'user.authentication.verify.confirm',
-            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            Carbon::now()->addMinutes($verificationExpire),
             [
                 'id' => $notifiable->getKey(),
-                'hash' => sha1((string) $notifiable->getEmailForVerification()),
+                'hash' => sha1($notifiable->getEmailForVerification()),
             ]
         ));
 
@@ -67,7 +91,7 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
     }
 
     /**
-     * @return MorphMany<$this, Comment>
+     * @return MorphMany<Comment, $this>
      */
     public function comments(): MorphMany
     {
@@ -113,7 +137,7 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn (): string => $this?->getFirstMediaUrl('avatar')
+            get: fn (): string => $this->getFirstMediaUrl('avatar')
         );
     }
 
@@ -123,7 +147,7 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
     protected function username(): Attribute
     {
         return Attribute::make(
-            set: fn ($value): ?string => blank($value) ? null : mb_strtolower((string) $value)
+            set: fn (string $value): ?string => blank($value) ? null : mb_strtolower($value)
         );
     }
 }
