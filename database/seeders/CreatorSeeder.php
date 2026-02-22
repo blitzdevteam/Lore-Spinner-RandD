@@ -17,10 +17,10 @@ final class CreatorSeeder extends Seeder
         Creator::factory()->count(10)->create();
 
         Creator::factory()->create([
-            'first_name' => 'nima',
-            'last_name' => 'asaadi',
-            'email' => 'ni4.asadi.b@gmail.com',
-            'password' => 'n.ima1234',
+            'first_name' => 'john',
+            'last_name' => 'doe',
+            'email' => 'test@example.com',
+            'password' => 'password',
         ]);
     }
 }
