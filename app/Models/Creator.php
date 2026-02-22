@@ -61,6 +61,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     /**
      * Send the email verification notification.
      */
+    #[\Override]
     public function sendEmailVerificationNotification(): void
     {
         VerifyEmail::createUrlUsing(fn ($notifiable) => URL::temporarySignedRoute(
@@ -86,6 +87,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasName, Ha
     /**
      * @return string[]
      */
+    #[\Override]
     protected function casts(): array
     {
         return [

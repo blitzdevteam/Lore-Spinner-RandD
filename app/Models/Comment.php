@@ -33,6 +33,7 @@ final class Comment extends Model
         return $this->morphTo();
     }
 
+    #[\Override]
     protected function casts(): array
     {
         return [

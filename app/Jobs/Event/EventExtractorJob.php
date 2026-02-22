@@ -25,17 +25,13 @@ final class EventExtractorJob implements ShouldQueue
 
     public int $backoff = 60;
 
-    private Chapter $chapter;
-
     /**
      * Create a new job instance.
      */
     public function __construct(
-        Chapter $chapter,
+        private Chapter $chapter,
     ) {
         $this->onQueue('event-extraction');
-
-        $this->chapter = $chapter;
     }
 
     /**
@@ -61,7 +57,7 @@ final class EventExtractorJob implements ShouldQueue
             // Create events sorted by position
             $events = collect($response['events'])
                 ->sortBy('position')
-                ->map(fn (array $event) => [
+                ->map(fn (array $event): array => [
                     'position' => $event['position'],
                     'title' => $event['title'],
                     'content' => TextRangeExtractorHelper::handle($this->chapter->content, $event['start'], $event['end']),
@@ -70,7 +66,7 @@ final class EventExtractorJob implements ShouldQueue
             // Queue jobs to extract objectives and attributes for each event
             $jobs = $this->chapter->events()
                 ->createMany($events->all())
-                ->map(fn ($event) => new EventObjectiveAndAttributeExtractor($event->id));
+                ->map(fn ($event): \App\Jobs\Event\EventObjectiveAndAttributeExtractor => new EventObjectiveAndAttributeExtractor($event->id));
 
             // Update chapter status to waiting for event preparation
             $this->chapter->update([
@@ -82,14 +78,14 @@ final class EventExtractorJob implements ShouldQueue
             $chapterId = $this->chapter->id;
             Bus::batch($jobs)
                 // After all events have been processed, mark chapter as ready to play
-                ->then(function (Batch $batch) use ($chapterId) {
+                ->then(function (Batch $batch) use ($chapterId): void {
                     Chapter::find($chapterId)?->update([
                         'status' => ChapterStatusEnum::READY_TO_PLAY,
                     ]);
                 })
                 ->onQueue('event-objective-and-attribute-extraction')
                 ->dispatch();
-        } catch (Throwable $exception) {
+        } catch (Throwable $throwable) {
             // Reset chapter status on failure
             $this->chapter->update([
                 'status' => ChapterStatusEnum::AWAITING_EXTRACTING_EVENTS_REQUEST,
@@ -98,7 +94,7 @@ final class EventExtractorJob implements ShouldQueue
             // Remove any partially created events
             $this->chapter->events()->delete();
 
-            throw $exception;
+            throw $throwable;
         }
     }
 }

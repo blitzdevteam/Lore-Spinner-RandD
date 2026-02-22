@@ -12,6 +12,7 @@ final class ListCreators extends ListRecords
 {
     protected static string $resource = CreatorResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [

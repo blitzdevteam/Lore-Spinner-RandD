@@ -45,6 +45,7 @@ final class Manager extends Authenticatable implements FilamentUser, HasName
         return $this->full_name;
     }
 
+    #[\Override]
     protected function casts(): array
     {
         return [

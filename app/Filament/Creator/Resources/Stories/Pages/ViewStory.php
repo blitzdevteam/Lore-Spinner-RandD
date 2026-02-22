@@ -12,6 +12,7 @@ final class ViewStory extends ViewRecord
 {
     protected static string $resource = StoryResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [

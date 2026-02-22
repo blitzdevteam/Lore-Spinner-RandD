@@ -77,6 +77,7 @@ final class Story extends Model implements HasMedia
         return $this->morphMany(Comment::class, 'commentable');
     }
 
+    #[\Override]
     protected function casts(): array
     {
         return [
@@ -86,40 +87,24 @@ final class Story extends Model implements HasMedia
         ];
     }
 
-    /**
-     * @param Builder $query
-     * @return void
-     */
     #[Scope]
     protected function draft(Builder $query): void
     {
         $query->where('status', StoryStatusEnum::DRAFT);
     }
 
-    /**
-     * @param Builder $query
-     * @return void
-     */
     #[Scope]
     protected function awaitingExtractingChaptersRequest(Builder $query): void
     {
         $query->where('status', StoryStatusEnum::AWAITING_EXTRACTING_CHAPTERS_REQUEST);
     }
 
-    /**
-     * @param Builder $query
-     * @return void
-     */
     #[Scope]
     protected function extractingChapters(Builder $query): void
     {
         $query->where('status', StoryStatusEnum::EXTRACTING_CHAPTERS);
     }
 
-    /**
-     * @param Builder $query
-     * @return void
-     */
     #[Scope]
     protected function published(Builder $query): void
     {

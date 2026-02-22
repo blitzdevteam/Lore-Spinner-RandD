@@ -30,6 +30,7 @@ final class StoryResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Entities';
 
+    #[\Override]
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->whereBelongsTo(auth('creator')->user());
@@ -66,6 +67,7 @@ final class StoryResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [

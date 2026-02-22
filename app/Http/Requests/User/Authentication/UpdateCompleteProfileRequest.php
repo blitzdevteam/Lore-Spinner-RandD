@@ -43,6 +43,7 @@ final class UpdateCompleteProfileRequest extends FormRequest
     /**
      * Prepare the data for validation.
      */
+    #[\Override]
     protected function prepareForValidation(): void
     {
         $this->merge([

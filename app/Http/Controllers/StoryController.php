@@ -21,7 +21,7 @@ final class StoryController extends Controller
             ->load([
                 'category:id,title',
                 'creator:id,first_name,last_name,username,avatar',
-                'chapters' => function ($query) {
+                'chapters' => function ($query): void {
                     $query
                         ->orderBy('position')
                         ->select(['id', 'story_id', 'title', 'status', 'teaser'])

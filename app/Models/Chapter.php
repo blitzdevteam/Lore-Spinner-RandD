@@ -15,6 +15,7 @@ final class Chapter extends Model
         'id', 'created_at', 'updated_at',
     ];
 
+    #[\Override]
     protected function casts(): array
     {
         return [

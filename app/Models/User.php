@@ -51,6 +51,7 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
     /**
      * Send the email verification notification.
      */
+    #[\Override]
     public function sendEmailVerificationNotification(): void
     {
         VerifyEmail::createUrlUsing(fn ($notifiable) => URL::temporarySignedRoute(
@@ -76,6 +77,7 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
     /**
      * @return string[]
      */
+    #[\Override]
     protected function casts(): array
     {
         return [

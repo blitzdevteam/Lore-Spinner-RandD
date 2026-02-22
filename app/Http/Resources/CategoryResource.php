@@ -13,6 +13,7 @@ class CategoryResource extends BaseResource
      *
      * @return array<string, mixed>
      */
+    #[\Override]
     public function toArray(Request $request): array
     {
         return [

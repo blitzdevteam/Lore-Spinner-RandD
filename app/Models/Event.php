@@ -16,6 +16,7 @@ final class Event extends Model
     /**
      * @return string[]
      */
+    #[\Override]
     protected function casts(): array
     {
         return [

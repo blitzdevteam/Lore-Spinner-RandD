@@ -13,7 +13,7 @@ final class GameController extends Controller
         return inertia('User/Games/Show');
     }
 
-    public function show()
+    public function show(): never
     {
         dd('show');
     }

@@ -11,6 +11,7 @@ class EditChapter extends EditRecord
 {
     protected static string $resource = ChapterResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [

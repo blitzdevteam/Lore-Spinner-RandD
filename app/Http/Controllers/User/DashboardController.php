@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 final class DashboardController extends Controller
 {
-    public function __invoke(): void
+    public function __invoke(): never
     {
         dd(1);
     }

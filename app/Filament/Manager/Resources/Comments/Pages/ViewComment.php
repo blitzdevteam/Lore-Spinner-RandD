@@ -17,6 +17,7 @@ final class ViewComment extends ViewRecord
 {
     protected static string $resource = CommentResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         /**

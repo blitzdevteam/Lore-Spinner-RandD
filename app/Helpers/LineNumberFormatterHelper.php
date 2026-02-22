@@ -25,8 +25,8 @@ readonly final class LineNumberFormatterHelper
         foreach ($lines as $i => $line) {
             $index = $i + 1;
             $len = mb_strlen($line, 'UTF-8');
-            $lengthLines[] = "{$index}={$len}";
-            $numberedLines[] = "#{$index}# {$line}";
+            $lengthLines[] = sprintf('%d=%d', $index, $len);
+            $numberedLines[] = sprintf('#%d# %s', $index, $line);
         }
 
         return [

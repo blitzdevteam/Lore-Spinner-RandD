@@ -13,8 +13,8 @@ use Throwable;
 
 class EventObjectiveAndAttributeExtractor implements ShouldQueue
 {
-    use Batchable, Queueable;
-
+    use Batchable;
+    use Queueable;
     private Event $event;
 
     private Chapter $chapter;
@@ -57,22 +57,6 @@ class EventObjectiveAndAttributeExtractor implements ShouldQueue
 
     /**
      * @param Event $currentEvent
-     * @param int $take
-     * @return Collection<Event>
-     */
-    private function previousEvents(int $take = 5): Collection
-    {
-        return $this->chapter->events()
-            ->orderByDesc('position')
-            ->where('position', '<', $this->event->position)
-            ->take($take)
-            ->get()
-            ->reverse();
-    }
-
-    /**
-     * @param Event $currentEvent
-     * @param int $take
      * @return Collection<Event>
      */
     private function nextEvents(int $take = 5): Collection

@@ -8,8 +8,4 @@ use Illuminate\Database\Seeder;
 
 final class ManagerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void {}
 }

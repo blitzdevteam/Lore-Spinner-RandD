@@ -25,17 +25,13 @@ final class ChapterExtractorJob implements ShouldQueue
 
     public int $backoff = 60;
 
-    private Story $story;
-
     /**
      * Create a new job instance.
      */
     public function __construct(
-        Story $story,
+        private Story $story,
     ) {
         $this->onQueue('chapter-extraction');
-
-        $this->story = $story;
     }
 
     /**
@@ -59,7 +55,7 @@ final class ChapterExtractorJob implements ShouldQueue
                     ])->render()
                 );
 
-            DB::transaction(function () use ($linedContent, $response) {
+            DB::transaction(function () use ($linedContent, $response): void {
                 foreach ($response['chapters'] as $chapter) {
                     $this->story->chapters()->create([
                         'title' => $chapter['title'],
@@ -78,12 +74,12 @@ final class ChapterExtractorJob implements ShouldQueue
                     'status' => StoryStatusEnum::DRAFT,
                 ]);
             });
-        } catch (Throwable $exception) {
+        } catch (Throwable $throwable) {
             $this->story->update([
                 'status' => StoryStatusEnum::AWAITING_EXTRACTING_CHAPTERS_REQUEST,
             ]);
 
-            throw $exception;
+            throw $throwable;
         }
     }
 }

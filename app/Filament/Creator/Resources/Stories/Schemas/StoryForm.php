@@ -95,8 +95,8 @@ final class StoryForm
                                     ->preserveFilenames()
                                     ->downloadable()
                                     ->openable()
-                                    ->required(fn (Get $get) => (bool) $get('use_script_upload'))
-                                    ->visible(fn (Get $get) => (bool) $get('use_script_upload'))
+                                    ->required(fn (Get $get): bool => (bool) $get('use_script_upload'))
+                                    ->visible(fn (Get $get): bool => (bool) $get('use_script_upload'))
                                     ->columnSpanFull(),
                             ])
                             ->columnSpanFull(),

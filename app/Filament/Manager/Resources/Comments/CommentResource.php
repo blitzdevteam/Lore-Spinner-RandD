@@ -33,7 +33,7 @@ final class CommentResource extends Resource
         return (string) self::getEloquentQuery()->where('status', CommentStatusEnum::PENDING)->count();
     }
 
-    public static function getNavigationBadgeColor(): string|array|null
+    public static function getNavigationBadgeColor(): string
     {
         return 'warning';
     }
@@ -64,6 +64,7 @@ final class CommentResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [

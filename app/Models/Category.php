@@ -24,6 +24,7 @@ final class Category extends Model
         return $this->hasMany(Story::class);
     }
 
+    #[\Override]
     protected function casts(): array
     {
         return [];

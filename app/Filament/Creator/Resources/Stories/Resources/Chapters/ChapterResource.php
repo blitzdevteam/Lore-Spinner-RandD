@@ -23,6 +23,7 @@ class ChapterResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
+    #[\Override]
     public static function getParentResourceRegistration(): ?ParentResourceRegistration
     {
         return StoryResource::asParent()
@@ -30,21 +31,25 @@ class ChapterResource extends Resource
             ->inverseRelationship('story');
     }
 
+    #[\Override]
     public static function form(Schema $schema): Schema
     {
         return ChapterForm::configure($schema);
     }
 
+    #[\Override]
     public static function infolist(Schema $schema): Schema
     {
         return ChapterInfolist::configure($schema);
     }
 
+    #[\Override]
     public static function table(Table $table): Table
     {
         return ChaptersTable::configure($table);
     }
 
+    #[\Override]
     public static function getRelations(): array
     {
         return [
@@ -52,6 +57,7 @@ class ChapterResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function getPages(): array
     {
         return [

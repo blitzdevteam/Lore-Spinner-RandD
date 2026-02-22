@@ -12,7 +12,6 @@ final class NumberedLineExtractorHelper
      * @param string $fullText The complete text with #{line}# markers
      * @param int $startLine Starting line number
      * @param int $endLine Ending line number
-     * @return string
      */
     public static function handle(string $fullText, int $startLine, int $endLine): string
     {

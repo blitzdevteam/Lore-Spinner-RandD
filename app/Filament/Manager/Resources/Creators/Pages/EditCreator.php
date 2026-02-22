@@ -12,6 +12,7 @@ final class EditCreator extends EditRecord
 {
     protected static string $resource = CreatorResource::class;
 
+    #[\Override]
     protected function getHeaderActions(): array
     {
         return [
