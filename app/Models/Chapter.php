@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Chapter\ChapterStatusEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,5 +50,23 @@ final class Chapter extends Model
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEditable(): bool
+    {
+        return match ($this->status) {
+            ChapterStatusEnum::READY_TO_PLAY => ! $this->events()
+                ->whereHas('prompts', fn(Builder $query) => $query
+                    ->whereIn('game_id', $this->story->games()->select('id'))
+                )
+                ->exists(),
+            ChapterStatusEnum::AWAITING_CREATOR_REVIEW,
+            ChapterStatusEnum::AWAITING_EXTRACTING_EVENTS_REQUEST,
+            ChapterStatusEnum::REJECTED => true,
+            default => false,
+        };
     }
 }

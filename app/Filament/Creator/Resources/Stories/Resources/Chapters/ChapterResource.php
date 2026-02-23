@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class ChapterResource extends Resource
 {
@@ -65,5 +66,11 @@ class ChapterResource extends Resource
             'view' => ViewChapter::route('/{record}'),
             'edit' => EditChapter::route('/{record}/edit'),
         ];
+    }
+
+    #[\Override]
+    public static function canEdit(Model $record): bool
+    {
+        return $record->isEditable();
     }
 }
