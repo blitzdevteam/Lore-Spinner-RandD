@@ -72,6 +72,7 @@ class EventExtractorAgent implements Agent, HasStructuredOutput
                                 ])
                                 ->title('Start')
                                 ->description('Start coordinate for the event. line is the numeric line marker; char is 0-based index within the line text EXCLUDING the "#<LINE># " marker.')
+                                ->withoutAdditionalProperties()
                                 ->required(),
                             'end' => $schema
                                 ->object([
@@ -88,10 +89,12 @@ class EventExtractorAgent implements Agent, HasStructuredOutput
                                 ])
                                 ->title('End')
                                 ->description('End coordinate for the event. end_char is EXCLUSIVE (slice up to but not including this char). May end mid-line.')
+                                ->withoutAdditionalProperties()
                                 ->required(),
                         ])
                         ->title('Event')
                         ->description('A single actionable event represented by a title and coordinate boundaries (no evidence text).')
+                        ->withoutAdditionalProperties()
                         ->required()
                 )
                 ->required()

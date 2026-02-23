@@ -45,7 +45,7 @@ final class StoryForm
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn (string $value, callable $set) => $set('slug', str($value)->slug()))
+                            ->afterStateUpdated(fn (string $state, callable $set) => $set('slug', str($state)->slug()))
                             ->columnSpan(2),
                         TextInput::make('slug')
                             ->required()

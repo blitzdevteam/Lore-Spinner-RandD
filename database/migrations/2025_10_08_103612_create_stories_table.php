@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('teaser');
+            $table->text('opening')->nullable();
             $table->string('status')->default(StoryStatusEnum::DRAFT->value);
             $table->string('rating');
             $table->timestamp('published_at')->nullable();

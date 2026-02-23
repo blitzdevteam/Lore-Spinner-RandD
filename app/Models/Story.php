@@ -36,6 +36,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $chapters_count
  * @property-read Collection<int, Comment> $comments
  * @property-read int|null $comments_count
+ * @property-read Collection<int, Game> $games
+ * @property-read int|null $games_count
  */
 final class Story extends Model implements HasMedia
 {
@@ -96,6 +98,14 @@ final class Story extends Model implements HasMedia
     public function chapters(): HasMany
     {
         return $this->hasMany(Chapter::class);
+    }
+
+    /**
+     * @return HasMany<Game, $this>
+     */
+    public function games(): HasMany
+    {
+        return $this->hasMany(Game::class);
     }
 
     /**

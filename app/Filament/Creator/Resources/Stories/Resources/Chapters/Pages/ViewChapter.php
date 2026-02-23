@@ -30,10 +30,22 @@ class ViewChapter extends ViewRecord
                 ->color('info')
                 ->requiresConfirmation()
                 ->modal()
-                ->visible(fn (Chapter $chapter): bool => $chapter->status === ChapterStatusEnum::AWAITING_CREATOR_REVIEW),
+                ->visible(fn(Chapter $chapter): bool => $chapter->status === ChapterStatusEnum::AWAITING_CREATOR_REVIEW),
 
             EditAction::make()
-                ->hidden(fn (Chapter $chapter): bool => $chapter->status === ChapterStatusEnum::EXTRACTING_EVENTS),
+                ->visible(function (Chapter $chapter): bool {
+                    return match ($chapter->status) {
+                        ChapterStatusEnum::READY_TO_PLAY => ! $chapter->events()
+                            ->whereHas('prompts', fn($query) => $query
+                                ->whereIn('game_id', $chapter->story->games()->select('id'))
+                            )
+                            ->exists(),
+                        ChapterStatusEnum::AWAITING_CREATOR_REVIEW,
+                        ChapterStatusEnum::AWAITING_EXTRACTING_EVENTS_REQUEST,
+                        ChapterStatusEnum::REJECTED => true,
+                        default => false,
+                    };
+                })
         ];
     }
 }
