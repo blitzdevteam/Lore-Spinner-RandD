@@ -43,7 +43,7 @@ class EventExtractorAgent implements Agent, HasStructuredOutput
         return [
             'events' => $schema->array()
                 ->title('Events')
-                ->description('Ordered list of extracted events in reading order. Each event must reference start/end coordinates within the provided #line# marked excerpt (excluding the marker from char indexing).')
+                ->description('Ordered list of extracted events in reading order. Each event represents a continuous playable sequence. Split only on clear shifts in: physical location, time, primary activity, or narrative perspective.')
                 ->items(
                     $schema
                         ->object([
@@ -55,7 +55,7 @@ class EventExtractorAgent implements Agent, HasStructuredOutput
                             'title' => $schema
                                 ->string()
                                 ->title('Title')
-                                ->description('Concise event title (3–10 words). Must not add details not present in the excerpt.')
+                                ->description('Observable activity description under 255 characters. Must avoid interpretation, metaphor, or thematic framing. Do not include character names unless present in excerpt.')
                                 ->required(),
                             'start' => $schema
                                 ->object([
@@ -67,11 +67,11 @@ class EventExtractorAgent implements Agent, HasStructuredOutput
                                     'char' => $schema
                                         ->number()
                                         ->title('Char')
-                                        ->description('Start character offset (0-based) within the line text (excluding the line marker).')
+                                        ->description('Start character offset (0-based) within the line text (excluding the "#<LINE># " marker).')
                                         ->required(),
                                 ])
                                 ->title('Start')
-                                ->description('Start coordinate for the event. line is the numeric line marker; char is 0-based index within the line text EXCLUDING the "#<LINE># " marker.')
+                                ->description('Start coordinate for the event. Coordinates allow verbatim extraction of Event Text from source script.')
                                 ->withoutAdditionalProperties()
                                 ->required(),
                             'end' => $schema
@@ -84,16 +84,16 @@ class EventExtractorAgent implements Agent, HasStructuredOutput
                                     'char' => $schema
                                         ->number()
                                         ->title('Char')
-                                        ->description('End character offset (0-based, EXCLUSIVE) within the line text (excluding the line marker).')
+                                        ->description('End character offset (0-based, EXCLUSIVE) within the line text (excluding the "#<LINE># " marker).')
                                         ->required(),
                                 ])
                                 ->title('End')
-                                ->description('End coordinate for the event. end_char is EXCLUSIVE (slice up to but not including this char). May end mid-line.')
+                                ->description('End coordinate for the event. end_char is EXCLUSIVE (slice up to but not including this char). Coordinates allow verbatim extraction.')
                                 ->withoutAdditionalProperties()
                                 ->required(),
                         ])
                         ->title('Event')
-                        ->description('A single actionable event represented by a title and coordinate boundaries (no evidence text).')
+                        ->description('A single playable event with title and coordinate boundaries. Each event should represent a FULL playable moment, not a fragment.')
                         ->withoutAdditionalProperties()
                         ->required()
                 )

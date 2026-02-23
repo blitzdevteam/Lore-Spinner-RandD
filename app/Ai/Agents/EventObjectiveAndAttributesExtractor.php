@@ -33,25 +33,21 @@ class EventObjectiveAndAttributesExtractor implements Agent, HasStructuredOutput
     public function schema(JsonSchema $schema): array
     {
         return [
-            'title' => $schema
-                ->string()
-                ->title('Event Title')
-                ->description('The exact title or name of the event being analyzed.')
-                ->required(),
             'objective' => $schema
                 ->string()
                 ->title('Objective')
-                ->description('The primary objective or goal of this event. A concise statement describing what the event aims to accomplish in the narrative.')
+                ->description('Observable state change at the END of the event compared to the BEGINNING. Structure: "[Subject] + [observable state change]." Must describe what new condition exists, what object is altered, what character status changed, what access changed, or what environmental condition changed. Use "No material state change occurs." only when strictly true.')
                 ->required(),
             'attributes' => $schema
                 ->array()
                 ->title('Attributes')
-                ->description('List of key attributes, themes, or characteristics associated with this event.')
+                ->description('Story-state continuity facts from the 6-category checklist. Each array item is one category with format "Category: fact1 | fact2 | fact3". Categories: (1) Location, (2) Characters physically present, (3) Persistent physical conditions, (4) Objects, (5) Environmental conditions, (6) Factual dialogue. Omit categories with no data. Use pipe "|" to separate multiple facts within a category.')
                 ->items(
                     $schema
                         ->string()
                         ->title('Attribute')
-                        ->description('A single attribute or theme associated with the event.')
+                        ->description('One category line in format "Category: fact1 | fact2 | fact3". Example: "Objects: sealed envelope on desk | photograph of father | coat and keys"')
+                        ->required()
                 )
                 ->required(),
         ];
