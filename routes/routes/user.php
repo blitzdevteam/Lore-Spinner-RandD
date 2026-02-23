@@ -45,6 +45,6 @@ Route::prefix('user')->name('user.')->group(function (): void {
             Route::get('dashboard', User\DashboardController::class)->name('dashboard.index');
 
             Route::resource('games', User\GameController::class)
-                ->only(['index', 'show']);
+                ->only(['index', 'show', 'store']);
         });
 });

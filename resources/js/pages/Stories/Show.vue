@@ -16,13 +16,17 @@ import Tabs from 'primevue/tabs';
 import StoryGallery from '@/components/StoryGallery.vue';
 import StoryChapterCard from '@/components/StoryChapterCard.vue';
 import StoryCommentCard from '@/components/StoryCommentCard.vue';
+import { store } from '@/wayfinder/actions/App/Http/Controllers/User/GameController';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps<{
     story: StoryInterface;
 }>();
 
 const handleStartStory = (): void => {
-
+    router.post(store(), {
+        story_id: props.story.id,
+    })
 };
 </script>
 

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('prompts', function (Blueprint $table): void {
             $table->ulid('id')->primary()->index();
-            $table->foreignId('game_id')->constrained()->cascadeOnUpdate();
+            $table->foreignUlid('game_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('event_id')->constrained()->cascadeOnUpdate();
             $table->text('prompt');
             $table->text('response');

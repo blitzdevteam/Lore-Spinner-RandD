@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -19,6 +21,7 @@ use Illuminate\Support\Carbon;
  * @property-read Story $story
  * @property-read User $user
  * @property-read Event $currentEvent
+ * @property-read Collection<int, Prompt> $prompts
  */
 final class Game extends Model
 {
@@ -50,5 +53,13 @@ final class Game extends Model
     public function currentEvent(): BelongsTo
     {
         return $this->belongsTo(Event::class, 'current_event_id');
+    }
+
+    /**
+     * @return HasMany<Prompt, $this>
+     */
+    public function prompts(): HasMany
+    {
+        return $this->hasMany(Prompt::class);
     }
 }
