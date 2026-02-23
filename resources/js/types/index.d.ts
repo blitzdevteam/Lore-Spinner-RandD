@@ -90,3 +90,38 @@ export interface EventInterface {
     // Relations
     chapter?: ChapterInterface;
 }
+
+export interface PromptInterface {
+    id: string;
+    game_id: string;
+    event_id: number;
+    prompt: string | null;
+    response: string;
+    choices: string[];
+    selected_choice: string | null;
+    created_at: string | null;
+    updated_at: string | null;
+
+    // Relations
+    game?: GameInterface;
+    event?: EventInterface;
+}
+
+export interface GameInterface {
+    id: string;
+    story_id: number;
+    user_id: number;
+    current_event_id: number;
+    created_at: string | null;
+    updated_at: string | null;
+
+    // Relations
+    story?: StoryInterface;
+    user?: UserInterface;
+    current_event?: EventInterface;
+    prompts?: PromptInterface[];
+
+    // Counts
+    prompts_count?: number;
+}
+

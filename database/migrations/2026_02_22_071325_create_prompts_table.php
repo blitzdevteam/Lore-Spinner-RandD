@@ -17,8 +17,9 @@ return new class extends Migration
             $table->ulid('id')->primary()->index();
             $table->foreignUlid('game_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('event_id')->constrained()->cascadeOnUpdate();
-            $table->text('prompt');
             $table->text('response');
+            $table->json('choices')->nullable();
+            $table->text('prompt')->nullable();
             $table->timestamps();
         });
     }

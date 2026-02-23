@@ -23,6 +23,10 @@ final class GameController extends Controller
 
     public function show(Game $game): Response
     {
+        $game->load([
+            'prompts:id,game_id,event_id,response,choices,prompt',
+        ]);
+
         return inertia('User/Games/Show', [
             'game' => $game->toResource()
         ]);

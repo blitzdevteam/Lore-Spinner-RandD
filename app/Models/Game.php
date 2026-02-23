@@ -60,6 +60,6 @@ final class Game extends Model
      */
     public function prompts(): HasMany
     {
-        return $this->hasMany(Prompt::class);
+        return $this->hasMany(Prompt::class)->latest();
     }
 }

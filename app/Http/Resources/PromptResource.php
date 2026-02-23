@@ -24,8 +24,9 @@ class PromptResource extends BaseResource
             'id' => $this->id,
             'game_id' => $this->game_id,
             'event_id' => $this->event_id,
+            'prompt' => $this->prompt ?? '',
             'response' => $this->response,
-            'prompt' => $this->prompt,
+            'choices' => $this->choices ?? [],
 
             // Relations
             'game' => GameResource::make($this->whenLoaded('game')),

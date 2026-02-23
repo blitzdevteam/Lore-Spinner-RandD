@@ -46,5 +46,9 @@ Route::prefix('user')->name('user.')->group(function (): void {
 
             Route::resource('games', User\GameController::class)
                 ->only(['index', 'show', 'store']);
+
+            Route::singleton('games.prompt', User\Game\PromptController::class)
+                ->creatable()
+                ->only(['store']);
         });
 });

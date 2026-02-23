@@ -15,12 +15,23 @@ final readonly class CreateGameAction
     {
         $firstChapter = $story->chapters()->orderBy('position')->first();
 
-        return $user->games()->create([
+        $game = $user->games()->create([
             'story_id' => $story->id,
             'current_event_id' => $firstChapter->events()
                 ->orderBy('position')
                 ->first()
                 ->id
         ]);
+
+        $game->prompts()->create([
+            'event_id' => $firstChapter->events()
+                ->orderBy('position')
+                ->limit(1)
+                ->value('id'),
+            'response' => $game->story()->value('opening'),
+            'choices' => ['Begin your adventure']
+        ]);
+
+        return $game;
     }
 }
