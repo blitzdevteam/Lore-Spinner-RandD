@@ -6,6 +6,7 @@ namespace App\Filament\Creator\Resources\Stories\Schemas;
 
 use App\Enums\Story\StoryRatingEnum;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
@@ -57,6 +58,12 @@ final class StoryForm
                             ->required()
                             ->helperText('Provide a short teaser of the story without revealing spoilers.')
                             ->rows(3)
+                            ->columnSpan(2),
+                        RichEditor::make('opening')
+                            ->helperText('This will be used as the opening of the story when it is published')
+                            ->toolbarButtons([
+                                'redo', 'undo', 'underline', 'italic', 'bold',
+                            ])
                             ->columnSpan(2),
                         Fieldset::make('Images')
                             ->schema([

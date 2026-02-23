@@ -66,6 +66,10 @@ final class StoryInfolist
                             ->placeholder('-')
                             ->visible(fn (Story $record): bool => ! is_null($record->published_at))
                             ->columnSpan(2),
+                        TextEntry::make('opening')
+                            ->html()
+                            ->placeholder('-')
+                            ->columnSpan(2),
                     ]),
                 Section::make()
                     ->columnSpanFull()

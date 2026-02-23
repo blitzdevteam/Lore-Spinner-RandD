@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Chapter\ChapterStatusEnum;
 use App\Enums\Story\StoryRatingEnum;
 use App\Enums\Story\StoryStatusEnum;
 use Database\Factories\StoryFactory;
@@ -150,5 +151,17 @@ final class Story extends Model implements HasMedia
     protected function published(Builder $query): void
     {
         $query->where('status', StoryStatusEnum::PUBLISHED);
+    }
+
+    /**
+     * @return bool
+     */
+    public function canMarkAsPublished(): bool
+    {
+        return $this->status === StoryStatusEnum::DRAFT
+            && $this->chapters()
+                ->orderBy('position')
+                ->limit(1)
+                ->value('status') === ChapterStatusEnum::READY_TO_PLAY;
     }
 }
