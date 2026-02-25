@@ -27,6 +27,7 @@ class ChapterResource extends BaseResource
             'teaser' => $this->teaser,
             'content' => $this->content,
             'status' => $this->status->toResource(),
+            'cover' => $this->getFirstMediaUrl('cover'),
 
             // Relations
             'story' => StoryResource::make($this->whenLoaded('story')),

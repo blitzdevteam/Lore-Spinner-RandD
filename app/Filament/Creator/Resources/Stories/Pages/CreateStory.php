@@ -7,6 +7,9 @@ namespace App\Filament\Creator\Resources\Stories\Pages;
 use App\Enums\Story\StoryStatusEnum;
 use App\Filament\Creator\Resources\Stories\StoryResource;
 use App\Jobs\Chapter\ChapterExtractorJob;
+use App\Jobs\Story\StoryCoverGeneratorJob;
+use App\Jobs\Story\StoryOpeningGeneratorJob;
+use App\Jobs\Story\SystemPromptGeneratorJob;
 use App\Models\Story;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
@@ -37,10 +40,15 @@ final class CreateStory extends CreateRecord
             ]);
 
             ChapterExtractorJob::dispatch($story);
+            SystemPromptGeneratorJob::dispatch($story);
+            StoryCoverGeneratorJob::dispatch($story);
+            StoryOpeningGeneratorJob::dispatch($story)->delay(now()->addMinutes(5));
         } else {
             $story->update([
                 'status' => StoryStatusEnum::DRAFT,
             ]);
+
+            StoryCoverGeneratorJob::dispatch($story);
         }
 
         return $story;

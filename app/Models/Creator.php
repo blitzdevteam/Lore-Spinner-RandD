@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Jobs\Creator\CreatorAvatarGeneratorJob;
 use Database\Factories\CreatorFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
@@ -60,6 +61,13 @@ final class Creator extends Authenticatable implements FilamentUser, HasMedia, H
     protected $appends = [
         'full_name',
     ];
+
+    protected static function booted(): void
+    {
+        static::created(function (Creator $creator): void {
+            CreatorAvatarGeneratorJob::dispatch($creator);
+        });
+    }
 
     public function canAccessPanel(Panel $panel): bool
     {

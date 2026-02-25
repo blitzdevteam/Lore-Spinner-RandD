@@ -23,7 +23,8 @@ final class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'content' => fake()->paragraph(),
+            // Generic human text; story-specific, meaningful comments are generated in the CommentSeeder
+            'content' => fake()->realText(160),
             'status' => fake()->randomElement(CommentStatusEnum::values()),
         ];
     }

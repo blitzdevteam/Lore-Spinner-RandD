@@ -47,8 +47,14 @@ Route::prefix('user')->name('user.')->group(function (): void {
             Route::resource('games', User\GameController::class)
                 ->only(['index', 'show', 'store']);
 
+            Route::post('games/{game}/begin', [User\GameController::class, 'begin'])
+                ->name('games.begin');
+
             Route::singleton('games.prompt', User\Game\PromptController::class)
                 ->creatable()
                 ->only(['store']);
+
+            Route::get('games/{game}/tts/{prompt}', User\Game\TextToSpeechController::class)
+                ->name('games.tts');
         });
 });

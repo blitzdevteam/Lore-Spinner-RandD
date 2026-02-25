@@ -25,6 +25,7 @@ class StoryResource extends BaseResource
             'title' => $this->title,
             'slug' => $this->slug,
             'teaser' => $this->teaser,
+            'opening' => $this->opening,
             'status' => $this->status->toResource(),
             'rating' => $this->rating->toResource(),
             'published_at' => $this->published_at,
@@ -35,6 +36,7 @@ class StoryResource extends BaseResource
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'creator' => CreatorResource::make($this->whenLoaded('creator')),
             'chapters' => ChapterResource::collection($this->whenLoaded('chapters')),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
 
             // Counts
             'chapters_count' => $this->whenCounted('chapters'),

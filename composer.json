@@ -30,7 +30,8 @@
         "pestphp/pest": "^4.4.1",
         "pestphp/pest-plugin-laravel": "^4.1",
         "pestphp/pest-plugin-type-coverage": "^4.0.3",
-        "rector/rector": "^2.3.8"
+        "rector/rector": "^2.3.8",
+        "smalot/pdfparser": "^2.12"
     },
     "autoload": {
         "psr-4": {

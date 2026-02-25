@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -26,8 +28,10 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Event> $events
  * @property-read int|null $events_count
  */
-final class Chapter extends Model
+final class Chapter extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $guarded = [
         'id', 'created_at', 'updated_at',
     ];
@@ -35,6 +39,15 @@ final class Chapter extends Model
     protected $casts = [
         'status' => ChapterStatusEnum::class,
     ];
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('cover')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png'])
+            ->singleFile()
+            ->useDisk('public');
+    }
 
     /**
      * @return BelongsTo<Story, $this>

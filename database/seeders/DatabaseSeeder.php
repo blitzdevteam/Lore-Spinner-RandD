@@ -17,8 +17,8 @@ final class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CreatorSeeder::class,
             CategorySeeder::class,
-//            StorySeeder::class,
-//            CommentSeeder::class,
+            StorySeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }

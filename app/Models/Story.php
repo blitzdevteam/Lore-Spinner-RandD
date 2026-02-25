@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
@@ -25,7 +26,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $creator_id
  * @property int $category_id
  * @property string $title
- * @property string|null $description
+ * @property string|null $teaser
+ * @property string|null $opening
+ * @property array|null $system_prompt
  * @property StoryStatusEnum $status
  * @property StoryRatingEnum $rating
  * @property Carbon|null $published_at
@@ -37,6 +40,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $chapters_count
  * @property-read Collection<int, Comment> $comments
  * @property-read int|null $comments_count
+ * @property-read Collection<int, Event> $events
+ * @property-read int|null $events_count
  * @property-read Collection<int, Game> $games
  * @property-read int|null $games_count
  */
@@ -55,6 +60,7 @@ final class Story extends Model implements HasMedia
         'status' => StoryStatusEnum::class,
         'rating' => StoryRatingEnum::class,
         'published_at' => 'datetime',
+        'system_prompt' => 'json',
     ];
 
     public function registerMediaCollections(): void
@@ -99,6 +105,14 @@ final class Story extends Model implements HasMedia
     public function chapters(): HasMany
     {
         return $this->hasMany(Chapter::class);
+    }
+
+    /**
+     * @return HasManyThrough<Event, Chapter, $this>
+     */
+    public function events(): HasManyThrough
+    {
+        return $this->hasManyThrough(Event::class, Chapter::class);
     }
 
     /**

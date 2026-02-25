@@ -1,0 +1,116 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Jobs\Story;
+
+use App\Models\Story;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
+use Prism\Prism\Facades\Prism;
+use Throwable;
+
+final class StoryCoverGeneratorJob implements ShouldQueue
+{
+    use Queueable;
+
+    public int $tries = 3;
+
+    public int $timeout = 300;
+
+    public int $backoff = 60;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct(
+        private Story $story,
+    ) {
+        $this->onQueue('image-generation');
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @throws Throwable
+     */
+    public function handle(): void
+    {
+        try {
+            // Skip if cover already exists
+            if ($this->story->getFirstMediaUrl('cover')) {
+                Log::info("StoryCoverGeneratorJob: Cover already exists for story [{$this->story->id}], skipping.");
+
+                return;
+            }
+
+            $prompt = $this->buildPrompt();
+
+            $response = Prism::image()
+                ->using('openai', 'gpt-image-1')
+                ->withPrompt($prompt)
+                ->withClientOptions(['timeout' => 120, 'connect_timeout' => 30])
+                ->withProviderOptions([
+                    'size' => '1536x1024',
+                    'quality' => 'high',
+                    'output_format' => 'png',
+                    'background' => 'auto',
+                ])
+                ->generate();
+
+            $image = $response->firstImage();
+
+            if (! $image || ! $image->base64) {
+                Log::warning("StoryCoverGeneratorJob: No image generated for story [{$this->story->id}].");
+
+                return;
+            }
+
+            $this->story
+                ->addMediaFromBase64($image->base64)
+                ->usingFileName("cover-{$this->story->id}.png")
+                ->toMediaCollection('cover');
+
+            Log::info("StoryCoverGeneratorJob: Generated cover for story [{$this->story->id}] — \"{$this->story->title}\".");
+        } catch (Throwable $throwable) {
+            Log::error("StoryCoverGeneratorJob: Failed for story [{$this->story->id}]: {$throwable->getMessage()}");
+
+            throw $throwable;
+        }
+    }
+
+    /**
+     * Build the image generation prompt based on story metadata.
+     */
+    private function buildPrompt(): string
+    {
+        $title = $this->story->title;
+        $teaser = $this->story->teaser ?? '';
+        $category = $this->story->category?->title ?? 'Fantasy';
+        $rating = $this->story->rating?->value ?? 'general';
+
+        $systemPromptData = $this->story->system_prompt;
+        $toneAndStyle = $systemPromptData['tone_and_style'] ?? '';
+
+        return <<<PROMPT
+        Create a cinematic, atmospheric book cover illustration for an interactive story.
+
+        STORY TITLE: "{$title}"
+        GENRE/CATEGORY: {$category}
+        SYNOPSIS: {$teaser}
+        TONE: {$toneAndStyle}
+
+        STYLE REQUIREMENTS:
+        - Dark, moody atmosphere with deep blacks and rich shadows
+        - Accent lighting using teal/cyan (#54f4da) and warm golden highlights
+        - Cinematic composition with dramatic depth of field
+        - Fantasy/sci-fi aesthetic blending magical and technological elements
+        - Painterly digital art style — NOT photorealistic, NOT cartoonish
+        - Evocative and mysterious — hints at the narrative without revealing plot
+        - No text, no letters, no words, no titles, no watermarks
+        - No UI elements, no borders, no frames
+        - Landscape orientation, suitable as a wide cover image
+        PROMPT;
+    }
+}

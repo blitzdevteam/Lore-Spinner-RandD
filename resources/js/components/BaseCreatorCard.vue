@@ -31,8 +31,7 @@ defineProps<{
                 </div>
             </div>
             <p class="line-clamp-3 text-gray-400">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid beatae cupiditate ducimus exercitationem expedita, in
-                inventore laudantium magnam magni modi odit officia quo, sapiente sequi tenetur ullam unde, voluptates.
+                {{ creator.bio ?? 'This creator hasn\'t written a bio yet.' }}
             </p>
             <BaseButton
                 severity="muted-glass"

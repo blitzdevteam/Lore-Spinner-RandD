@@ -15,7 +15,7 @@ final class IndexController extends Controller
         return inertia('Index', [
             'creators' => fn() => Creator::query()
                 ->select([
-                    'id', 'username', 'first_name', 'last_name', 'avatar'
+                    'id', 'username', 'first_name', 'last_name', 'avatar', 'bio'
                 ])
                 ->withCount([
                     'stories'
@@ -37,6 +37,8 @@ final class IndexController extends Controller
                     'comments'
                 ])
                 ->published()
+                ->latest('published_at')
+                ->take(6)
                 ->get()
                 ->toResourceCollection(),
         ]);

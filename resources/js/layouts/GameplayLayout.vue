@@ -11,6 +11,15 @@ import Tabs from 'primevue/tabs';
 import { ref } from 'vue';
 
 const isSidebarOpen = ref<boolean>(false);
+
+const emit = defineEmits<{
+    submit: [prompt: string];
+    back: [];
+}>();
+
+const handleInputSubmit = (prompt: string) => {
+    emit('submit', prompt);
+};
 </script>
 
 <template>
@@ -27,17 +36,16 @@ const isSidebarOpen = ref<boolean>(false);
                         class="z-50 flex h-28 items-center justify-between bg-linear-to-b from-gray-950 via-gray-950/50 to-transparent transition-all duration-300"
                     >
                         <div class="flex-1">
-                            <BaseButton severity="glass" :icon-only="true" class="size-12!">
+                            <BaseButton severity="glass" :icon-only="true" class="size-12!" @click="$emit('back')">
                                 <LucideChevronLeft class="size-8 text-gray-50" :stroke-width="1.5" />
                             </BaseButton>
                         </div>
                         <div class="flex-3 text-center">
-                            <div class="flex flex-col gap-1.5">
-                                <h1 class="text-3xl uppercase">Red Hallow Opens</h1>
-                                <div>
-                                    <span class="rounded-full bg-gray-800 px-2 py-1 text-sm">Chapter 1</span>
+                            <slot name="header">
+                                <div class="flex flex-col gap-1.5">
+                                    <h1 class="text-3xl uppercase">Adventure</h1>
                                 </div>
-                            </div>
+                            </slot>
                         </div>
                         <div class="flex flex-1 items-center justify-end gap-3">
                             <BaseButton severity="glass" :icon-only="true" class="size-12!">
@@ -50,14 +58,14 @@ const isSidebarOpen = ref<boolean>(false);
                         </div>
                     </div>
                 </div>
-                <div class="z-5 mx-auto flex max-w-3xl flex-col justify-end">
+                <div class="z-5 mx-auto flex max-w-3xl flex-col justify-end pb-36">
                     <div class="flex flex-col divide-y divide-gray-100/20">
                         <slot name="game" />
                     </div>
                 </div>
                 <div class="sticky right-0 bottom-0 left-0 z-10 w-full">
                     <div class="grid h-28 place-items-center">
-                        <GameplayInput />
+                        <GameplayInput @submit="handleInputSubmit" />
                     </div>
                 </div>
             </div>

@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 
 final class DashboardController extends Controller
 {
-    public function __invoke(): never
+    public function __invoke(): \Illuminate\Http\RedirectResponse
     {
-        dd(1);
+        return to_route('index');
     }
 }

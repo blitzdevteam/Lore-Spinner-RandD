@@ -11,7 +11,7 @@ final readonly class CreatePromptAction
 {
     public function handle(Game $game, string $prompt): void
     {
-        $currentPrompt = $game->prompts()->first();
+        $currentPrompt = $game->prompts()->latest()->first();
 
         $currentPrompt->update([
             'prompt' => $prompt,

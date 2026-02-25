@@ -1,0 +1,150 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Jobs\Chapter;
+
+use App\Models\Chapter;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
+use Prism\Prism\Facades\Prism;
+use Throwable;
+
+final class ChapterCoverGeneratorJob implements ShouldQueue
+{
+    use Queueable;
+
+    public int $tries = 3;
+
+    public int $timeout = 300;
+
+    public int $backoff = 60;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct(
+        private Chapter $chapter,
+    ) {
+        $this->onQueue('image-generation');
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @throws Throwable
+     */
+    public function handle(): void
+    {
+        if ($this->chapter->getFirstMedia('cover')) {
+            Log::info("ChapterCoverGeneratorJob: Cover already exists for chapter [{$this->chapter->id}], skipping.");
+
+            return;
+        }
+
+        $prompt = $this->buildPrompt();
+
+        try {
+            $image = $this->generateImage($prompt);
+        } catch (Throwable $e) {
+            if (str_contains($e->getMessage(), 'safety_violations') || str_contains($e->getMessage(), 'safety system')) {
+                Log::warning("ChapterCoverGeneratorJob: Safety filter hit for chapter [{$this->chapter->id}], retrying with sanitized prompt.");
+                $image = $this->generateImage($this->buildSafePrompt());
+            } else {
+                Log::error("ChapterCoverGeneratorJob: Failed for chapter [{$this->chapter->id}]: {$e->getMessage()}");
+                throw $e;
+            }
+        }
+
+        if (! $image || ! $image->base64) {
+            Log::warning("ChapterCoverGeneratorJob: No image generated for chapter [{$this->chapter->id}].");
+
+            return;
+        }
+
+        $this->chapter
+            ->addMediaFromBase64($image->base64)
+            ->usingFileName("chapter-cover-{$this->chapter->id}.png")
+            ->toMediaCollection('cover');
+
+        Log::info("ChapterCoverGeneratorJob: Generated cover for chapter [{$this->chapter->id}] — \"{$this->chapter->title}\".");
+    }
+
+    private function generateImage(string $prompt): ?\Prism\Prism\ValueObjects\GeneratedImage
+    {
+        $response = Prism::image()
+            ->using('openai', 'gpt-image-1')
+            ->withPrompt($prompt)
+            ->withClientOptions(['timeout' => 120, 'connect_timeout' => 30])
+            ->withProviderOptions([
+                'size' => '1024x1024',
+                'quality' => 'low',
+                'output_format' => 'png',
+                'background' => 'auto',
+            ])
+            ->generate();
+
+        return $response->firstImage();
+    }
+
+    /**
+     * Build the image generation prompt based on chapter metadata.
+     */
+    private function buildSafePrompt(): string
+    {
+        $chapterTitle = $this->chapter->title;
+        $storyTitle = $this->chapter->story?->title ?? 'Unknown Story';
+        $category = $this->chapter->story?->category?->title ?? 'Fantasy';
+
+        return <<<PROMPT
+        Create a cinematic, atmospheric scene illustration for a chapter called "{$chapterTitle}" in a {$category} story called "{$storyTitle}".
+
+        STYLE REQUIREMENTS:
+        - Dark, moody atmosphere with deep blacks and rich shadows
+        - Accent lighting using teal/cyan (#54f4da) and warm golden highlights
+        - Cinematic composition with dramatic depth of field
+        - Fantasy/sci-fi aesthetic blending magical and technological elements
+        - Painterly digital art style — NOT photorealistic, NOT cartoonish
+        - Evocative and mysterious mood
+        - No text, no letters, no words, no titles, no watermarks
+        - No UI elements, no borders, no frames
+        - Square composition (1:1 aspect ratio) suitable as a chapter thumbnail
+        PROMPT;
+    }
+
+    private function buildPrompt(): string
+    {
+        $chapterTitle = $this->chapter->title;
+        $chapterTeaser = mb_substr($this->chapter->teaser ?? '', 0, 500);
+        $chapterContent = mb_substr($this->chapter->content ?? '', 0, 2000);
+        $storyTitle = $this->chapter->story?->title ?? 'Unknown Story';
+        $storyTeaser = mb_substr($this->chapter->story?->teaser ?? '', 0, 300);
+        $category = $this->chapter->story?->category?->title ?? 'Fantasy';
+
+        $storySystemPromptData = $this->chapter->story?->system_prompt;
+        $toneAndStyle = mb_substr($storySystemPromptData['tone_and_style'] ?? '', 0, 300);
+
+        return <<<PROMPT
+        Create a cinematic, atmospheric scene illustration for a chapter in an interactive story.
+
+        STORY: "{$storyTitle}" — {$storyTeaser}
+        CHAPTER: "{$chapterTitle}"
+        CHAPTER TEASER: {$chapterTeaser}
+        CHAPTER SETTING: {$chapterContent}
+        GENRE: {$category}
+        TONE: {$toneAndStyle}
+
+        STYLE REQUIREMENTS:
+        - Dark, moody atmosphere with deep blacks and rich shadows
+        - Accent lighting using teal/cyan (#54f4da) and warm golden highlights
+        - Cinematic composition with dramatic depth of field
+        - Fantasy/sci-fi aesthetic blending magical and technological elements
+        - Painterly digital art style — NOT photorealistic, NOT cartoonish
+        - Evocative scene that captures the chapter's mood and setting
+        - No text, no letters, no words, no titles, no watermarks
+        - No UI elements, no borders, no frames
+        - Square composition (1:1 aspect ratio) suitable as a chapter thumbnail
+        PROMPT;
+    }
+}

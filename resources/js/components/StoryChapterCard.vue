@@ -2,6 +2,7 @@
 import { ChapterInterface } from '@/types';
 import { LucideChevronDown } from 'lucide-vue-next';
 import { ref } from 'vue';
+import chapterPlaceholder from '@/assets/temp/chapter.png';
 
 const props = withDefaults(defineProps<{
     chapter: ChapterInterface
@@ -11,6 +12,8 @@ const props = withDefaults(defineProps<{
 });
 
 const isOpen = ref<boolean>(props.isOpen);
+
+const coverImage = props.chapter.cover || chapterPlaceholder;
 </script>
 
 <template>
@@ -33,7 +36,7 @@ const isOpen = ref<boolean>(props.isOpen);
                 class="w-36 overflow-hidden border border-gray-700 rounded-lg relative"
             >
                 <img
-                    src="@/assets/temp/chapter.png"
+                    :src="coverImage"
                     alt=""
                     class="min-w-36 min-h-36 w-full h-full object-center object-cover"
                 >

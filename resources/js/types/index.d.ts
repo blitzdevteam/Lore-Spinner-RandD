@@ -39,6 +39,7 @@ export interface StoryInterface {
     title: string;
     slug: string;
     teaser: string | null;
+    opening: string | null;
     status: EnumResource<StoryStatusEnum>;
     rating: EnumResource<StoryRatingEnum>;
     published_at: string | null;
@@ -49,6 +50,7 @@ export interface StoryInterface {
     category?: CategoryInterface;
     creator?: CreatorInterface;
     chapters?: ChapterInterface[];
+    comments?: CommentInterface[];
 
     // Counts
     chapters_count?: number;
@@ -70,6 +72,7 @@ export interface ChapterInterface {
     teaser: string | null;
     content: string | null;
     status: ChapterStatusEnum;
+    cover: string;
 
     // Relations
     story?: StoryInterface;
@@ -77,6 +80,20 @@ export interface ChapterInterface {
 
     // Counts
     events_count?: number;
+}
+
+export interface CommentInterface {
+    id: number;
+    content: string;
+    created_at: string | null;
+
+    // Author (polymorphic)
+    author?: {
+        id: number;
+        full_name: string;
+        username: string | null;
+        avatar: string;
+    };
 }
 
 export interface EventInterface {

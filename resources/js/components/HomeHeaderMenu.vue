@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { index } from '@/wayfinder/routes';
+import { index as storiesIndex } from '@/wayfinder/routes/stories';
 import { Link } from '@inertiajs/vue3';
 import { BookOpen, House, LucideIcon } from 'lucide-vue-next';
 
@@ -15,7 +16,7 @@ const menu: {
     },
     {
         title: 'Library',
-        link: 'library',
+        link: storiesIndex().url,
         icon: BookOpen,
     },
 ];

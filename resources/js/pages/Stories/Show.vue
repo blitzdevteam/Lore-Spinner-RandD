@@ -16,17 +16,29 @@ import Tabs from 'primevue/tabs';
 import StoryGallery from '@/components/StoryGallery.vue';
 import StoryChapterCard from '@/components/StoryChapterCard.vue';
 import StoryCommentCard from '@/components/StoryCommentCard.vue';
-import { store } from '@/wayfinder/actions/App/Http/Controllers/User/GameController';
+import { computed } from 'vue';
+import { store, show as showGame } from '@/wayfinder/actions/App/Http/Controllers/User/GameController';
 import { router } from '@inertiajs/vue3';
 
 const props = defineProps<{
     story: StoryInterface;
+    existingGameId?: string | null;
 }>();
 
+const hasExistingGame = computed(() => !!props.existingGameId);
+
 const handleStartStory = (): void => {
-    router.post(store(), {
-        story_id: props.story.id,
-    })
+    if (props.existingGameId) {
+        router.visit(showGame.url(props.existingGameId));
+    } else {
+        router.post(store(), {
+            story_id: props.story.id,
+        });
+    }
+};
+
+const handleBack = (): void => {
+    window.history.back();
 };
 </script>
 
@@ -41,7 +53,7 @@ const handleStartStory = (): void => {
                     <div class="relative overflow-hidden rounded-3xl aspect-video">
                         <div class="z-10 absolute top-0 right-0 left-0 p-8 w-full">
                             <div class="flex items-center justify-between">
-                                <BaseButton :icon-only="true" type="button" severity="glass" class="size-12!">
+                                <BaseButton :icon-only="true" type="button" severity="glass" class="size-12!" @click="handleBack">
                                     <LucideChevronLeft class="size-8" :stroke-width="1.5" />
                                 </BaseButton>
                                 <div class="flex items-center gap-3">
@@ -100,7 +112,7 @@ const handleStartStory = (): void => {
                             type="button"
                             @click="handleStartStory"
                         >
-                            Start
+                            {{ hasExistingGame ? 'Continue' : 'Start' }}
                         </BaseButton>
                     </div>
                     <div class="absolute bottom-0 left-0 right-0 w-full h-full bg-linear-to-t from-black/75 from-50% to-transparent pointer-events-none"></div>
@@ -162,7 +174,14 @@ const handleStartStory = (): void => {
                     </TabPanel>
                     <TabPanel value="comments">
                         <div class="flex flex-col gap-4">
-                            <StoryCommentCard />
+                            <StoryCommentCard
+                                v-for="comment in story.comments"
+                                :key="comment.id"
+                                :comment
+                            />
+                            <p v-if="!story.comments?.length" class="text-center text-gray-500 py-8">
+                                No comments yet. Be the first to share your thoughts!
+                            </p>
                         </div>
                     </TabPanel>
                 </TabPanels>
