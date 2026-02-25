@@ -56,5 +56,8 @@ Route::prefix('user')->name('user.')->group(function (): void {
 
             Route::get('games/{game}/tts/{prompt}', User\Game\TextToSpeechController::class)
                 ->name('games.tts');
+
+            Route::post('games/transcribe', User\Game\TranscribeController::class)
+                ->name('games.transcribe');
         });
 });
