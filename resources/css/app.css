@@ -70,8 +70,8 @@ body {
 }
 
 .container {
-    @apply mx-auto w-full;
-    max-width: var(--container);
+    @apply mx-auto w-full px-4;
+    max-width: calc(var(--container) + 2rem);
 }
 
 .bg-glass-effect {

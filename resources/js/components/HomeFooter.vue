@@ -54,15 +54,15 @@ const links: {
 <template>
     <footer class="bg-black bg-linear-to-r from-transparent to-primary-400/15 py-12">
         <div class="container">
-            <div class="grid grid-cols-5 gap-6">
-                <div class="col-span-2">
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-5 md:gap-6">
+                <div class="md:col-span-2">
                     <div class="flex flex-col gap-3">
                         <BaseLogo type="orb-typography" class="w-48" />
                         <p class="text-lg text-gray-500">For dreamers, creators, and wanderers; Lorespinner brings your stories to life.</p>
                     </div>
                 </div>
-                <div class="col-span-3">
-                    <div class="grid grid-cols-4 gap-6">
+                <div class="md:col-span-3">
+                    <div class="grid grid-cols-2 gap-6 sm:grid-cols-4">
                         <div v-for="section in links" :key="section.title" class="flex flex-col gap-3">
                             <h3 class="text-xl text-white">{{ section.title }}</h3>
                             <ul class="flex flex-col gap-1.5">

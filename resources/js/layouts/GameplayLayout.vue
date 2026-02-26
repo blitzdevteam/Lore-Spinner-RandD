@@ -40,10 +40,10 @@ const handleInputSubmit = (prompt: string) => {
                 <div class="sticky top-0 right-0 left-0 z-10 w-full">
                     <div
                         :class="{
-                            'px-24': !activePanel,
-                            'px-8': activePanel,
+                            'lg:px-24': !activePanel,
+                            'lg:px-8': activePanel,
                         }"
-                        class="z-50 flex h-28 items-center justify-between bg-linear-to-b from-gray-950 via-gray-950/50 to-transparent transition-all duration-300"
+                        class="z-50 flex h-20 items-center justify-between px-4 bg-linear-to-b from-gray-950 via-gray-950/50 to-transparent transition-all duration-300 sm:px-8 md:h-28"
                     >
                         <div class="flex-1">
                             <BaseButton severity="glass" :icon-only="true" class="size-12!" @click="$emit('back')">
@@ -53,7 +53,7 @@ const handleInputSubmit = (prompt: string) => {
                         <div class="flex-3 text-center">
                             <slot name="header">
                                 <div class="flex flex-col gap-1.5">
-                                    <h1 class="text-3xl uppercase">Adventure</h1>
+                                    <h1 class="text-xl uppercase md:text-3xl">Adventure</h1>
                                 </div>
                             </slot>
                         </div>
@@ -70,7 +70,7 @@ const handleInputSubmit = (prompt: string) => {
                     </div>
                 </div>
                 <!-- Floating media player -->
-                <div class="pointer-events-none sticky top-28 z-20 flex justify-center">
+                <div class="pointer-events-none sticky top-20 z-20 flex justify-center md:top-28">
                     <GameplayMediaPlayer />
                 </div>
 
@@ -98,21 +98,24 @@ const handleInputSubmit = (prompt: string) => {
                     />
                 </div>
                 <div class="sticky right-0 bottom-0 left-0 z-10 w-full">
-                    <div class="grid h-28 place-items-center">
+                    <div class="grid h-28 place-items-center px-4 md:px-0">
                         <GameplayInput @submit="handleInputSubmit" />
                     </div>
                 </div>
             </div>
+            <Transition name="backdrop-fade">
+                <div v-if="activePanel" class="fixed inset-0 z-40 bg-black/50 md:hidden" @click="activePanel = null" />
+            </Transition>
             <Transition name="sidebar-slide">
                 <!-- Journal panel -->
                 <div
                     v-if="activePanel === 'journal'"
                     key="journal"
-                    class="sticky top-0 bottom-0 flex h-svh w-md shrink-0 flex-col overflow-hidden border-s border-gray-700 bg-gray-900"
+                    class="fixed inset-y-0 right-0 z-50 flex h-svh w-[85vw] max-w-sm flex-col overflow-hidden border-s border-gray-700 bg-gray-900 md:sticky md:right-auto md:z-0 md:w-md md:max-w-none md:shrink-0"
                 >
-                    <div class="flex h-full w-md flex-col">
-                        <Tabs value="journals" class="w-full px-8" :show-navigators="false" unstyled>
-                            <TabList pt:tab-list="h-28 flex items-center gap-4" pt:content="" pt:active-bar="hidden">
+                    <div class="flex h-full w-full flex-col">
+                        <Tabs value="journals" class="w-full px-4 md:px-8" :show-navigators="false" unstyled>
+                            <TabList pt:tab-list="h-20 flex items-center gap-4 md:h-28" pt:content="" pt:active-bar="hidden">
                                 <Tab class="flex-1" value="journals" v-slot="slotProps" as-child>
                                     <BaseButton
                                         @click="slotProps.onClick"
@@ -151,9 +154,9 @@ const handleInputSubmit = (prompt: string) => {
                 <div
                     v-else-if="activePanel === 'settings'"
                     key="settings"
-                    class="sticky top-0 bottom-0 flex h-svh w-sm shrink-0 flex-col overflow-y-auto border-s border-gray-700 bg-gray-900"
+                    class="fixed inset-y-0 right-0 z-50 flex h-svh w-[85vw] max-w-sm flex-col overflow-y-auto border-s border-gray-700 bg-gray-900 md:sticky md:right-auto md:z-0 md:w-sm md:max-w-none md:shrink-0"
                 >
-                    <div class="flex h-full w-sm flex-col px-6 pt-8">
+                    <div class="flex h-full w-full flex-col px-6 pt-8">
                         <GameplaySettingsPanel />
                     </div>
                 </div>
@@ -171,6 +174,16 @@ const handleInputSubmit = (prompt: string) => {
 .sidebar-slide-enter-from,
 .sidebar-slide-leave-to {
     width: 0;
+    opacity: 0;
+}
+
+.backdrop-fade-enter-active,
+.backdrop-fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.backdrop-fade-enter-from,
+.backdrop-fade-leave-to {
     opacity: 0;
 }
 </style>

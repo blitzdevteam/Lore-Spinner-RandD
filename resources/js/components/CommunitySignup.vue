@@ -14,9 +14,9 @@ import BaseInputFormat from '@/components/BaseInputFormat.vue';
             </template>
         </BaseContentTitle>
         <div class="flex items-center justify-center">
-            <div class="relative">
+            <div class="relative w-full md:w-auto">
                 <BaseInputFormat>
-                    <PrimeInputText name="email" placeholder="Email address" class="min-w-175 !rounded-2xl !py-4 !pe-28" />
+                    <PrimeInputText name="email" placeholder="Email address" class="w-full !rounded-2xl !py-4 !pe-28 md:min-w-175" />
                 </BaseInputFormat>
                 <BaseButton type="button" severity="primary" class="!absolute !end-2 !top-1/2 !h-10 !-translate-y-1/2 !rounded-xl">Submit</BaseButton>
             </div>

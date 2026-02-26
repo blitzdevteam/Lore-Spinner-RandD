@@ -70,20 +70,20 @@ onBeforeUnmount(() => {
 <template>
     <HomeLayout>
         <div
-            class="grid h-108 place-items-center bg-cover"
+            class="grid h-64 place-items-center bg-cover md:h-108"
             :style="{ background: `url(${BannerImage}) center center no-repeat`, backgroundSize: 'cover' }"
         >
             <div class="container">
-                <div class="-ms-20 flex w-86 flex-col items-center gap-4">
+                <div class="mx-auto flex w-56 flex-col items-center gap-3 md:mx-0 md:-ms-20 md:w-86 md:gap-4">
                     <BaseLogo class="w-full" fill="white" />
-                    <h3 class="font-gill-sans text-2xl font-light text-primary">Stories That Live Through You</h3>
+                    <h3 class="text-center font-gill-sans text-lg font-light text-primary md:text-2xl">Stories That Live Through You</h3>
                 </div>
             </div>
         </div>
 
-        <div class="py-18">
+        <div class="py-10 md:py-18">
             <div class="container">
-                <div class="flex flex-col gap-12">
+                <div class="flex flex-col gap-8 md:gap-12">
                     <BaseContentTitle title="Creators">
                         <template #description>
                             Meet the minds behind the worlds you love and explore the worlds they are actively
@@ -91,20 +91,20 @@ onBeforeUnmount(() => {
                         </template>
                     </BaseContentTitle>
                     <div class="flex flex-col gap-6">
-                        <div class="grid grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                             <BaseCreatorCard v-for="creator in creators" :key="creator.username" :creator />
                         </div>
-                        <div class="mx-auto">
-                            <BaseButton class="w-64 text-lg" severity="transparent"> View All ({{ creators.length }}) </BaseButton>
+                        <div class="mx-auto w-full sm:w-auto">
+                            <BaseButton class="w-full text-lg sm:w-64" severity="transparent"> View All ({{ creators.length }}) </BaseButton>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="py-18">
+        <div class="py-10 md:py-18">
             <div class="container">
-                <div class="flex flex-col gap-12">
+                <div class="flex flex-col gap-8 md:gap-12">
                     <BaseContentTitle title="Stories">
                         <template #description>
                             Explore
@@ -112,10 +112,10 @@ onBeforeUnmount(() => {
                             created by creators and unlocked gradually as you read
                         </template>
                     </BaseContentTitle>
-                    <div v-if="stories.length" class="flex h-[640px] gap-6">
+                    <div v-if="stories.length" class="flex flex-col gap-4 md:h-[640px] md:flex-row md:gap-6">
                         <!-- Left: independently scrollable story list -->
-                        <div class="relative w-1/2">
-                            <div ref="scrollEl" class="h-full overflow-y-auto pr-2 scrollbar-thin">
+                        <div class="relative w-full md:w-1/2">
+                            <div ref="scrollEl" class="md:h-full md:overflow-y-auto md:pr-2 scrollbar-thin">
                                 <div class="flex flex-col gap-4">
                                     <BaseStoryCard
                                         v-for="story in stories"
@@ -129,17 +129,17 @@ onBeforeUnmount(() => {
                             </div>
                             <!-- Top shadow — fades in as you scroll down -->
                             <div
-                                class="pointer-events-none absolute top-0 right-0 left-0 h-10 bg-gradient-to-b from-gray-950 to-transparent transition-opacity duration-200"
+                                class="pointer-events-none absolute top-0 right-0 left-0 hidden h-10 bg-gradient-to-b from-gray-950 to-transparent transition-opacity duration-200 md:block"
                                 :style="{ opacity: topShadow }"
                             />
                             <!-- Bottom shadow — fades in when there's more to scroll -->
                             <div
-                                class="pointer-events-none absolute right-0 bottom-0 left-0 h-14 bg-gradient-to-t from-gray-950 to-transparent transition-opacity duration-200"
+                                class="pointer-events-none absolute right-0 bottom-0 left-0 hidden h-14 bg-gradient-to-t from-gray-950 to-transparent transition-opacity duration-200 md:block"
                                 :style="{ opacity: bottomShadow }"
                             />
                         </div>
                         <!-- Right: sticky detail panel for selected story -->
-                        <div class="w-1/2 overflow-hidden">
+                        <div class="hidden w-1/2 overflow-hidden md:block">
                             <Transition name="fade" mode="out-in">
                                 <BaseStoryCard
                                     v-if="activeStory"
@@ -154,13 +154,13 @@ onBeforeUnmount(() => {
             </div>
         </div>
 
-        <div class="py-18">
+        <div class="py-10 md:py-18">
             <div class="container">
                 <CommunitySignup />
             </div>
         </div>
 
-        <div class="pt-18 pb-16">
+        <div class="pt-10 pb-10 md:pt-18 md:pb-16">
             <div class="container">
                 <FrequentlyAskedQuestion />
             </div>

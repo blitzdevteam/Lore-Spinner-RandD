@@ -173,8 +173,8 @@ onMounted(() => {
     <!-- Gameplay phase -->
     <GameplayLayout v-else @submit="handleSubmit" @back="handleBack">
         <template #header>
-            <div class="flex flex-col gap-1.5">
-                <h1 class="text-3xl uppercase">{{ (game as any).currentEvent?.title ?? 'Adventure' }}</h1>
+            <div class="hidden flex-col gap-1.5 md:flex">
+                <h1 class="text-xl uppercase md:text-3xl">{{ (game as any).currentEvent?.title ?? 'Adventure' }}</h1>
                 <div v-if="(game as any).currentEvent?.chapter?.position">
                     <span class="rounded-full bg-gray-800 px-2 py-1 text-sm">
                         Chapter {{ (game as any).currentEvent.chapter.position }}

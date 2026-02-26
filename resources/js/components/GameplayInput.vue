@@ -38,7 +38,7 @@ const handleMicToggle = async () => {
 </script>
 
 <template>
-    <div class="bg-glass-effect relative flex h-16 w-3xl items-center overflow-hidden rounded-full border border-gray-700 px-2">
+    <div class="bg-glass-effect relative flex h-16 w-full max-w-3xl items-center overflow-hidden rounded-full border border-gray-700 px-2">
         <div
             class="absolute top-0 right-0 bottom-0 left-0 h-full w-full bg-[linear-gradient(90deg,var(--color-primary-300)_0%,rgba(0,0,0,1)_25%)]"
         ></div>
