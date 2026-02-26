@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import FeedbackWidget from '@/components/FeedbackWidget.vue';
 import { usePage } from '@inertiajs/vue3';
 import { Check, CircleAlert, X } from 'lucide-vue-next';
 import { computed, nextTick, onMounted, watch } from 'vue';
@@ -45,6 +46,7 @@ onMounted(() => {
         </template>
     </Toaster>
     <slot />
+    <FeedbackWidget />
 </template>
 
 <style>

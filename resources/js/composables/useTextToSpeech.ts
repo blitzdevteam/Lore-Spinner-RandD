@@ -1,82 +1,195 @@
-import { onUnmounted, ref } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
+
+const SPEED_OPTIONS = [1, 1.25, 1.5, 2] as const;
 
 const audioCache = new Map<string, HTMLAudioElement>();
 
-export function useTextToSpeech() {
-    const isPlaying = ref(false);
-    const isLoading = ref(false);
-    let currentAudio: HTMLAudioElement | null = null;
-    let currentKey: string | null = null;
+const isPlaying = ref(false);
+const isLoading = ref(false);
+const currentTime = ref(0);
+const duration = ref(0);
+const playbackRate = ref(1);
+const activeKey = ref<string | null>(null);
 
-    const attachListeners = (audio: HTMLAudioElement) => {
-        audio.addEventListener('canplay', () => {
-            isLoading.value = false;
-        });
-        audio.addEventListener('playing', () => {
-            isPlaying.value = true;
-            isLoading.value = false;
-        });
-        audio.addEventListener('ended', () => {
-            isPlaying.value = false;
-        });
-        audio.addEventListener('pause', () => {
-            isPlaying.value = false;
-        });
-        audio.addEventListener('error', () => {
-            isPlaying.value = false;
-            isLoading.value = false;
-        });
-    };
+let currentAudio: HTMLAudioElement | null = null;
+let rafId: number | null = null;
 
-    const play = (gameId: string, promptId: string) => {
-        const key = `${gameId}:${promptId}`;
+function updateTime() {
+    if (currentAudio) {
+        currentTime.value = currentAudio.currentTime;
+        duration.value = currentAudio.duration || 0;
+    }
+    if (isPlaying.value) {
+        rafId = requestAnimationFrame(updateTime);
+    }
+}
 
-        if (currentAudio && currentKey === key && !currentAudio.ended) {
-            if (currentAudio.paused) {
-                currentAudio.play();
-            }
-            return;
-        }
+function stopTimeUpdates() {
+    if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+    }
+}
 
-        stop();
-
-        if (audioCache.has(key)) {
-            currentAudio = audioCache.get(key)!;
-            currentKey = key;
-            currentAudio.currentTime = 0;
-            isPlaying.value = true;
-            currentAudio.play();
-            return;
-        }
-
-        isLoading.value = true;
-        const audio = new Audio(`/user/games/${gameId}/tts/${promptId}`);
-        audio.preload = 'auto';
-        attachListeners(audio);
-        audioCache.set(key, audio);
-        currentAudio = audio;
-        currentKey = key;
-        audio.play();
-    };
-
-    const stop = () => {
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-        }
+function attachListeners(audio: HTMLAudioElement) {
+    audio.addEventListener('canplay', () => {
+        isLoading.value = false;
+        duration.value = audio.duration || 0;
+    });
+    audio.addEventListener('playing', () => {
+        isPlaying.value = true;
+        isLoading.value = false;
+        duration.value = audio.duration || 0;
+        updateTime();
+    });
+    audio.addEventListener('ended', () => {
+        isPlaying.value = false;
+        stopTimeUpdates();
+    });
+    audio.addEventListener('pause', () => {
+        isPlaying.value = false;
+        stopTimeUpdates();
+    });
+    audio.addEventListener('error', () => {
         isPlaying.value = false;
         isLoading.value = false;
-    };
+        stopTimeUpdates();
+    });
+    audio.addEventListener('loadedmetadata', () => {
+        duration.value = audio.duration || 0;
+    });
+}
 
-    const toggle = (gameId: string, promptId: string) => {
-        if (isPlaying.value && currentKey === `${gameId}:${promptId}`) {
-            stop();
-        } else {
-            play(gameId, promptId);
+function play(gameId: string, promptId: string) {
+    const key = `${gameId}:${promptId}`;
+
+    if (currentAudio && activeKey.value === key && !currentAudio.ended) {
+        if (currentAudio.paused) {
+            currentAudio.play();
         }
+        return;
+    }
+
+    stop();
+
+    if (audioCache.has(key)) {
+        currentAudio = audioCache.get(key)!;
+        activeKey.value = key;
+        currentAudio.currentTime = 0;
+        currentAudio.playbackRate = playbackRate.value;
+        currentAudio.play();
+        return;
+    }
+
+    isLoading.value = true;
+    const audio = new Audio(`/user/games/${gameId}/tts/${promptId}`);
+    audio.preload = 'auto';
+    audio.playbackRate = playbackRate.value;
+    attachListeners(audio);
+    audioCache.set(key, audio);
+    currentAudio = audio;
+    activeKey.value = key;
+    audio.play();
+}
+
+function stop() {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+    isPlaying.value = false;
+    isLoading.value = false;
+    currentTime.value = 0;
+    stopTimeUpdates();
+}
+
+function dismiss() {
+    stop();
+    activeKey.value = null;
+}
+
+function pause() {
+    if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+    }
+}
+
+function resume() {
+    if (currentAudio && currentAudio.paused && !currentAudio.ended) {
+        currentAudio.play();
+    }
+}
+
+function togglePause() {
+    if (isPlaying.value) {
+        pause();
+    } else {
+        resume();
+    }
+}
+
+function toggle(gameId: string, promptId: string) {
+    const key = `${gameId}:${promptId}`;
+    if (isPlaying.value && activeKey.value === key) {
+        pause();
+    } else if (activeKey.value === key && currentAudio && !currentAudio.ended) {
+        resume();
+    } else {
+        play(gameId, promptId);
+    }
+}
+
+function cycleSpeed() {
+    const currentIndex = SPEED_OPTIONS.indexOf(playbackRate.value as (typeof SPEED_OPTIONS)[number]);
+    const nextIndex = (currentIndex + 1) % SPEED_OPTIONS.length;
+    playbackRate.value = SPEED_OPTIONS[nextIndex];
+    if (currentAudio) {
+        currentAudio.playbackRate = playbackRate.value;
+    }
+}
+
+function setSpeed(rate: number) {
+    playbackRate.value = rate;
+    if (currentAudio) {
+        currentAudio.playbackRate = rate;
+    }
+}
+
+const isActive = computed(() => activeKey.value !== null);
+
+const formattedCurrentTime = computed(() => formatTime(currentTime.value));
+const formattedDuration = computed(() => formatTime(duration.value));
+
+function formatTime(seconds: number): string {
+    if (!seconds || !isFinite(seconds)) return '0:00';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+export function useTextToSpeech() {
+    onUnmounted(() => {
+        stopTimeUpdates();
+    });
+
+    return {
+        isPlaying,
+        isLoading,
+        isActive,
+        currentTime,
+        duration,
+        playbackRate,
+        formattedCurrentTime,
+        formattedDuration,
+        activeKey,
+        play,
+        stop,
+        dismiss,
+        pause,
+        resume,
+        toggle,
+        togglePause,
+        cycleSpeed,
+        setSpeed,
     };
-
-    onUnmounted(() => stop());
-
-    return { isPlaying, isLoading, play, stop, toggle };
 }

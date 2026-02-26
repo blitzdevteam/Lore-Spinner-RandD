@@ -1,0 +1,110 @@
+<script setup lang="ts">
+import BaseButton from '@/components/BaseButton.vue';
+import { router } from '@inertiajs/vue3';
+import { Camera, LucideMessageSquare, Send, X } from 'lucide-vue-next';
+import { ref } from 'vue';
+
+const isOpen = ref(false);
+const content = ref('');
+const isSubmitting = ref(false);
+
+const open = () => {
+    isOpen.value = true;
+};
+
+const close = () => {
+    isOpen.value = false;
+    content.value = '';
+};
+
+const submit = () => {
+    if (!content.value.trim() || isSubmitting.value) return;
+
+    isSubmitting.value = true;
+
+    router.post(
+        '/feedback',
+        { content: content.value },
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                close();
+            },
+            onFinish: () => {
+                isSubmitting.value = false;
+            },
+        },
+    );
+};
+</script>
+
+<template>
+    <Teleport to="body">
+        <Transition name="fade">
+            <div v-if="isOpen" class="fixed inset-0 z-[999] bg-black/50 backdrop-blur-sm" @click="close" />
+        </Transition>
+
+        <Transition name="feedback-slide">
+            <div
+                v-if="isOpen"
+                class="fixed right-6 bottom-24 z-[1000] w-full max-w-sm rounded-2xl border border-primary-400/20 bg-gray-900 p-6 shadow-2xl shadow-primary-400/5"
+            >
+                <div class="flex items-start justify-between">
+                    <h3 class="text-xl font-semibold text-primary-300">Feedback</h3>
+                    <button class="rounded-lg p-1 text-gray-400 transition-colors hover:bg-gray-800 hover:text-white" @click="close">
+                        <X :size="20" />
+                    </button>
+                </div>
+
+                <p class="mt-3 text-sm text-gray-300">Tell us what you think about the beta</p>
+
+                <textarea
+                    v-model="content"
+                    rows="5"
+                    placeholder="Share your thoughts, suggestions, or report any issues..."
+                    class="mt-3 w-full resize-none rounded-xl border border-gray-700 bg-gray-950 px-4 py-3 text-sm text-gray-200 placeholder-gray-500 outline-none transition-colors focus:border-primary-400/50"
+                />
+
+                <div class="mt-3 flex items-center gap-2 text-xs text-gray-500">
+                    <Camera :size="14" />
+                    <span>A screenshot will be included with your feedback</span>
+                </div>
+
+                <div class="mt-5 grid grid-cols-2 gap-3">
+                    <BaseButton severity="muted" @click="close">Cancel</BaseButton>
+                    <BaseButton severity="primary-muted-outline" :processing="isSubmitting" @click="submit">
+                        <Send :size="16" class="mr-2" />
+                        Send Feedback
+                    </BaseButton>
+                </div>
+            </div>
+        </Transition>
+
+        <div class="fixed right-6 bottom-6 z-[998]">
+            <BaseButton severity="glass" :icon-only="true" class="size-14! shadow-lg shadow-black/30" @click="open">
+                <LucideMessageSquare class="size-6 text-primary-300" />
+            </BaseButton>
+        </div>
+    </Teleport>
+</template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.feedback-slide-enter-active,
+.feedback-slide-leave-active {
+    transition: all 0.25s ease;
+}
+.feedback-slide-enter-from,
+.feedback-slide-leave-to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+}
+</style>

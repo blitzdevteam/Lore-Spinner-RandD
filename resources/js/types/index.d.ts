@@ -102,7 +102,7 @@ export interface EventInterface {
     title: string;
     content: string | null;
     objectives: string | null;
-    attributes: string | null;
+    attributes: string[] | null;
 
     // Relations
     chapter?: ChapterInterface;

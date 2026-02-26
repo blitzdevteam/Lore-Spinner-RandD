@@ -31,6 +31,7 @@ final class GameController extends Controller
             'story',
             'currentEvent.chapter',
             'prompts:id,game_id,event_id,response,choices,prompt',
+            'prompts.event',
         ]);
 
         return inertia('User/Games/Show', [

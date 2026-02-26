@@ -3,9 +3,10 @@ import GameOpeningNarration from '@/components/GameOpeningNarration.vue';
 import GameplayChatCard from '@/components/GameplayChatCard.vue';
 import GameplaySidebarJournalEventCard from '@/components/GameplaySidebarJournalEventCard.vue';
 import GameplayLayout from '@/layouts/GameplayLayout.vue';
-import { GameInterface } from '@/types';
+import { EventInterface, GameInterface } from '@/types';
 import { router } from '@inertiajs/vue3';
 import { store as storePrompt } from '@/wayfinder/actions/App/Http/Controllers/User/Game/PromptController';
+import { LucideUser } from 'lucide-vue-next';
 import { computed, nextTick, onMounted, ref } from 'vue';
 
 const CONTINUE_MARKER = '__continue__';
@@ -13,6 +14,53 @@ const CONTINUE_MARKER = '__continue__';
 const props = defineProps<{
     game: GameInterface;
 }>();
+
+const journalEvents = computed(() => {
+    const seen = new Set<number>();
+    const events: (EventInterface & { isCurrent: boolean })[] = [];
+
+    for (const prompt of prompts.value) {
+        if (prompt.event && !seen.has(prompt.event.id)) {
+            seen.add(prompt.event.id);
+            events.push({
+                ...prompt.event,
+                isCurrent: prompt.event.id === props.game.current_event_id,
+            });
+        }
+    }
+
+    return events;
+});
+
+const characters = computed(() => {
+    const charMap = new Map<string, { name: string; firstEventTitle: string }>();
+
+    for (const prompt of prompts.value) {
+        const attrs = prompt.event?.attributes;
+        if (!attrs) continue;
+
+        for (const attr of attrs) {
+            if (!attr.startsWith('Characters physically present:')) continue;
+
+            const names = attr
+                .replace('Characters physically present:', '')
+                .split('|')
+                .map((n) => n.trim())
+                .filter(Boolean);
+
+            for (const name of names) {
+                if (!charMap.has(name)) {
+                    charMap.set(name, {
+                        name,
+                        firstEventTitle: prompt.event?.title ?? 'Unknown',
+                    });
+                }
+            }
+        }
+    }
+
+    return Array.from(charMap.values());
+});
 
 const handleBack = () => {
     if (window.history.length > 1) {
@@ -161,10 +209,29 @@ onMounted(() => {
         </template>
 
         <template #journals>
-            <GameplaySidebarJournalEventCard :is-passed="false" />
-            <GameplaySidebarJournalEventCard :is-passed="true" />
-            <GameplaySidebarJournalEventCard :is-passed="true" />
-            <GameplaySidebarJournalEventCard :is-passed="true" />
+            <p v-if="!journalEvents.length" class="text-sm text-gray-500">No events yet.</p>
+            <GameplaySidebarJournalEventCard
+                v-for="event in journalEvents"
+                :key="event.id"
+                :title="event.title"
+                :objective="event.objectives"
+                :is-current="event.isCurrent"
+            />
+        </template>
+
+        <template #characters>
+            <p v-if="!characters.length" class="text-sm text-gray-500">No characters introduced yet.</p>
+            <div v-for="char in characters" :key="char.name" class="rounded-xl border border-gray-700/50 bg-gray-800/40 p-4 transition-all hover:border-gray-600">
+                <div class="flex items-center gap-3">
+                    <div class="grid size-10 shrink-0 place-items-center rounded-full bg-secondary-400/10 text-secondary-400">
+                        <LucideUser class="size-5" :stroke-width="1.5" />
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                        <h6 class="text-base text-gray-100">{{ char.name }}</h6>
+                        <p class="text-xs text-gray-500">First appeared in: {{ char.firstEventTitle }}</p>
+                    </div>
+                </div>
+            </div>
         </template>
     </GameplayLayout>
 </template>

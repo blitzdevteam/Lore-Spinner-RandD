@@ -3,7 +3,7 @@ import BaseButton from '@/components/BaseButton.vue';
 import { useTextToSpeech } from '@/composables/useTextToSpeech';
 import { useTypewriter } from '@/composables/useTypewriter';
 import { PromptInterface } from '@/types';
-import { LucideCheck, LucideLoader, LucidePlay, LucideSparkles, LucideSquare } from 'lucide-vue-next';
+import { LucideCheck, LucideLoader, LucidePause, LucidePlay, LucideSparkles } from 'lucide-vue-next';
 import { computed, onMounted, watch } from 'vue';
 
 const CONTINUE_MARKER = '__continue__';
@@ -83,6 +83,10 @@ const handleContinue = () => {
     emit('continue');
 };
 
+const thisKey = computed(() => `${props.gameId}:${props.prompt.id}`);
+const isThisPlaying = computed(() => tts.isPlaying.value && tts.activeKey.value === thisKey.value);
+const isThisLoading = computed(() => tts.isLoading.value && tts.activeKey.value === thisKey.value);
+
 const handlePlayToggle = () => {
     tts.toggle(props.gameId, props.prompt.id);
 };
@@ -118,7 +122,7 @@ watch(
     <div class="flex flex-col gap-6 py-8">
         <!-- AI Response (narration) -->
         <div v-if="prompt.response" class="flex flex-col gap-2" @click="handleNarrationClick">
-            <div class="text-lg font-light leading-relaxed" v-html="renderedResponse"></div>
+            <div class="font-light leading-relaxed" style="font-size: inherit" v-html="renderedResponse"></div>
             <span
                 v-if="typewriter.isTyping.value"
                 class="inline-block h-5 w-0.5 animate-pulse bg-primary-400 align-middle"
@@ -133,8 +137,8 @@ watch(
                 class="size-12!"
                 @click="handlePlayToggle"
             >
-                <LucideLoader v-if="tts.isLoading.value" class="size-5 animate-spin text-white" />
-                <LucideSquare v-else-if="tts.isPlaying.value" fill="white" class="size-4 text-white" />
+                <LucideLoader v-if="isThisLoading" class="size-5 animate-spin text-white" />
+                <LucidePause v-else-if="isThisPlaying" fill="white" class="size-4 text-white" />
                 <LucidePlay v-else fill="white" class="size-5 text-white" />
             </BaseButton>
             <BaseButton

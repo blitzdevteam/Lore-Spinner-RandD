@@ -20,3 +20,5 @@ Route::resource('stories', Controllers\StoryController::class)
         'story' => 'slug'
     ])
     ->only(['index', 'show']);
+
+Route::post('feedback', [Controllers\FeedbackController::class, 'store'])->name('feedback.store');
