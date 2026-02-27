@@ -16,6 +16,7 @@ final class CreatorController extends Controller
                 ->select([
                     'id', 'username', 'first_name', 'last_name', 'avatar'
                 ])
+                ->with(['media'])
                 ->latest()
                 ->get()
                 ->toResourceCollection(),
@@ -25,8 +26,10 @@ final class CreatorController extends Controller
     public function show(Creator $creator): Response
     {
         $creator->load([
+            'media',
             'stories:id,creator_id,category_id,title,teaser,slug,rating,status,published_at,created_at,updated_at',
             'stories.category:id,title',
+            'stories.media',
         ]);
 
         return inertia('Creators/Show', [

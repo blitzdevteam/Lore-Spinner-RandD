@@ -17,6 +17,7 @@ final class IndexController extends Controller
                 ->select([
                     'id', 'username', 'first_name', 'last_name', 'avatar', 'bio'
                 ])
+                ->with(['media'])
                 ->withCount([
                     'stories'
                 ])
@@ -27,7 +28,8 @@ final class IndexController extends Controller
             'stories' => fn() => Story::query()
                 ->with([
                     'category:id,title',
-                    'creator:id,first_name,last_name'
+                    'creator:id,first_name,last_name',
+                    'media',
                 ])
                 ->select([
                     'id', 'category_id', 'creator_id', 'title', 'slug', 'teaser', 'status', 'rating', 'updated_at'

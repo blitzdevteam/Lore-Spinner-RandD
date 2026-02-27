@@ -20,6 +20,7 @@ final class StoryController extends Controller
                 ->with([
                     'category:id,title',
                     'creator:id,first_name,last_name,username,avatar',
+                    'media',
                 ])
                 ->select([
                     'id', 'category_id', 'creator_id', 'title', 'slug', 'teaser', 'status', 'rating', 'updated_at',
@@ -41,6 +42,7 @@ final class StoryController extends Controller
             ->load([
                 'category:id,title',
                 'creator:id,first_name,last_name,username,avatar',
+                'media',
                 'chapters' => function (HasMany $query): void {
                     $query
                         ->orderBy('position')

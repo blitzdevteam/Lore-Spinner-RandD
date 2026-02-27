@@ -20,7 +20,7 @@ defineProps<{
         :modules="[Pagination]"
         class="story-gallery-swiper"
     >
-        <swiper-slide v-for="(image, index) in gallery" :key="index">
+        <swiper-slide v-for="(image, index) in gallery.filter(Boolean)" :key="index">
             <img :src="image" alt="" class="w-full h-full object-cover object-center rounded-3xl" />
         </swiper-slide>
     </swiper>

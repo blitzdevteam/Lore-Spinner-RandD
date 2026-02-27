@@ -45,7 +45,7 @@ const handleBack = (): void => {
 <template>
     <div class="flex min-h-svh">
         <div class="relative h-full flex-1">
-            <div class="absolute top-0 right-0 bottom-0 -start-7.5 z-0 h-full w-[115%] blur-xl">
+            <div v-if="story.cover" class="absolute top-0 right-0 bottom-0 -start-7.5 z-0 h-full w-[115%] blur-xl">
                 <img :src="story.cover" alt="" class="object-cover object-center opacity-75" />
             </div>
             <div class="pt-12 px-12">
@@ -94,7 +94,10 @@ const handleBack = (): void => {
                     </div>
                     <div class="relative flex flex-col gap-4">
                         <div class="flex items-center gap-4">
-                            <img :src="story.creator?.avatar" alt="" class="size-16 rounded-full">
+                            <img v-if="story.creator?.avatar" :src="story.creator?.avatar" alt="" class="size-16 rounded-full">
+                            <div v-else class="size-16 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 grid place-items-center text-xl font-bold text-primary/60">
+                                {{ story.creator?.full_name?.charAt(0)?.toUpperCase() }}
+                            </div>
                             <div class="text-gray-400 text-xl font-semibold">
                                 {{ story.creator?.full_name  }}
                             </div>
