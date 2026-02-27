@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
+        "fakerphp/faker": "^1.24.1",
         "filament/filament": "^4.7.2",
         "filament/spatie-laravel-media-library-plugin": "^4.7.2",
         "inertiajs/inertia-laravel": "^2.0.20",
@@ -19,7 +20,6 @@
         "spatie/laravel-medialibrary": "^11.21.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.24.1",
         "larastan/larastan": "^3.0",
         "laravel/boost": "^2.2",
         "laravel/pail": "^1.2.6",
