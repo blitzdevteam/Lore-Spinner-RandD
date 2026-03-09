@@ -80,6 +80,12 @@ const hasPrompts = computed(() => prompts.value.length > 0);
 const storyOpening = computed(() => props.game.story?.opening ?? null);
 const showOpening = computed(() => !hasPrompts.value && !!storyOpening.value);
 
+const canSubmitInput = computed(() => {
+    if (isSubmitting.value) return false;
+    const latest = prompts.value[prompts.value.length - 1];
+    return latest && !latest.prompt;
+});
+
 const handleBegin = () => {
     router.post(
         `/user/games/${props.game.id}/begin`,
@@ -171,7 +177,7 @@ onMounted(() => {
     </div>
 
     <!-- Gameplay phase -->
-    <GameplayLayout v-else @submit="handleSubmit" @back="handleBack">
+    <GameplayLayout v-else :input-disabled="!canSubmitInput" @submit="handleSubmit" @back="handleBack">
         <template #header>
             <div class="hidden flex-col gap-1.5 md:flex">
                 <h1 class="text-xl uppercase md:text-3xl">{{ (game as any).currentEvent?.title ?? 'Adventure' }}</h1>

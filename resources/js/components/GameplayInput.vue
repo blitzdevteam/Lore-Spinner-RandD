@@ -4,6 +4,13 @@ import { useSpeechToText } from '@/composables/useSpeechToText';
 import { LucideArrowUp, LucideLoader, LucideMic, LucideSquare } from 'lucide-vue-next';
 import { ref } from 'vue';
 
+const props = withDefaults(
+    defineProps<{
+        disabled?: boolean;
+    }>(),
+    { disabled: false },
+);
+
 const emit = defineEmits<{
     submit: [prompt: string];
 }>();
@@ -12,6 +19,7 @@ const inputText = ref('');
 const stt = useSpeechToText();
 
 const handleSubmit = () => {
+    if (props.disabled) return;
     const text = inputText.value.trim();
     if (!text) return;
     emit('submit', text);
@@ -38,7 +46,7 @@ const handleMicToggle = async () => {
 </script>
 
 <template>
-    <div class="bg-glass-effect relative flex h-16 w-full max-w-3xl items-center overflow-hidden rounded-full border border-gray-700 px-2">
+    <div :class="['bg-glass-effect relative flex h-16 w-full max-w-3xl items-center overflow-hidden rounded-full border border-gray-700 px-2 transition-opacity duration-300', props.disabled && 'pointer-events-none opacity-40']">
         <div
             class="absolute top-0 right-0 bottom-0 left-0 h-full w-full bg-[linear-gradient(90deg,var(--color-primary-300)_0%,rgba(0,0,0,1)_25%)]"
         ></div>
@@ -60,7 +68,7 @@ const handleMicToggle = async () => {
             v-model="inputText"
             class="relative w-full rounded-full! border-gray-700! bg-gray-800! p-2.5! shadow-none! outline-none! focus:border-primary-600!"
             :placeholder="stt.isRecording.value ? 'Listening...' : stt.isTranscribing.value ? 'Transcribing...' : 'What do you do?'"
-            :disabled="stt.isRecording.value || stt.isTranscribing.value"
+            :disabled="props.disabled || stt.isRecording.value || stt.isTranscribing.value"
             @keydown="handleKeydown"
         />
 

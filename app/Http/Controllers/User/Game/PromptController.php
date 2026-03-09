@@ -113,9 +113,10 @@ final class PromptController extends Controller
         $history = [];
 
         $prompts = $game->prompts()
-            ->oldest()
-            ->limit(6) // Keep context window reasonable
-            ->get();
+            ->latest()
+            ->limit(6)
+            ->get()
+            ->reverse();
 
         foreach ($prompts as $p) {
             if ($p->response) {

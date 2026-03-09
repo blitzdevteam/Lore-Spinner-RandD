@@ -38,7 +38,7 @@ const showQuotedAction = computed(() => {
 });
 
 const canInteract = computed(() => {
-    return !effectiveSelection.value && !props.isSubmitting;
+    return props.isLatest && !effectiveSelection.value && !props.isSubmitting;
 });
 
 const showContinueButton = computed(() => {
@@ -67,7 +67,7 @@ const getChoiceClass = (choice: string) => {
     }
 
     if (effectiveSelection.value === choice) {
-        return `${baseClass} border-primary-400 bg-primary-400/10 text-primary`;
+        return `${baseClass} border-primary-400 bg-primary-400/10 text-primary pointer-events-none`;
     }
 
     return `${baseClass} border-gray-700/40 text-gray-400 opacity-50 pointer-events-none`;

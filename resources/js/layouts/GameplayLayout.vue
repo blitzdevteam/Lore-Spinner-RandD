@@ -13,6 +13,13 @@ import TabPanels from 'primevue/tabpanels';
 import Tabs from 'primevue/tabs';
 import { ref } from 'vue';
 
+const props = withDefaults(
+    defineProps<{
+        inputDisabled?: boolean;
+    }>(),
+    { inputDisabled: false },
+);
+
 type RightPanel = 'journal' | 'settings' | null;
 const activePanel = ref<RightPanel>(null);
 
@@ -99,7 +106,7 @@ const handleInputSubmit = (prompt: string) => {
                 </div>
                 <div class="sticky right-0 bottom-0 left-0 z-10 w-full">
                     <div class="grid h-28 place-items-center px-4 md:px-0">
-                        <GameplayInput @submit="handleInputSubmit" />
+                        <GameplayInput :disabled="props.inputDisabled" @submit="handleInputSubmit" />
                     </div>
                 </div>
             </div>
