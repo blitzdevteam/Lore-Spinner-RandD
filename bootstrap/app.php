@@ -52,15 +52,16 @@ return Application::configure(basePath: dirname(__DIR__))
          */
         $middleware->redirectUsersTo(function (Request $request): string {
             if ($request->user('user')) {
-                return route('user.dashboard.index');
+                /** @var \App\Models\User $user */
+                $user = $request->user('user');
+
+                return $user->is_profile_completed
+                    ? route('user.dashboard.index')
+                    : route('user.authentication.complete-profile.edit');
             }
 
             if ($request->user('creator')) {
                 return route('creator.dashboard.index');
-            }
-
-            if ($request->user('manager')) {
-                dd(':| YOU ARE MANAGER AND TRYING TO DO A FUCKING LOGIN INTO ANOTHER GUARD ACCOUNTS :|||||||| WTF DUDE!!!!!! GET BACK TO UR PANEL');
             }
 
             return route('index');

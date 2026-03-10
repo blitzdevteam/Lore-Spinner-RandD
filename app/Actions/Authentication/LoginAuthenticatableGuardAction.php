@@ -24,7 +24,7 @@ final readonly class LoginAuthenticatableGuardAction
         $check = auth($guard)->attempt([
             'email' => $email,
             'password' => $password,
-        ]);
+        ], remember: true);
 
         if ($check) {
             /** @var User|Creator $user */

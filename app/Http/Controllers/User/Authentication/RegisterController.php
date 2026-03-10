@@ -27,7 +27,7 @@ final class RegisterController extends Controller
             $request->string('password')->toString(),
         );
 
-        auth('user')->login($user);
+        auth('user')->login($user, remember: true);
 
         return to_route('user.authentication.account-created')
             ->with('credentials', [
