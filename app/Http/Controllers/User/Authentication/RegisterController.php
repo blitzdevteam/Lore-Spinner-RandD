@@ -29,6 +29,23 @@ final class RegisterController extends Controller
 
         auth('user')->login($user);
 
-        return to_route('user.authentication.complete-profile.edit');
+        return to_route('user.authentication.account-created')
+            ->with('credentials', [
+                'email' => $request->string('email')->toString(),
+                'password' => $request->string('password')->toString(),
+            ]);
+    }
+
+    public function accountCreated(): Response|RedirectResponse
+    {
+        $credentials = session('credentials');
+
+        if (! $credentials) {
+            return to_route('user.authentication.complete-profile.edit');
+        }
+
+        return inertia('User/Authentication/AccountCreated', [
+            'credentials' => $credentials,
+        ]);
     }
 }
