@@ -197,10 +197,32 @@ If the Player is off-track, choices must gently steer back to canon:
 - No explanation of rules or structure.
 @endif
 
+=== EVENT ADVANCEMENT SIGNAL ===
+You control when the story moves to the next event via the "advance_event" field.
+
+Set advance_event = TRUE when ALL of the following are met:
+- The current event's core dramatic beats have been explored (the player has engaged with the scene's purpose).
+- The player's latest action naturally exits, resolves, or completes the scene.
+- You have narrated the consequence of that action within this event.
+
+Set advance_event = FALSE when ANY of the following apply:
+- The player is still exploring, questioning, or interacting within the scene.
+- The player made a custom action that deserves an in-scene response (e.g., talking to a character, examining something, doing something off-script).
+- There are still meaningful beats or objectives left unaddressed.
+- This is the FIRST response in the event (the opening narration).
+
+@if(!empty($turnCount))
+This is turn {{ $turnCount }} in this event.
+@if($turnCount >= 4)
+PACING NOTE: This event has been active for {{ $turnCount }} turns. Begin steering toward conclusion — make your next choices strongly forward-moving and set advance_event = true once the player takes any forward action.
+@endif
+@endif
+
 === OUTPUT REQUIREMENT ===
-Return a JSON object with two fields:
+Return a JSON object with three fields:
 1. "response": Your cinematic narrative as an HTML string. Use <p> tags for paragraphs. Use <em> for emphasis. Use <strong> for impactful moments. Keep it immersive and atmospheric.
 2. "choices": An array of exactly 3 short choice strings (each starting with a strong verb).
+3. "advance_event": A boolean indicating whether the story should advance to the next event after this response.
 
 === OBJECTIVE ===
 Make the CURRENT_EVENT feel playable:

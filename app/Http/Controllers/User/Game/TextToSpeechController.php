@@ -8,15 +8,32 @@ use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Models\Prompt;
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final class TextToSpeechController extends Controller
 {
-    public function __invoke(Game $game, Prompt $prompt): StreamedResponse
+    public function __invoke(Game $game, Prompt $prompt): BinaryFileResponse
     {
         abort_unless($prompt->game_id === $game->id, 404);
         abort_unless(filled($prompt->response), 404);
 
+        $path = "tts/{$prompt->id}.mp3";
+
+        if (! Storage::disk('local')->exists($path)) {
+            $this->generate($prompt, $path);
+        }
+
+        return new BinaryFileResponse(Storage::disk('local')->path($path), 200, [
+            'Content-Type' => 'audio/mpeg',
+            'Accept-Ranges' => 'bytes',
+            'Cache-Control' => 'private, max-age=86400',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
+    }
+
+    private function generate(Prompt $prompt, string $path): void
+    {
         $text = strip_tags($prompt->response);
         $voiceId = config('services.elevenlabs.voice_id');
         $apiKey = config('services.elevenlabs.api_key');
@@ -25,9 +42,7 @@ final class TextToSpeechController extends Controller
 
         $response = Http::withHeaders([
             'xi-api-key' => $apiKey,
-        ])->withOptions([
-            'stream' => true,
-        ])->post("https://api.elevenlabs.io/v1/text-to-speech/{$voiceId}/stream?output_format=mp3_44100_128", [
+        ])->timeout(120)->post("https://api.elevenlabs.io/v1/text-to-speech/{$voiceId}/stream?output_format=mp3_44100_128", [
             'text' => $text,
             'model_id' => config('services.elevenlabs.model_id', 'eleven_multilingual_v2'),
             'voice_settings' => [
@@ -47,22 +62,6 @@ final class TextToSpeechController extends Controller
             abort($response->status() === 403 ? 502 : $response->status(), 'Voice generation unavailable.');
         }
 
-        return new StreamedResponse(function () use ($response): void {
-            $body = $response->toPsrResponse()->getBody();
-
-            while (! $body->eof()) {
-                echo $body->read(8192);
-
-                if (ob_get_level()) {
-                    ob_flush();
-                }
-
-                flush();
-            }
-        }, 200, [
-            'Content-Type' => 'audio/mpeg',
-            'Cache-Control' => 'no-cache, no-store',
-            'X-Content-Type-Options' => 'nosniff',
-        ]);
+        Storage::disk('local')->put($path, $response->body());
     }
 }

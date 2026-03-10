@@ -121,8 +121,8 @@ const handleInputSubmit = (prompt: string) => {
                     class="fixed inset-y-0 right-0 z-50 flex h-svh w-[85vw] max-w-sm flex-col overflow-hidden border-s border-gray-700 bg-gray-900 md:sticky md:right-auto md:z-0 md:w-md md:max-w-none md:shrink-0"
                 >
                     <div class="flex h-full w-full flex-col">
-                        <Tabs value="journals" class="w-full px-4 md:px-8" :show-navigators="false" unstyled>
-                            <TabList pt:tab-list="h-20 flex items-center gap-4 md:h-28" pt:content="" pt:active-bar="hidden">
+                        <Tabs value="journals" class="flex h-full w-full flex-col px-4 md:px-8" :show-navigators="false" unstyled>
+                            <TabList pt:tab-list="h-20 flex items-center gap-4 md:h-28 shrink-0" pt:content="" pt:active-bar="hidden">
                                 <Tab class="flex-1" value="journals" v-slot="slotProps" as-child>
                                     <BaseButton
                                         @click="slotProps.onClick"
@@ -142,14 +142,14 @@ const handleInputSubmit = (prompt: string) => {
                                     </BaseButton>
                                 </Tab>
                             </TabList>
-                            <TabPanels class="container">
+                            <TabPanels class="min-h-0 flex-1 overflow-y-auto">
                                 <TabPanel value="journals">
-                                    <div class="flex flex-col gap-4">
+                                    <div class="flex flex-col gap-4 pb-8">
                                         <slot name="journals" />
                                     </div>
                                 </TabPanel>
                                 <TabPanel value="characters">
-                                    <div class="flex flex-col gap-3">
+                                    <div class="flex flex-col gap-3 pb-8">
                                         <slot name="characters" />
                                     </div>
                                 </TabPanel>

@@ -29,6 +29,6 @@ final class RegisterController extends Controller
 
         auth('user')->login($user);
 
-        return to_route('user.authentication.verify.index');
+        return to_route('user.authentication.complete-profile.edit');
     }
 }

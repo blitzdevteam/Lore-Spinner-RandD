@@ -17,18 +17,14 @@ Route::prefix('user')->name('user.')->group(function (): void {
                 Route::get('/', 'create')->name('create');
                 Route::post('/', 'store')->name('store');
             });
+            Route::prefix('forgot-password')->name('forgot-password.')->controller(User\Authentication\ForgotPasswordController::class)->group(function () {
+                Route::get('/', 'create')->name('create');
+                Route::post('/', 'store')->name('store');
+            });
         });
         Route::middleware('auth:user')->group(function () {
-            Route::prefix('verify')->controller(User\Authentication\VerifyController::class)->name('verify.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::post('resend', 'resend')->name('resend');
-                Route::get('confirm/{id}/{hash}', 'confirm')->middleware(['signed', 'throttle:6,1'])->name('confirm');
-            });
             Route::prefix('complete-profile')
-                ->middleware([
-                    'guard.profile-is-incompleted',
-                    'verified:user.authentication.verify.index',
-                ])
+                ->middleware(['guard.profile-is-incompleted'])
                 ->singleton('complete-profile', User\Authentication\CompleteProfileController::class)
                 ->except('show');
             Route::delete('logout', [User\Authentication\LogoutController::class, 'destroy'])->name('logout');
@@ -38,7 +34,6 @@ Route::prefix('user')->name('user.')->group(function (): void {
     // Dashboard
     Route::middleware([
         'auth:user',
-        'verified:user.authentication.verify.index',
         'guard.profile-is-completed',
     ])
         ->group(function () {

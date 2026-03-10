@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Actions\Authentication;
 
-use App\Models\User;
 use App\Models\Creator;
-use Illuminate\Auth\Events\Registered;
+use App\Models\User;
 use InvalidArgumentException;
 
 final readonly class CreateAuthenticatableGuardAction
@@ -23,13 +22,10 @@ final readonly class CreateAuthenticatableGuardAction
         }
 
         $model = self::GUARD_MODELS[$guard];
-        $model = $model::create([
+
+        return $model::create([
             'email' => $email,
             'password' => $password,
         ]);
-
-        event(new Registered($model));
-
-        return $model;
     }
 }

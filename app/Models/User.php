@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\UserFactory;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,8 +15,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
-use Override;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -43,7 +40,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read Collection<int, Game> $games
  * @property-read int|null $games_count
  */
-final class User extends Authenticatable implements HasMedia, MustVerifyEmail
+final class User extends Authenticatable implements CanResetPassword, HasMedia
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -79,27 +76,6 @@ final class User extends Authenticatable implements HasMedia, MustVerifyEmail
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
             ->singleFile()
             ->useFallbackUrl(Storage::disk('public')->url('avatar/'.($this->id % 2 === 0) + 1 .'.png'));
-    }
-
-    /**
-     * Send the email verification notification.
-     */
-    #[Override]
-    public function sendEmailVerificationNotification(): void
-    {
-        /** @var int $verificationExpire */
-        $verificationExpire = config('auth.verification.expire');
-
-        VerifyEmail::createUrlUsing(fn (self $notifiable) => URL::temporarySignedRoute(
-            'user.authentication.verify.confirm',
-            Carbon::now()->addMinutes($verificationExpire),
-            [
-                'id' => $notifiable->getKey(),
-                'hash' => sha1($notifiable->getEmailForVerification()),
-            ]
-        ));
-
-        $this->notify(new VerifyEmail);
     }
 
     /**

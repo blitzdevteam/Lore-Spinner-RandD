@@ -30,9 +30,49 @@ final class PromptController extends Controller
             'prompt' => $isContinue ? '__continue__' : $prompt,
         ]);
 
-        // Find the next event
         $currentEvent = $game->currentEvent;
 
+        $turnCount = $game->prompts()
+            ->where('event_id', $currentEvent->id)
+            ->count();
+
+        $conversationHistory = $this->buildConversationHistory($game);
+
+        $systemPrompt = $this->renderSystemPrompt(
+            story: $game->story,
+            currentEvent: $currentEvent,
+            turnCount: $turnCount,
+        );
+
+        $aiResult = $this->generateNarration(
+            systemPrompt: $systemPrompt,
+            conversationHistory: $conversationHistory,
+            playerAction: $isContinue ? 'Continue forward' : $prompt,
+        );
+
+        $shouldAdvance = $aiResult['advance_event'];
+
+        if ($shouldAdvance) {
+            $nextEvent = $this->findNextEvent($currentEvent, $game->story_id);
+
+            if ($nextEvent) {
+                $game->update(['current_event_id' => $nextEvent->id]);
+            }
+        }
+
+        $game->prompts()->create([
+            'event_id' => $shouldAdvance && isset($nextEvent)
+                ? $nextEvent->id
+                : $currentEvent->id,
+            'response' => $aiResult['response'],
+            'choices' => $aiResult['choices'],
+        ]);
+
+        return back();
+    }
+
+    private function findNextEvent(Event $currentEvent, int|string $storyId): ?Event
+    {
         $nextEvent = Event::query()
             ->where('chapter_id', $currentEvent->chapter_id)
             ->where('position', '>', $currentEvent->position)
@@ -41,7 +81,7 @@ final class PromptController extends Controller
 
         if (! $nextEvent) {
             $nextChapter = Chapter::query()
-                ->where('story_id', $game->story_id)
+                ->where('story_id', $storyId)
                 ->where('position', '>', $currentEvent->chapter->position)
                 ->orderBy('position')
                 ->first();
@@ -49,33 +89,7 @@ final class PromptController extends Controller
             $nextEvent = $nextChapter?->events()->orderBy('position')->first();
         }
 
-        if ($nextEvent) {
-            $game->update(['current_event_id' => $nextEvent->id]);
-
-            // Build conversation history for context
-            $conversationHistory = $this->buildConversationHistory($game);
-
-            // Render system prompt at runtime with story data + event context
-            $systemPrompt = $this->renderSystemPrompt(
-                story: $game->story,
-                currentEvent: $nextEvent,
-            );
-
-            // Generate AI narration + choices
-            $aiResult = $this->generateNarration(
-                systemPrompt: $systemPrompt,
-                conversationHistory: $conversationHistory,
-                playerAction: $isContinue ? 'Continue forward' : $prompt,
-            );
-
-            $game->prompts()->create([
-                'event_id' => $nextEvent->id,
-                'response' => $aiResult['response'],
-                'choices' => $aiResult['choices'],
-            ]);
-        }
-
-        return back();
+        return $nextEvent;
     }
 
     /**
@@ -84,6 +98,7 @@ final class PromptController extends Controller
     private function renderSystemPrompt(
         \App\Models\Story $story,
         Event $currentEvent,
+        int $turnCount = 0,
     ): string {
         $storyData = $story->system_prompt ?? [];
 
@@ -100,6 +115,7 @@ final class PromptController extends Controller
                 'attributes' => $currentEvent->attributes,
             ],
             'nextEvents' => $this->getNextEvents($currentEvent, 2),
+            'turnCount' => $turnCount,
         ])->render();
     }
 
@@ -179,7 +195,7 @@ final class PromptController extends Controller
      * Generate AI narration and choices for the current event.
      *
      * @param  array<int, array{role: string, text: string}>  $conversationHistory
-     * @return array{response: string, choices: string[]}
+     * @return array{response: string, choices: string[], advance_event: bool}
      */
     private function generateNarration(
         string $systemPrompt,
@@ -199,11 +215,13 @@ final class PromptController extends Controller
             return [
                 'response' => $response['response'] ?? '',
                 'choices' => $response['choices'] ?? ['Continue forward', 'Investigate your surroundings', 'Take a moment to reflect'],
+                'advance_event' => (bool) ($response['advance_event'] ?? false),
             ];
         } catch (Throwable) {
             return [
                 'response' => '<p>The scene unfolds before you...</p>',
                 'choices' => ['Continue forward', 'Investigate your surroundings', 'Take a moment to reflect'],
+                'advance_event' => true,
             ];
         }
     }

@@ -35,12 +35,11 @@ final class LoginController extends Controller
                 ->onlyInput('email');
         }
 
-        $routeName = match (true) {
-            ! $user->hasVerifiedEmail() => 'user.authentication.verify.index',
-            ! $user->is_profile_completed => 'user.authentication.complete-profile.edit',
-            default => 'user.dashboard.index',
-        };
+        if (! $user->is_profile_completed) {
+            return to_route('user.authentication.complete-profile.edit');
+        }
 
-        return to_route($routeName)->with('success', 'You have been logged in successfully');
+        return redirect()->intended(route('user.dashboard.index'))
+            ->with('success', 'You have been logged in successfully');
     }
 }

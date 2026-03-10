@@ -3,6 +3,7 @@ import BaseButton from '@/components/BaseButton.vue';
 import BaseInputFormat from '@/components/BaseInputFormat.vue';
 import AuthenticationLayout from '@/layouts/AuthenticationLayout.vue';
 import { store } from '@/wayfinder/actions/App/Http/Controllers/User/Authentication/LoginController';
+import forgotPassword from '@/wayfinder/routes/user/authentication/forgot-password';
 import { Form, Link } from '@inertiajs/vue3';
 </script>
 
@@ -24,7 +25,7 @@ import { Form, Link } from '@inertiajs/vue3';
                     <div class="flex flex-col gap-4">
                         <BaseButton :processing severity="primary" class="text-lg">Login</BaseButton>
                         <div class="flex justify-center">
-                            <Link>Forgot password?</Link>
+                            <Link :href="forgotPassword.create.url()" class="text-sm text-gray-400 transition-colors hover:text-white">Forgot password?</Link>
                         </div>
                     </div>
                     <div class="grid grid-cols-3 gap-4">

@@ -60,6 +60,11 @@ class NarrationAgent implements Agent, HasStructuredOutput
                         ->title('Choice')
                         ->description('A single concrete, actionable choice starting with a strong verb.')
                 ),
+            'advance_event' => $schema
+                ->boolean()
+                ->required()
+                ->title('Advance Event')
+                ->description('True when the current event\'s core dramatic beats have been sufficiently explored and the player\'s action naturally exits or completes the scene. False when the player is still engaging within the current event.'),
         ];
     }
 }
