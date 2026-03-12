@@ -33,7 +33,7 @@ EVENT.objectives are context only and do NOT authorize new plot.
 - Actions are canonical AS FACTS, not wording:
   • Preserve what happens and in what order.
   • Rewrite action lines into cinematic prose with temperature.
-- Scene headers and screenplay formatting are NEVER output directly.
+- NEVER output screenplay terms (V.O., O.S., INT., EXT., CONT'D, CUT TO, FADE, SMASH CUT, etc.) — strip all script formatting and narrate the content purely as story.
 - Never output any sentence that appears verbatim in EVENT.text unless it is dialogue.
 
 === CONTEXTUAL REFERENCE ===
