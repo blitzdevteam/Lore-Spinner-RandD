@@ -21,24 +21,24 @@ final class RegisterController extends Controller
         StoreRegisterRequest $request,
         CreateAuthenticatableGuardAction $createAuthenticatableGuard
     ): RedirectResponse {
-        $user = $createAuthenticatableGuard->handle(
-            'user',
-            $request->string('email')->toString(),
-            $request->string('password')->toString(),
-        );
+        $email = $request->string('email')->toString();
+        $password = $request->string('password')->toString();
+
+        $user = $createAuthenticatableGuard->handle('user', $email, $password);
 
         auth('user')->login($user, remember: true);
 
-        return to_route('user.authentication.account-created')
-            ->with('credentials', [
-                'email' => $request->string('email')->toString(),
-                'password' => $request->string('password')->toString(),
-            ]);
+        session()->put('account_credentials', [
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        return to_route('user.authentication.account-created');
     }
 
     public function accountCreated(): Response|RedirectResponse
     {
-        $credentials = session('credentials');
+        $credentials = session()->pull('account_credentials');
 
         if (! $credentials) {
             return to_route('user.authentication.complete-profile.edit');
