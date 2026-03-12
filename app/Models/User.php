@@ -78,7 +78,7 @@ final class User extends Authenticatable implements CanResetPassword, HasMedia
         $this->addMediaCollection('avatar')
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
             ->singleFile()
-            ->useFallbackUrl(Storage::disk('public')->url('avatar/'.($this->id % 2 === 0) + 1 .'.png'));
+            ->useFallbackUrl(Storage::disk('public')->url('avatar/'.(($this->id % 9) + 1).'.png'));
     }
 
     /**
