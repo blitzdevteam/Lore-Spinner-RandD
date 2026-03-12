@@ -19,18 +19,18 @@ withDefaults(
 <template>
     <HomeLayout>
         <div
-            class="grid h-108 place-items-center bg-cover"
+            class="grid h-64 place-items-center bg-cover md:h-108"
             :style="{ background: `url(${BannerImage}) center center no-repeat`, backgroundSize: 'cover' }"
         >
             <div class="container">
-                <div class="-ms-20 flex w-86 flex-col items-center gap-4">
+                <div class="mx-auto flex w-56 flex-col items-center gap-3 md:mx-0 md:-ms-20 md:w-86 md:gap-4">
                     <BaseLogo class="w-full" fill="white" />
-                    <h3 class="font-gill-sans text-2xl font-light text-primary">Stories That Live Through You</h3>
+                    <h3 class="text-center font-gill-sans text-lg font-light text-primary md:text-2xl">Stories That Live Through You</h3>
                 </div>
             </div>
         </div>
 
-        <div class="py-18">
+        <div class="py-10 md:py-18">
             <div class="container">
                 <div class="flex flex-col gap-12">
                     <BaseContentTitle title="Library">
@@ -40,7 +40,7 @@ withDefaults(
                             created by creators and unlocked gradually as you read
                         </template>
                     </BaseContentTitle>
-                    <div class="grid grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
                         <BaseStoryCard v-for="story in stories" :key="story.id" :story />
                     </div>
                 </div>

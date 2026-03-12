@@ -38,7 +38,7 @@ defineProps<{
                 <Tab class="text-lg font-light!" value="activity">Activity</Tab>
             </TabList>
             <TabPanels class="container">
-                <TabPanel value="stories" class="grid grid-cols-2 gap-6 py-16">
+                <TabPanel value="stories" class="grid grid-cols-1 gap-4 py-10 sm:grid-cols-2 sm:gap-6 sm:py-16">
                     <BaseStoryCard v-for="story in creator.stories ?? []" :key="story.id" :story />
                 </TabPanel>
                 <TabPanel value="about" class="py-16"> </TabPanel>

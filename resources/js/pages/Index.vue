@@ -9,6 +9,8 @@ import CommunitySignup from '@/components/CommunitySignup.vue';
 import FrequentlyAskedQuestion from '@/components/FrequentlyAskedQuestion.vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
 import { CreatorInterface, StoryInterface } from '@/types';
+import { show } from '@/wayfinder/routes/stories';
+import { router } from '@inertiajs/vue3';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 
 const props = withDefaults(
@@ -27,6 +29,10 @@ const selectedStory = ref<StoryInterface | null>(null);
 const activeStory = computed(() => selectedStory.value ?? props.stories[0] ?? null);
 
 const handleSelectStory = (story: StoryInterface) => {
+    if (window.innerWidth < 768) {
+        router.visit(show(story.slug).url);
+        return;
+    }
     selectedStory.value = story;
 };
 
