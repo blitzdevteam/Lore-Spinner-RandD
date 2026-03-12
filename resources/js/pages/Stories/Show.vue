@@ -45,29 +45,29 @@ const handleBack = (): void => {
 </script>
 
 <template>
-    <div class="flex min-h-svh">
-        <div class="relative h-full flex-1">
+    <div class="flex min-h-svh flex-col md:flex-row">
+        <div class="relative flex-1 overflow-x-hidden">
             <div v-if="story.cover" class="absolute top-0 right-0 bottom-0 -start-7.5 z-0 h-full w-[115%] blur-xl">
                 <img :src="story.cover" alt="" class="object-cover object-center opacity-75" />
             </div>
-            <div class="pt-12 px-12">
-                <div class="flex flex-col gap-8">
-                    <div class="relative overflow-hidden rounded-3xl aspect-video">
-                        <div class="z-10 absolute top-0 right-0 left-0 p-8 w-full">
+            <div class="px-4 pt-6 md:px-12 md:pt-12">
+                <div class="flex flex-col gap-6 md:gap-8">
+                    <div class="relative overflow-hidden rounded-2xl aspect-video md:rounded-3xl">
+                        <div class="z-10 absolute top-0 right-0 left-0 p-4 md:p-8 w-full">
                             <div class="flex items-center justify-between">
-                                <BaseButton :icon-only="true" type="button" severity="glass" class="size-12!" @click="handleBack">
-                                    <LucideChevronLeft class="size-8" :stroke-width="1.5" />
+                                <BaseButton :icon-only="true" type="button" severity="glass" class="size-10! md:size-12!" @click="handleBack">
+                                    <LucideChevronLeft class="size-6 md:size-8" :stroke-width="1.5" />
                                 </BaseButton>
-                                <div class="flex items-center gap-3">
-                                    <BaseButton severity="glass" :icon-only="true" class="size-12!" @click="toggleBookmark">
+                                <div class="flex items-center gap-2 md:gap-3">
+                                    <BaseButton severity="glass" :icon-only="true" class="size-10! md:size-12!" @click="toggleBookmark">
                                         <LucideBookmark
-                                            class="size-6 transition-colors"
+                                            class="size-5 md:size-6 transition-colors"
                                             :class="isBookmarked ? 'fill-secondary-300 text-secondary-300' : 'text-secondary-300'"
                                             :stroke-width="1.5"
                                         />
                                     </BaseButton>
-                                    <BaseButton severity="glass" :icon-only="true" class="size-12!">
-                                        <LucideShare2 class="size-6 text-secondary-300" :stroke-width="1.5" />
+                                    <BaseButton severity="glass" :icon-only="true" class="size-10! md:size-12!">
+                                        <LucideShare2 class="size-5 md:size-6 text-secondary-300" :stroke-width="1.5" />
                                     </BaseButton>
                                 </div>
                             </div>
@@ -79,40 +79,38 @@ const handleBack = (): void => {
                             />
                         </div>
                     </div>
-                    <div class="flex flex-col gap-4 relative">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-3xl font-semibold text-white">{{ story.title }}</h3>
-                        </div>
-                        <div class="flex items-center gap-12">
+                    <div class="flex flex-col gap-3 md:gap-4 relative">
+                        <h3 class="text-2xl md:text-3xl font-semibold text-white">{{ story.title }}</h3>
+                        <div class="flex flex-wrap items-center gap-4 md:gap-12">
                             <div class="flex items-center gap-1.5 text-gray-400">
-                                <LucidePlay class="size-6" />
-                                <span class="textlg font-semibold">110K</span>
+                                <LucidePlay class="size-5 md:size-6" />
+                                <span class="text-sm md:text-base font-semibold">110K</span>
                             </div>
                             <div class="flex items-center gap-1.5 text-gray-400">
-                                <LucideMessageCircleMore class="size-6" />
-                                <span class="textlg font-semibold">{{ story.comments_count }}</span>
+                                <LucideMessageCircleMore class="size-5 md:size-6" />
+                                <span class="text-sm md:text-base font-semibold">{{ story.comments_count }}</span>
                             </div>
                             <div class="flex items-center gap-1.5 text-gray-400">
-                                <LucideLayers2 class="size-6" />
-                                <span class="textlg font-semibold">{{ story.category?.title }}</span>
+                                <LucideLayers2 class="size-5 md:size-6" />
+                                <span class="text-sm md:text-base font-semibold">{{ story.category?.title }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="relative flex flex-col gap-4">
-                        <div class="flex items-center gap-4">
-                            <img v-if="story.creator?.avatar" :src="story.creator?.avatar" alt="" class="size-16 rounded-full">
-                            <div v-else class="size-16 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 grid place-items-center text-xl font-bold text-primary/60">
+                    <div class="relative flex flex-col gap-3 md:gap-4">
+                        <div class="flex items-center gap-3 md:gap-4">
+                            <img v-if="story.creator?.avatar" :src="story.creator?.avatar" alt="" class="size-12 md:size-16 rounded-full">
+                            <div v-else class="size-12 md:size-16 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 grid place-items-center text-lg md:text-xl font-bold text-primary/60">
                                 {{ story.creator?.full_name?.charAt(0)?.toUpperCase() }}
                             </div>
-                            <div class="text-gray-400 text-xl font-semibold">
-                                {{ story.creator?.full_name  }}
+                            <div class="text-gray-400 text-lg md:text-xl font-semibold">
+                                {{ story.creator?.full_name }}
                             </div>
                         </div>
-                        <p class="leading-relaxed text-xl font-light text-gray-100">{{ story.teaser }}</p>
+                        <p class="leading-relaxed text-base md:text-xl font-light text-gray-100">{{ story.teaser }}</p>
                     </div>
                 </div>
             </div>
-            <div class="sticky bottom-0 w-full">
+            <div class="sticky bottom-0 hidden w-full md:block">
                 <div class="p-12">
                     <div class="relative z-5">
                         <BaseButton
@@ -128,8 +126,8 @@ const handleBack = (): void => {
                 </div>
             </div>
         </div>
-        <div class="sticky top-0 bottom-0 flex h-svh w-120 border-s border-gray-700 bg-gray-900">
-            <Tabs value="details_chapters" class="px-8 flex flex-col gap-8 py-8 w-full overflow-y-scroll" :show-navigators="false" unstyled>
+        <div class="border-t border-gray-700 bg-gray-900 pb-20 md:sticky md:top-0 md:h-svh md:w-120 md:border-t-0 md:border-s md:pb-0">
+            <Tabs value="details_chapters" class="flex w-full flex-col gap-6 px-4 py-6 md:h-full md:gap-8 md:overflow-y-scroll md:px-8 md:py-8" :show-navigators="false" unstyled>
                 <TabList pt:tab-list="flex items-center gap-4" pt:content="" pt:active-bar="hidden">
                     <Tab class="flex-1" value="details_chapters" v-slot="slotProps" as-child>
                         <BaseButton
@@ -150,25 +148,25 @@ const handleBack = (): void => {
                         </BaseButton>
                     </Tab>
                 </TabList>
-                <TabPanels class="container">
+                <TabPanels>
                     <TabPanel value="details_chapters">
-                        <div class="flex flex-col gap-8">
+                        <div class="flex flex-col gap-6 md:gap-8">
                             <div class="grid grid-cols-2 gap-2">
                                 <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-700 px-4 py-3 bg-gray-800/50">
-                                    <p class="text-gray-300 uppercase font-semibold">Chapters</p>
-                                    <span class="text-lg text-center  text-white">{{ story.chapters_count }}</span>
+                                    <p class="text-sm md:text-base text-gray-300 uppercase font-semibold">Chapters</p>
+                                    <span class="text-base md:text-lg text-center text-white">{{ story.chapters_count }}</span>
                                 </div>
                                 <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-700 px-4 py-3 bg-gray-800/50">
-                                    <p class="text-gray-300 uppercase font-semibold">Rating</p>
-                                    <span class="text-lg text-center  text-white">{{ story.rating.label }}</span>
+                                    <p class="text-sm md:text-base text-gray-300 uppercase font-semibold">Rating</p>
+                                    <span class="text-base md:text-lg text-center text-white">{{ story.rating.label }}</span>
                                 </div>
                                 <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-700 px-4 py-3 bg-gray-800/50">
-                                    <p class="text-gray-300 uppercase font-semibold">Status</p>
-                                    <span class="text-lg text-center  text-white">{{ story.status.label }}</span>
+                                    <p class="text-sm md:text-base text-gray-300 uppercase font-semibold">Status</p>
+                                    <span class="text-base md:text-lg text-center text-white">{{ story.status.label }}</span>
                                 </div>
                                 <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-700 px-4 py-3 bg-gray-800/50">
-                                    <p class="text-gray-300 uppercase font-semibold">Updated</p>
-                                    <span class="text-lg text-center  text-white">2 Months Ago</span>
+                                    <p class="text-sm md:text-base text-gray-300 uppercase font-semibold">Updated</p>
+                                    <span class="text-base md:text-lg text-center text-white">2 Months Ago</span>
                                 </div>
                             </div>
                             <div class="flex flex-col gap-4">
@@ -195,6 +193,21 @@ const handleBack = (): void => {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
+        </div>
+        <div class="fixed inset-x-0 bottom-0 z-20 md:hidden">
+            <div class="px-4 pb-4 pt-8">
+                <div class="relative z-5">
+                    <BaseButton
+                        severity="primary"
+                        class="w-full py-3.5 text-lg font-semibold shadow-primary shadow-[0_0px_50px_-12px]"
+                        type="button"
+                        @click="handleStartStory"
+                    >
+                        {{ hasExistingGame ? 'Continue' : 'Start' }}
+                    </BaseButton>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 w-full h-full bg-linear-to-t from-black/90 from-50% to-transparent pointer-events-none"></div>
+            </div>
         </div>
     </div>
 </template>
