@@ -1,9 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="bg-gradient-overlay fixed inset-0">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_left,var(--color-primary-400)_0%,transparent_50%)] opacity-10"></div>
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_right,var(--color-primary-400)_0%,transparent_50%)] opacity-10"></div>
+    <div class="bg-gradient-overlay fixed inset-0 pointer-events-none">
+        <div class="absolute top-0 bottom-0 left-0 w-1/4 bg-gradient-to-r from-primary-400/10 to-transparent"></div>
+        <div class="absolute top-0 right-0 bottom-0 w-1/4 bg-gradient-to-l from-primary-400/10 to-transparent"></div>
     </div>
 </template>
 
