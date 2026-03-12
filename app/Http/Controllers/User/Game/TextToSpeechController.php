@@ -44,7 +44,7 @@ final class TextToSpeechController extends Controller
             'xi-api-key' => $apiKey,
         ])->timeout(120)->post("https://api.elevenlabs.io/v1/text-to-speech/{$voiceId}/stream?output_format=mp3_44100_128", [
             'text' => $text,
-            'model_id' => config('services.elevenlabs.model_id', 'eleven_multilingual_v2'),
+            'model_id' => config('services.elevenlabs.model_id', 'eleven_v3'),
             'voice_settings' => [
                 'stability' => 0.50,
                 'similarity_boost' => 0.75,
