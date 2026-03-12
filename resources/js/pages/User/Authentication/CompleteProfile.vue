@@ -7,8 +7,15 @@ import { update } from '@/wayfinder/routes/user/authentication/complete-profile'
 import { Form } from '@inertiajs/vue3';
 import { UserRoundPen } from 'lucide-vue-next';
 
+const genderLabels: Record<string, string> = {
+    [GenderEnum.MALE]: 'Male',
+    [GenderEnum.FEMALE]: 'Female',
+    [GenderEnum.NON_BINARY]: 'Non-binary',
+    [GenderEnum.PREFER_NOT_TO_SAY]: 'Prefer not to say',
+};
+
 const genderEnumOptions = Object.values(GenderEnum).map((value) => ({
-    label: value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
+    label: genderLabels[value],
     value: value,
 }));
 </script>
