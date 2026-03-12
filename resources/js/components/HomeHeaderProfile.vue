@@ -54,7 +54,6 @@ const profileDrawerVisibility = ref(false);
                                             </div>
                                         </BaseButton>
                                     </div>
-                                    <BaseButton>Buy Spinner</BaseButton>
                                 </div>
                                 <h6 class="text-lg text-white">Settings</h6>
                                 <div class="flex flex-col rounded-xl border border-gray-700/75 bg-white/5">

@@ -2,7 +2,6 @@
 import BaseButton from '@/components/BaseButton.vue';
 import { CreatorInterface } from '@/types';
 import { show } from '@/wayfinder/routes/creators';
-import { LucideBookmark } from 'lucide-vue-next';
 
 defineProps<{
     creator: CreatorInterface;
@@ -13,11 +12,6 @@ defineProps<{
     <div
         class="relative flex flex-col gap-3 rounded-xl border border-gray-700 bg-gray-800 p-3 outline-4 outline-transparent transition hover:border-primary-500"
     >
-        <div class="absolute end-3 top-3">
-            <BaseButton severity="glass" :icon-only="true">
-                <LucideBookmark class="size-6 text-secondary-200" :stroke-width="1.5" />
-            </BaseButton>
-        </div>
         <div class="grid place-items-center">
             <img :src="creator.avatar" alt="" class="size-40 rounded-full" />
         </div>

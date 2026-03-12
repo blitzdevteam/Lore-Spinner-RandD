@@ -41,6 +41,9 @@ Route::prefix('user')->name('user.')->group(function (): void {
         ->group(function () {
             Route::get('dashboard', User\DashboardController::class)->name('dashboard.index');
 
+            Route::post('bookmarks/{story}', [User\BookmarkController::class, 'toggle'])
+                ->name('bookmarks.toggle');
+
             Route::resource('games', User\GameController::class)
                 ->only(['index', 'show', 'store']);
 

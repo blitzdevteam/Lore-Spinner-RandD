@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseButton from '@/components/BaseButton.vue';
+import { useBookmark } from '@/composables/useBookmark';
 import { StoryInterface } from '@/types';
 import {
     LucideBookmark,
@@ -26,6 +27,7 @@ const props = defineProps<{
 }>();
 
 const hasExistingGame = computed(() => !!props.existingGameId);
+const { isBookmarked, toggleBookmark } = useBookmark(props.story.id, props.story.is_bookmarked ?? false);
 
 const handleStartStory = (): void => {
     if (props.existingGameId) {
@@ -57,8 +59,12 @@ const handleBack = (): void => {
                                     <LucideChevronLeft class="size-8" :stroke-width="1.5" />
                                 </BaseButton>
                                 <div class="flex items-center gap-3">
-                                    <BaseButton severity="glass" :icon-only="true" class="size-12!">
-                                        <LucideBookmark class="size-6 text-secondary-300" :stroke-width="1.5" />
+                                    <BaseButton severity="glass" :icon-only="true" class="size-12!" @click="toggleBookmark">
+                                        <LucideBookmark
+                                            class="size-6 transition-colors"
+                                            :class="isBookmarked ? 'fill-secondary-300 text-secondary-300' : 'text-secondary-300'"
+                                            :stroke-width="1.5"
+                                        />
                                     </BaseButton>
                                     <BaseButton severity="glass" :icon-only="true" class="size-12!">
                                         <LucideShare2 class="size-6 text-secondary-300" :stroke-width="1.5" />

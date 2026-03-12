@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,6 +40,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $comments_count
  * @property-read Collection<int, Game> $games
  * @property-read int|null $games_count
+ * @property-read Collection<int, Story> $bookmarkedStories
+ * @property-read int|null $bookmarked_stories_count
  */
 final class User extends Authenticatable implements CanResetPassword, HasMedia
 {
@@ -92,6 +95,14 @@ final class User extends Authenticatable implements CanResetPassword, HasMedia
     public function games(): HasMany
     {
         return $this->hasMany(Game::class);
+    }
+
+    /**
+     * @return BelongsToMany<Story, $this>
+     */
+    public function bookmarkedStories(): BelongsToMany
+    {
+        return $this->belongsToMany(Story::class, 'bookmarks')->withTimestamps();
     }
 
     /**

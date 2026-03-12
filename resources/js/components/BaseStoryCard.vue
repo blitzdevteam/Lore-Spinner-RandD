@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseButton from '@/components/BaseButton.vue';
+import { useBookmark } from '@/composables/useBookmark';
 import { StoryInterface } from '@/types';
 import { show } from '@/wayfinder/routes/stories';
 import { Link } from '@inertiajs/vue3';
@@ -23,6 +24,8 @@ const props = withDefaults(
 defineEmits<{
     select: [story: StoryInterface];
 }>();
+
+const { isBookmarked, toggleBookmark } = useBookmark(props.story.id, props.story.is_bookmarked ?? false);
 
 const isColumn = computed(() => props.type === 'column');
 const isRow = computed(() => props.type === 'row');
@@ -75,8 +78,12 @@ const timeAgo = computed(() => {
                 <span class="text-3xl font-bold text-primary/60">{{ story.title?.charAt(0)?.toUpperCase() }}</span>
             </div>
             <div class="absolute start-3 top-3">
-                <BaseButton severity="glass" :icon-only="true">
-                    <LucideBookmark class="size-6 text-secondary-200" :stroke-width="1.5" />
+                <BaseButton severity="glass" :icon-only="true" @click.prevent.stop="toggleBookmark">
+                    <LucideBookmark
+                        class="size-6 transition-colors"
+                        :class="isBookmarked ? 'fill-secondary-300 text-secondary-300' : 'text-secondary-200'"
+                        :stroke-width="1.5"
+                    />
                 </BaseButton>
             </div>
         </div>
@@ -96,8 +103,12 @@ const timeAgo = computed(() => {
                 <span class="text-3xl font-bold text-primary/60">{{ story.title?.charAt(0)?.toUpperCase() }}</span>
             </div>
             <div class="absolute start-3 top-3 flex items-center gap-2">
-                <BaseButton severity="glass" :icon-only="true">
-                    <LucideBookmark class="size-5 text-secondary-200" :stroke-width="1.5" />
+                <BaseButton severity="glass" :icon-only="true" @click.prevent.stop="toggleBookmark">
+                    <LucideBookmark
+                        class="size-5 transition-colors"
+                        :class="isBookmarked ? 'fill-secondary-300 text-secondary-300' : 'text-secondary-200'"
+                        :stroke-width="1.5"
+                    />
                 </BaseButton>
                 <BaseButton severity="glass" :icon-only="true">
                     <LucideShare2 class="size-5 text-secondary-200" :stroke-width="1.5" />

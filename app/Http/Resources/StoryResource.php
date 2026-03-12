@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use App\Models\Story;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @mixin Story
@@ -41,6 +42,10 @@ class StoryResource extends BaseResource
             // Counts
             'chapters_count' => $this->whenCounted('chapters'),
             'comments_count' => $this->whenCounted('comments'),
+
+            'is_bookmarked' => Auth::check()
+                ? Auth::user()->bookmarkedStories()->where('story_id', $this->id)->exists()
+                : false,
         ];
     }
 }

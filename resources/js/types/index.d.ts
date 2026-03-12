@@ -55,6 +55,8 @@ export interface StoryInterface {
     // Counts
     chapters_count?: number;
     comments_count?: number;
+
+    is_bookmarked?: boolean;
 }
 
 export interface CategoryInterface {
