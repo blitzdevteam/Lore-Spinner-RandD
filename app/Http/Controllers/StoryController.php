@@ -45,6 +45,7 @@ final class StoryController extends Controller
                 'media',
                 'chapters' => function (HasMany $query): void {
                     $query
+                        ->with(['media'])
                         ->orderBy('position')
                         ->select(['id', 'story_id', 'title', 'status', 'teaser'])
                         ->withCount(['events']);
