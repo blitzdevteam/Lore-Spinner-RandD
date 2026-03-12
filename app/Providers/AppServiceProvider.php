@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
 use Override;
 
@@ -24,7 +25,10 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Disable Eloquent Resource Wrapping
         JsonResource::withoutWrapping();
+
+        if (! file_exists(public_path('storage'))) {
+            Artisan::call('storage:link');
+        }
     }
 }
