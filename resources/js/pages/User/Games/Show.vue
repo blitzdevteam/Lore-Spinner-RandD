@@ -32,29 +32,70 @@ const journalEvents = computed(() => {
     return events;
 });
 
+interface CharacterSheet {
+    name: string;
+    firstEventTitle: string;
+    appearances: string[];
+    lastLocation: string | null;
+    conditions: string[];
+}
+
 const characters = computed(() => {
-    const charMap = new Map<string, { name: string; firstEventTitle: string }>();
+    const charMap = new Map<string, CharacterSheet>();
 
     for (const prompt of prompts.value) {
         const attrs = prompt.event?.attributes;
         if (!attrs) continue;
 
+        const eventTitle = prompt.event?.title ?? 'Unknown';
+        let eventLocation: string | null = null;
+        let eventConditions: string[] = [];
+        let eventCharNames: string[] = [];
+
         for (const attr of attrs) {
-            if (!attr.startsWith('Characters physically present:')) continue;
+            if (attr.startsWith('Characters physically present:')) {
+                eventCharNames = attr
+                    .replace('Characters physically present:', '')
+                    .split('|')
+                    .map((n) => n.trim())
+                    .filter(Boolean);
+            } else if (attr.startsWith('Location:')) {
+                eventLocation = attr.replace('Location:', '').trim() || null;
+            } else if (attr.startsWith('Persistent physical conditions:')) {
+                eventConditions = attr
+                    .replace('Persistent physical conditions:', '')
+                    .split('|')
+                    .map((c) => c.trim())
+                    .filter(Boolean);
+            }
+        }
 
-            const names = attr
-                .replace('Characters physically present:', '')
-                .split('|')
-                .map((n) => n.trim())
-                .filter(Boolean);
-
-            for (const name of names) {
-                if (!charMap.has(name)) {
-                    charMap.set(name, {
-                        name,
-                        firstEventTitle: prompt.event?.title ?? 'Unknown',
-                    });
+        for (const name of eventCharNames) {
+            const existing = charMap.get(name);
+            if (existing) {
+                if (!existing.appearances.includes(eventTitle)) {
+                    existing.appearances.push(eventTitle);
                 }
+                if (eventLocation) existing.lastLocation = eventLocation;
+                const relevantConditions = eventConditions.filter(
+                    (c) => c.toLowerCase().includes(name.toLowerCase()) || eventCharNames.length === 1,
+                );
+                for (const cond of relevantConditions) {
+                    if (!existing.conditions.includes(cond)) {
+                        existing.conditions.push(cond);
+                    }
+                }
+            } else {
+                const relevantConditions = eventConditions.filter(
+                    (c) => c.toLowerCase().includes(name.toLowerCase()) || eventCharNames.length === 1,
+                );
+                charMap.set(name, {
+                    name,
+                    firstEventTitle: eventTitle,
+                    appearances: [eventTitle],
+                    lastLocation: eventLocation,
+                    conditions: [...relevantConditions],
+                });
             }
         }
     }
@@ -235,6 +276,20 @@ onMounted(() => {
                     <div class="flex flex-col gap-0.5">
                         <h6 class="text-base text-gray-100">{{ char.name }}</h6>
                         <p class="text-xs text-gray-500">First appeared in: {{ char.firstEventTitle }}</p>
+                    </div>
+                </div>
+                <div v-if="char.lastLocation || char.conditions.length || char.appearances.length > 1" class="mt-3 flex flex-col gap-1.5 border-t border-gray-700/40 pt-3">
+                    <div v-if="char.lastLocation" class="flex items-baseline gap-2 text-xs">
+                        <span class="shrink-0 font-semibold uppercase text-gray-500">Last seen</span>
+                        <span class="text-gray-300">{{ char.lastLocation }}</span>
+                    </div>
+                    <div v-if="char.conditions.length" class="flex items-baseline gap-2 text-xs">
+                        <span class="shrink-0 font-semibold uppercase text-gray-500">Status</span>
+                        <span class="text-gray-300">{{ char.conditions.join(' · ') }}</span>
+                    </div>
+                    <div v-if="char.appearances.length > 1" class="flex items-baseline gap-2 text-xs">
+                        <span class="shrink-0 font-semibold uppercase text-gray-500">Seen in</span>
+                        <span class="text-gray-400">{{ char.appearances.length }} events</span>
                     </div>
                 </div>
             </div>
