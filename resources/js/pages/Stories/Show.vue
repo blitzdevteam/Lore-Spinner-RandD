@@ -46,7 +46,7 @@ const handleBack = (): void => {
 
 <template>
     <div class="flex min-h-svh flex-col md:flex-row">
-        <div class="relative flex-1 overflow-x-hidden">
+        <div class="relative flex-1 overflow-x-clip">
             <div v-if="story.cover" class="absolute top-0 right-0 bottom-0 -start-7.5 z-0 h-full w-[115%] blur-xl">
                 <img :src="story.cover" alt="" class="object-cover object-center opacity-75" />
             </div>

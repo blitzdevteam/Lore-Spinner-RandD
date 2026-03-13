@@ -78,6 +78,7 @@ const handleInputSubmit = (prompt: string) => {
                 </div>
                 <!-- Floating media player -->
                 <div class="pointer-events-none sticky top-20 z-20 flex justify-center md:top-28">
+                    <div class="absolute inset-x-0 -top-4 -bottom-6 bg-[radial-gradient(ellipse_at_center,theme(colors.gray.950/0.85)_0%,transparent_70%)]"></div>
                     <GameplayMediaPlayer />
                 </div>
 
