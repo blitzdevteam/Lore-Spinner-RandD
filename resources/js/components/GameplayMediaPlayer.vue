@@ -9,7 +9,7 @@ const tts = useTextToSpeech();
     <Transition name="player-slide">
         <div
             v-if="tts.isActive.value"
-            class="bg-glass-effect pointer-events-auto relative flex items-center gap-3 overflow-hidden rounded-full border border-gray-700/60 py-2 pe-3 ps-2 shadow-2xl"
+            class="bg-glass-effect pointer-events-auto relative flex items-center gap-3 overflow-hidden rounded-full border border-gray-700/60 py-2 pe-3 ps-2 shadow-2xl bg-gray-900/75! backdrop-blur-xl!"
         >
             <!-- Play / Pause -->
             <button
