@@ -32,69 +32,100 @@ const journalEvents = computed(() => {
     return events;
 });
 
+interface CharacterEntry {
+    event: string;
+    facts: string[];
+}
+
 interface CharacterSheet {
     name: string;
-    firstEventTitle: string;
-    appearances: string[];
-    lastLocation: string | null;
-    conditions: string[];
+    firstEvent: string;
+    appearanceCount: number;
+    log: CharacterEntry[];
+}
+
+const ATTR_CATEGORIES: Record<string, string> = {
+    'Persistent physical conditions:': 'Condition',
+    'Objects:': 'Objects',
+    'Environmental conditions:': 'Environment',
+    'Factual dialogue:': 'Dialogue',
+    'Location:': 'Location',
+};
+
+function parseAttrCategory(attr: string): { category: string; label: string; items: string[] } | null {
+    for (const [prefix, label] of Object.entries(ATTR_CATEGORIES)) {
+        if (attr.startsWith(prefix)) {
+            const items = attr
+                .slice(prefix.length)
+                .split('|')
+                .map((s) => s.trim())
+                .filter(Boolean);
+            return { category: prefix, label, items };
+        }
+    }
+    return null;
 }
 
 const characters = computed(() => {
     const charMap = new Map<string, CharacterSheet>();
+    const seenFacts = new Map<string, Set<string>>();
 
     for (const prompt of prompts.value) {
         const attrs = prompt.event?.attributes;
         if (!attrs) continue;
 
         const eventTitle = prompt.event?.title ?? 'Unknown';
-        let eventLocation: string | null = null;
-        let eventConditions: string[] = [];
-        let eventCharNames: string[] = [];
+        let charNames: string[] = [];
+        const eventFacts: string[] = [];
 
         for (const attr of attrs) {
             if (attr.startsWith('Characters physically present:')) {
-                eventCharNames = attr
+                charNames = attr
                     .replace('Characters physically present:', '')
                     .split('|')
                     .map((n) => n.trim())
                     .filter(Boolean);
-            } else if (attr.startsWith('Location:')) {
-                eventLocation = attr.replace('Location:', '').trim() || null;
-            } else if (attr.startsWith('Persistent physical conditions:')) {
-                eventConditions = attr
-                    .replace('Persistent physical conditions:', '')
-                    .split('|')
-                    .map((c) => c.trim())
-                    .filter(Boolean);
+                continue;
+            }
+
+            const parsed = parseAttrCategory(attr);
+            if (parsed) {
+                for (const item of parsed.items) {
+                    eventFacts.push(item);
+                }
             }
         }
 
-        for (const name of eventCharNames) {
+        for (const name of charNames) {
+            const nameLower = name.toLowerCase();
+            const isSolo = charNames.length === 1;
+            const relevantFacts = eventFacts.filter(
+                (f) => isSolo || f.toLowerCase().includes(nameLower),
+            );
+
+            if (!relevantFacts.length) continue;
+
             const existing = charMap.get(name);
+            const seen = seenFacts.get(name) ?? new Set<string>();
+
+            const newFacts = relevantFacts.filter((f) => !seen.has(f));
+            for (const f of newFacts) seen.add(f);
+            seenFacts.set(name, seen);
+
+            if (!newFacts.length && existing) {
+                existing.appearanceCount++;
+                continue;
+            }
+
             if (existing) {
-                if (!existing.appearances.includes(eventTitle)) {
-                    existing.appearances.push(eventTitle);
-                }
-                if (eventLocation) existing.lastLocation = eventLocation;
-                const relevantConditions = eventConditions.filter(
-                    (c) => c.toLowerCase().includes(name.toLowerCase()) || eventCharNames.length === 1,
-                );
-                for (const cond of relevantConditions) {
-                    if (!existing.conditions.includes(cond)) {
-                        existing.conditions.push(cond);
-                    }
-                }
+                existing.appearanceCount++;
+                existing.log.push({ event: eventTitle, facts: newFacts });
             } else {
-                const relevantConditions = eventConditions.filter(
-                    (c) => c.toLowerCase().includes(name.toLowerCase()) || eventCharNames.length === 1,
-                );
                 charMap.set(name, {
                     name,
-                    firstEventTitle: eventTitle,
-                    appearances: [eventTitle],
-                    lastLocation: eventLocation,
-                    conditions: [...relevantConditions],
+                    firstEvent: eventTitle,
+                    appearanceCount: 1,
+                    log: [{ event: eventTitle, facts: newFacts }],
                 });
             }
         }
@@ -273,23 +304,22 @@ onMounted(() => {
                     <div class="grid size-10 shrink-0 place-items-center rounded-full bg-secondary-400/10 text-secondary-400">
                         <LucideUser class="size-5" :stroke-width="1.5" />
                     </div>
-                    <div class="flex flex-col gap-0.5">
-                        <h6 class="text-base text-gray-100">{{ char.name }}</h6>
-                        <p class="text-xs text-gray-500">First appeared in: {{ char.firstEventTitle }}</p>
+                    <div class="min-w-0 flex-1">
+                        <h6 class="text-base leading-snug text-gray-100">{{ char.name }}</h6>
+                        <p class="mt-0.5 text-xs text-gray-500">
+                            {{ char.firstEvent }}
+                            <span v-if="char.appearanceCount > 1"> · {{ char.appearanceCount }} appearances</span>
+                        </p>
                     </div>
                 </div>
-                <div v-if="char.lastLocation || char.conditions.length || char.appearances.length > 1" class="mt-3 flex flex-col gap-1.5 border-t border-gray-700/40 pt-3">
-                    <div v-if="char.lastLocation" class="flex items-baseline gap-2 text-xs">
-                        <span class="shrink-0 font-semibold uppercase text-gray-500">Last seen</span>
-                        <span class="text-gray-300">{{ char.lastLocation }}</span>
-                    </div>
-                    <div v-if="char.conditions.length" class="flex items-baseline gap-2 text-xs">
-                        <span class="shrink-0 font-semibold uppercase text-gray-500">Status</span>
-                        <span class="text-gray-300">{{ char.conditions.join(' · ') }}</span>
-                    </div>
-                    <div v-if="char.appearances.length > 1" class="flex items-baseline gap-2 text-xs">
-                        <span class="shrink-0 font-semibold uppercase text-gray-500">Seen in</span>
-                        <span class="text-gray-400">{{ char.appearances.length }} events</span>
+                <div v-if="char.log.length" class="mt-3 flex flex-col gap-2.5 border-t border-gray-700/40 pt-3">
+                    <div v-for="(entry, i) in char.log" :key="i" class="flex flex-col gap-1">
+                        <p v-if="char.log.length > 1" class="text-[10px] font-semibold uppercase tracking-wide text-gray-600">{{ entry.event }}</p>
+                        <ul class="flex flex-col gap-0.5">
+                            <li v-for="(fact, j) in entry.facts" :key="j" class="text-xs leading-relaxed text-gray-400">
+                                · {{ fact }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
