@@ -123,7 +123,7 @@ FORBIDDEN:
 - Introducing new characters.
 - Introducing new objects not present in current or prior events.
 - Major plot actions or irreversible outcomes.
-- Advancing beyond the CURRENT_EVENT.
+- Narrating or referencing content from future events.
 - Adding a new location not established.
 
 All invented content must:
@@ -200,21 +200,27 @@ If the Player is off-track, choices must gently steer back to canon:
 === EVENT ADVANCEMENT SIGNAL ===
 You control when the story moves to the next event via the "advance_event" field.
 
-Set advance_event = TRUE when ALL of the following are met:
-- The current event's core dramatic beats have been explored (the player has engaged with the scene's purpose).
-- The player's latest action naturally exits, resolves, or completes the scene.
-- You have narrated the consequence of that action within this event.
+Set advance_event = TRUE when:
+- The player has engaged with the scene's core purpose AND their latest action moves toward resolution.
+- OR the scene's main dramatic beats have been addressed, even if minor threads remain.
+- You have narrated the consequence of the player's action.
 
-Set advance_event = FALSE when ANY of the following apply:
-- The player is still exploring, questioning, or interacting within the scene.
-- The player made a custom action that deserves an in-scene response (e.g., talking to a character, examining something, doing something off-script).
-- There are still meaningful beats or objectives left unaddressed.
+Set advance_event = FALSE only when:
 - This is the FIRST response in the event (the opening narration).
+- The player is actively mid-conversation with a character or examining something specific.
+- A critical scene objective has not been started at all (not merely "unfinished" — unstarted).
+
+Do NOT keep advance_event = FALSE just because optional or secondary beats remain unexplored.
+Once the player has engaged with the scene's core purpose, lean toward advancement.
 
 @if(!empty($turnCount))
 This is turn {{ $turnCount }} in this event.
-@if($turnCount >= 4)
-PACING NOTE: This event has been active for {{ $turnCount }} turns. Begin steering toward conclusion — make your next choices strongly forward-moving and set advance_event = true once the player takes any forward action.
+@if($turnCount == 2)
+PACING: The scene has been active for a few turns. Ensure all three choices push the scene forward. Prefer setting advance_event = true if the player takes any forward action.
+@elseif($turnCount == 3)
+PACING: This scene has run long. You SHOULD wrap it up — narrate a satisfying closing beat for the player's action and set advance_event = true. Only hold if the player is genuinely mid-interaction with a character.
+@elseif($turnCount >= 4)
+PACING: This is the FINAL turn for this scene. Narrate a natural, satisfying transition that honors what the player just did, then set advance_event = true. Wrap any open thread with a brief closing beat. No exceptions.
 @endif
 @endif
 

@@ -52,6 +52,10 @@ final class PromptController extends Controller
 
         $shouldAdvance = $aiResult['advance_event'];
 
+        if (! $shouldAdvance && $turnCount >= 5) {
+            $shouldAdvance = true;
+        }
+
         if ($shouldAdvance) {
             $nextEvent = $this->findNextEvent($currentEvent, $game->story_id);
 
@@ -150,18 +154,36 @@ final class PromptController extends Controller
 
     /**
      * Get previous events for continuity context.
+     * Looks across chapter boundaries so the AI has continuity at chapter starts.
      *
      * @return array<int, array{position: int, title: string, objectives: string|null}>
      */
     private function getPreviousEvents(Event $currentEvent, int $take = 3): array
     {
-        return Event::query()
+        $events = Event::query()
             ->where('chapter_id', $currentEvent->chapter_id)
             ->where('position', '<', $currentEvent->position)
             ->orderByDesc('position')
             ->take($take)
-            ->get()
-            ->reverse()
+            ->get();
+
+        if ($events->count() < $take) {
+            $remaining = $take - $events->count();
+
+            $prevChapter = Chapter::query()
+                ->where('story_id', $currentEvent->chapter->story_id)
+                ->where('position', '<', $currentEvent->chapter->position)
+                ->orderByDesc('position')
+                ->first();
+
+            if ($prevChapter) {
+                $events = $events->merge(
+                    $prevChapter->events()->orderByDesc('position')->take($remaining)->get()
+                );
+            }
+        }
+
+        return $events->sortBy('position')
             ->map(fn (Event $event): array => [
                 'position' => $event->position,
                 'title' => $event->title,
@@ -173,22 +195,39 @@ final class PromptController extends Controller
 
     /**
      * Get next events for pacing awareness (titles only — no spoilers).
+     * Looks across chapter boundaries so the AI always knows more story lies ahead.
      *
      * @return array<int, array{position: int, title: string}>
      */
     private function getNextEvents(Event $currentEvent, int $take = 2): array
     {
-        return Event::query()
+        $events = Event::query()
             ->where('chapter_id', $currentEvent->chapter_id)
             ->where('position', '>', $currentEvent->position)
             ->orderBy('position')
             ->take($take)
-            ->get()
-            ->map(fn (Event $event): array => [
-                'position' => $event->position,
-                'title' => $event->title,
-            ])
-            ->all();
+            ->get();
+
+        if ($events->count() < $take) {
+            $remaining = $take - $events->count();
+
+            $nextChapter = Chapter::query()
+                ->where('story_id', $currentEvent->chapter->story_id)
+                ->where('position', '>', $currentEvent->chapter->position)
+                ->orderBy('position')
+                ->first();
+
+            if ($nextChapter) {
+                $events = $events->merge(
+                    $nextChapter->events()->orderBy('position')->take($remaining)->get()
+                );
+            }
+        }
+
+        return $events->map(fn (Event $event): array => [
+            'position' => $event->position,
+            'title' => $event->title,
+        ])->all();
     }
 
     /**
