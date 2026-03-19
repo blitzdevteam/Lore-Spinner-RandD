@@ -63,7 +63,16 @@ php artisan event:cache
 php artisan storage:link
 ```
 
-### 5. Start the queue worker
+### 5. Run the expansion seeder (new creators + stories)
+
+This seeds new creators, reassigns existing stories, and onboards new stories through the full AI extraction pipeline. It auto-converts PDFs to TXT, then runs chapter extraction, event extraction, system prompt generation, and opening narration — all synchronously with retry logic. Safe to re-run (idempotent).
+
+```bash
+php artisan db:seed --class=ExpansionSeeder
+php artisan images:generate-missing --stories --chapters --creators
+```
+
+### 6. Start the queue worker
 
 ```bash
 php artisan queue:work redis --sleep=3 --tries=3 --max-time=3600

@@ -62,13 +62,6 @@ final class Creator extends Authenticatable implements FilamentUser, HasMedia, H
         'full_name',
     ];
 
-    protected static function booted(): void
-    {
-        static::created(function (Creator $creator): void {
-            CreatorAvatarGeneratorJob::dispatch($creator);
-        });
-    }
-
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
@@ -119,6 +112,13 @@ final class Creator extends Authenticatable implements FilamentUser, HasMedia, H
         return $this->hasMany(Story::class);
     }
 
+    protected static function booted(): void
+    {
+        self::created(function (Creator $creator): void {
+            CreatorAvatarGeneratorJob::dispatch($creator);
+        });
+    }
+
     /**
      * @return string[]
      */
@@ -158,7 +158,7 @@ final class Creator extends Authenticatable implements FilamentUser, HasMedia, H
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn (): string => $this->first_name.' '.$this->last_name
+            get: fn (): string => mb_trim($this->first_name.' '.$this->last_name)
         );
     }
 

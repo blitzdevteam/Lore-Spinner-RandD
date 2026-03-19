@@ -14,6 +14,32 @@ final class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory()->count(15)->create();
+        foreach ($this->getCategories() as $title) {
+            Category::firstOrCreate(['title' => $title]);
+        }
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function getCategories(): array
+    {
+        return [
+            'Science Fiction',
+            'Action Thriller',
+            'Dark Fantasy',
+            'Horror',
+            'Thriller',
+            'Historical Adventure',
+            'Fantasy Adventure',
+            'Adventure',
+            'Techno-Thriller',
+            'Supernatural Thriller',
+            'Military Drama',
+            'Dystopian',
+            'Mystery',
+            'Drama',
+            'Cyberpunk',
+        ];
     }
 }
