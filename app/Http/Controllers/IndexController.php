@@ -13,30 +13,30 @@ final class IndexController extends Controller
     public function __invoke(): Response
     {
         return inertia('Index', [
-            'creators' => fn() => Creator::query()
+            'creators' => fn () => Creator::query()
                 ->select([
-                    'id', 'username', 'first_name', 'last_name', 'avatar', 'bio'
+                    'id', 'username', 'first_name', 'last_name', 'avatar', 'bio',
                 ])
                 ->with(['media'])
                 ->withCount([
-                    'stories'
+                    'stories',
                 ])
-                ->take(3)
+                ->where('email', 'like', '%@lorespinner.com')
                 ->latest()
                 ->get()
                 ->toResourceCollection(),
-            'stories' => fn() => Story::query()
+            'stories' => fn () => Story::query()
                 ->with([
                     'category:id,title',
                     'creator:id,first_name,last_name',
                     'media',
                 ])
                 ->select([
-                    'id', 'category_id', 'creator_id', 'title', 'slug', 'teaser', 'status', 'rating', 'updated_at'
+                    'id', 'category_id', 'creator_id', 'title', 'slug', 'teaser', 'status', 'rating', 'updated_at',
                 ])
                 ->withCount([
                     'chapters',
-                    'comments'
+                    'comments',
                 ])
                 ->published()
                 ->latest('published_at')

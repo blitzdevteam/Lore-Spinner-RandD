@@ -45,6 +45,7 @@ final class ExpansionSeeder extends Seeder
         try {
             $this->seedCategories();
             $this->seedCreators();
+            $this->removeRandomCreators();
             $this->reassignExistingStories();
             $this->seedNewStories();
 
@@ -142,6 +143,21 @@ final class ExpansionSeeder extends Seeder
 
             $label = $wasNew ? 'Created' : 'Updated';
             $this->command->info("  -> {$label}: {$data['first_name']} {$data['last_name']}");
+        }
+    }
+
+    // ── Remove random test creators ─────────────────────────────────
+
+    private function removeRandomCreators(): void
+    {
+        $keepEmails = collect($this->getCreators())->pluck('email')->all();
+
+        $removed = Creator::whereNotIn('email', $keepEmails)
+            ->where('email', 'like', '%@example.%')
+            ->delete();
+
+        if ($removed > 0) {
+            $this->command->info("  -> Removed {$removed} random test creators.");
         }
     }
 
