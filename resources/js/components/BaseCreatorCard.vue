@@ -13,7 +13,7 @@ defineProps<{
         class="relative flex flex-col gap-3 rounded-xl border border-gray-700 bg-gray-800 p-3 outline-4 outline-transparent transition hover:border-primary-500"
     >
         <div class="grid place-items-center">
-            <img :src="creator.avatar" alt="" class="size-40 rounded-full object-cover" />
+            <img :src="creator.avatar" alt="" class="size-40 rounded-full object-cover object-[50%_20%]" />
         </div>
         <div class="flex flex-col gap-3">
             <div class="flex flex-col">

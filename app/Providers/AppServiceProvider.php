@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Story;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
@@ -40,9 +41,7 @@ final class AppServiceProvider extends ServiceProvider
         $lockFile = storage_path('app/expansion-seeder.lock');
 
         try {
-            $storiesExist = \App\Models\Story::where('title', 'B.U.G.S.')->exists();
-
-            if ($storiesExist) {
+            if (Story::where('title', 'Wasteland')->exists()) {
                 if (! file_exists($lockFile)) {
                     file_put_contents($lockFile, 'completed');
                 }
@@ -51,10 +50,6 @@ final class AppServiceProvider extends ServiceProvider
             }
 
             if (file_exists($lockFile)) {
-                $age = time() - filemtime($lockFile);
-                if ($age < 7200) {
-                    return;
-                }
                 unlink($lockFile);
             }
 

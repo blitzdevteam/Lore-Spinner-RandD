@@ -210,10 +210,21 @@ final class ExpansionSeeder extends Seeder
         $this->command->info('Processing new stories...');
 
         foreach ($newStories as $storyData) {
-            if (Story::where('title', $storyData['title'])->exists()) {
-                $this->command->info("  -> Already exists: {$storyData['title']} — skipping.");
+            $existing = Story::where('title', $storyData['title'])->first();
+
+            if ($existing && $existing->status === StoryStatusEnum::PUBLISHED) {
+                $this->command->info("  -> Already published: {$storyData['title']} — skipping.");
 
                 continue;
+            }
+
+            if ($existing) {
+                $this->command->warn("  -> Removing incomplete story: {$storyData['title']} (status: {$existing->status->value})");
+                $existing->events()->delete();
+                $existing->chapters()->delete();
+                $existing->clearMediaCollection('script');
+                $existing->clearMediaCollection('cover');
+                $existing->delete();
             }
 
             $scriptPath = database_path('stories/'.$storyData['script']);

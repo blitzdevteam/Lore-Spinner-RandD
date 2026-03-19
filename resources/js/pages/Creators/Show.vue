@@ -19,7 +19,7 @@ defineProps<{
         <div class="flex h-100 items-center" :style="{ background: `url(${CreatorHeaderBanner}) center center no-repeat`, backgroundSize: 'cover' }">
             <div class="container">
                 <div class="inline-flex flex-col items-center gap-3">
-                    <img :src="creator.avatar" alt="" class="size-40 rounded-full object-cover" />
+                    <img :src="creator.avatar" alt="" class="size-40 rounded-full object-cover object-[50%_20%]" />
                     <div class="flex flex-col">
                         <h3 class="text-center text-3xl text-white">{{ creator.full_name }}</h3>
                         <div class="flex items-center gap-3">
