@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Jobs\RunExpansionSeederJob;
 use App\Models\Creator;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Artisan;
@@ -35,10 +36,10 @@ final class AppServiceProvider extends ServiceProvider
 
         try {
             if (Creator::where('email', 'rand@lorespinner.com')->doesntExist()) {
-                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ExpansionSeeder']);
+                RunExpansionSeederJob::dispatch();
             }
         } catch (Throwable) {
-            // Table may not exist yet during initial migrations
+            //
         }
     }
 }
