@@ -54,6 +54,12 @@ final class ExpansionSeeder extends Seeder
             Artisan::call('images:generate-missing');
 
             $this->command->info('Expansion complete.');
+
+            $lockDir = storage_path('app/expansion-seeder.running');
+
+            if (is_dir($lockDir)) {
+                @rmdir($lockDir);
+            }
         } finally {
             config(['queue.default' => $previousQueue]);
         }
@@ -130,11 +136,7 @@ final class ExpansionSeeder extends Seeder
 
             $avatarPath = database_path('stories/avatars/'.$data['avatar']);
 
-            if (File::exists($avatarPath)) {
-                if ($creator->getFirstMedia('avatar')) {
-                    $creator->clearMediaCollection('avatar');
-                }
-
+            if (File::exists($avatarPath) && ! $creator->getFirstMedia('avatar')) {
                 $creator->addMedia($avatarPath)
                     ->preservingOriginal()
                     ->usingFileName('avatar-'.$creator->id.'.'.pathinfo($avatarPath, PATHINFO_EXTENSION))
@@ -219,7 +221,15 @@ final class ExpansionSeeder extends Seeder
             }
 
             if ($existing) {
-                $this->command->warn("  -> Removing incomplete story: {$storyData['title']} (status: {$existing->status->value})");
+                $staleMinutes = $existing->updated_at->diffInMinutes(now());
+
+                if ($staleMinutes < 30) {
+                    $this->command->info("  -> In progress: {$storyData['title']} (updated {$staleMinutes}m ago) — skipping.");
+
+                    continue;
+                }
+
+                $this->command->warn("  -> Removing stale story: {$storyData['title']} (status: {$existing->status->value}, last updated {$staleMinutes}m ago)");
                 $existing->events()->delete();
                 $existing->chapters()->delete();
                 $existing->clearMediaCollection('script');

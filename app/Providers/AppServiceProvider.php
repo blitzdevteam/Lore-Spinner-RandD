@@ -38,22 +38,26 @@ final class AppServiceProvider extends ServiceProvider
 
     private function runExpansionSeederOnce(): void
     {
-        $lockFile = storage_path('app/expansion-seeder.lock');
+        $lockDir = storage_path('app/expansion-seeder.running');
 
         try {
             if (Story::where('title', 'Wasteland')->exists()) {
-                if (! file_exists($lockFile)) {
-                    file_put_contents($lockFile, 'completed');
-                }
-
                 return;
             }
 
-            if (file_exists($lockFile)) {
-                unlink($lockFile);
+            if (is_dir($lockDir)) {
+                $age = time() - filemtime($lockDir);
+
+                if ($age < 2700) {
+                    return;
+                }
+
+                @rmdir($lockDir);
             }
 
-            file_put_contents($lockFile, 'started at '.now()->toDateTimeString());
+            if (! @mkdir($lockDir)) {
+                return;
+            }
 
             $artisan = base_path('artisan');
             $logFile = storage_path('logs/expansion-seeder.log');
