@@ -15,6 +15,7 @@ use App\Models\Category;
 use App\Models\Creator;
 use App\Models\Story;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -48,7 +49,10 @@ final class ExpansionSeeder extends Seeder
             $this->seedNewStories();
 
             $this->command->newLine();
-            $this->command->info('Expansion complete. Run `php artisan images:generate-missing --stories --chapters --creators` to generate cover images.');
+            $this->command->info('Generating missing images...');
+            Artisan::call('images:generate-missing');
+
+            $this->command->info('Expansion complete.');
         } finally {
             config(['queue.default' => $previousQueue]);
         }
