@@ -84,7 +84,7 @@ final class CreatorSeeder extends Seeder
                 'avatar' => 'RAND SOARES - PROFILE PIC.jpg',
             ],
             [
-                'first_name' => 'FREEP!',
+                'first_name' => 'FREEP1',
                 'last_name' => '',
                 'username' => 'freep',
                 'email' => 'freep@lorespinner.com',

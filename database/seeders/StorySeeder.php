@@ -286,7 +286,7 @@ final class StorySeeder extends Seeder
                 'rating' => StoryRatingEnum::TEEN->value,
             ],
 
-            // ── FREEP! ─────────────────────────────────────────────────
+            // ── FREEP1 ─────────────────────────────────────────────────
             [
                 'creator_email' => 'freep@lorespinner.com',
                 'category' => 'Techno-Thriller',

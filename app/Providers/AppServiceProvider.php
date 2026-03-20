@@ -34,8 +34,18 @@ final class AppServiceProvider extends ServiceProvider
             Artisan::call('storage:link');
         }
 
+        $this->runMigrations();
         $this->repairCreatorAvatars();
         $this->repairMissingImages();
+    }
+
+    private function runMigrations(): void
+    {
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+        } catch (Throwable) {
+            //
+        }
     }
 
     private function repairMissingImages(): void
