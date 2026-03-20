@@ -22,3 +22,59 @@ Route::resource('stories', Controllers\StoryController::class)
     ->only(['index', 'show']);
 
 Route::post('feedback', [Controllers\FeedbackController::class, 'store'])->name('feedback.store');
+
+Route::get('expansion-status', function () {
+    $symlink = public_path('storage');
+    $symlinkExists = file_exists($symlink);
+    $symlinkTarget = $symlinkExists ? (is_link($symlink) ? readlink($symlink) : 'NOT A SYMLINK') : 'MISSING';
+    $storageDir = storage_path('app/public');
+    $storageDirExists = is_dir($storageDir);
+    $storageFiles = $storageDirExists ? count(glob($storageDir.'/*')) : 0;
+
+    $stories = App\Models\Story::select('id', 'title', 'status', 'creator_id')
+        ->with(['creator:id,first_name,last_name', 'media'])
+        ->orderBy('id')
+        ->get()
+        ->map(function ($s) {
+            $cover = $s->getFirstMedia('cover');
+            $coverUrl = $s->getFirstMediaUrl('cover');
+            $coverPath = $cover?->getPath();
+            $fileOnDisk = $coverPath ? file_exists($coverPath) : false;
+
+            return [
+                'title' => $s->title,
+                'status' => $s->status->value,
+                'creator' => $s->creator?->first_name.' '.$s->creator?->last_name,
+                'has_cover_record' => $cover !== null,
+                'cover_url' => $coverUrl ?: null,
+                'cover_path' => $coverPath,
+                'file_on_disk' => $fileOnDisk,
+            ];
+        });
+
+    $creators = App\Models\Creator::select('id', 'first_name', 'last_name', 'email')
+        ->with('media')
+        ->get()
+        ->map(function ($c) {
+            $avatar = $c->getFirstMedia('avatar');
+            $avatarPath = $avatar?->getPath();
+
+            return [
+                'name' => $c->first_name.' '.$c->last_name,
+                'email' => $c->email,
+                'has_avatar_record' => $avatar !== null,
+                'avatar_url' => $c->avatar ?: null,
+                'file_on_disk' => $avatarPath ? file_exists($avatarPath) : false,
+            ];
+        });
+
+    $logFile = storage_path('logs/image-generation.log');
+
+    return response()->json([
+        'symlink' => ['exists' => $symlinkExists, 'target' => $symlinkTarget],
+        'storage_dir' => ['exists' => $storageDirExists, 'file_count' => $storageFiles],
+        'log_tail' => file_exists($logFile) ? implode("\n", array_slice(file($logFile), -20)) : 'NO LOG',
+        'creators' => $creators,
+        'stories' => $stories,
+    ], 200, [], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+});
