@@ -40,7 +40,6 @@ final class IndexController extends Controller
                 ])
                 ->published()
                 ->latest('published_at')
-                ->take(6)
                 ->get()
                 ->toResourceCollection(),
         ]);
