@@ -16,6 +16,8 @@ final class UsersTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->withCount(['games', 'bookmarkedStories', 'comments']))
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('username')
                     ->searchable(),
@@ -27,10 +29,21 @@ final class UsersTable
                 IconColumn::make('is_active')
                     ->sortable()
                     ->boolean(),
+                TextColumn::make('games_count')
+                    ->label('Games')
+                    ->sortable(),
+                TextColumn::make('bookmarked_stories_count')
+                    ->label('Bookmarks')
+                    ->sortable(),
+                TextColumn::make('comments_count')
+                    ->label('Comments')
+                    ->sortable(),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
+                    ->label('Signed Up')
                     ->dateTime()
                     ->sortable(),
             ])

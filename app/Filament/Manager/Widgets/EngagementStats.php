@@ -6,74 +6,59 @@ namespace App\Filament\Manager\Widgets;
 
 use App\Models\Game;
 use App\Models\User;
-use Filament\Widgets\StatsOverviewWidget;
-use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-final class EngagementStats extends StatsOverviewWidget
+final class EngagementStats extends ChartWidget
 {
     protected static ?int $sort = 4;
 
-    protected ?string $heading = 'Engagement Metrics';
+    protected int | string | array $columnSpan = 'full';
 
-    protected function getStats(): array
+    protected ?string $heading = 'Engagement Breakdown';
+
+    protected ?string $maxHeight = '300px';
+
+    protected function getType(): string
     {
-        try {
-            $totalUsers = User::count();
+        return 'bar';
+    }
 
-            $usersWithGames = User::whereHas('games')->count();
-            $usersWithBookmarks = User::whereHas('bookmarkedStories')->count();
-            $usersWithComments = User::whereHas('comments')->count();
+    protected function getData(): array
+    {
+        $totalPrompts = DB::table('prompts')->count();
+        $gameCount = Game::count();
 
-            $totalPrompts = DB::table('prompts')->count();
-            $avgPromptsPerGame = Game::count() > 0
-                ? round($totalPrompts / Game::count(), 1)
-                : 0;
-
-            $activeLastWeek = User::whereHas('games', function ($q) {
-                $q->where('created_at', '>=', Carbon::now()->subDays(7));
-            })->count();
-
-            $stories = DB::table('stories')->where('status', 'published')->count();
-
-            return [
-                Stat::make('Users Playing Games', number_format($usersWithGames))
-                    ->description($totalUsers > 0
-                        ? round(($usersWithGames / $totalUsers) * 100) . '% of users'
-                        : 'No users yet')
-                    ->descriptionColor('success')
-                    ->color('success'),
-
-                Stat::make('Users with Bookmarks', number_format($usersWithBookmarks))
-                    ->description($totalUsers > 0
-                        ? round(($usersWithBookmarks / $totalUsers) * 100) . '% of users'
-                        : 'No users yet')
-                    ->descriptionColor('warning')
-                    ->color('warning'),
-
-                Stat::make('Users Commenting', number_format($usersWithComments))
-                    ->description($totalUsers > 0
-                        ? round(($usersWithComments / $totalUsers) * 100) . '% of users'
-                        : 'No users yet')
-                    ->descriptionColor('info')
-                    ->color('info'),
-
-                Stat::make('Total Prompts Sent', number_format($totalPrompts))
-                    ->description($avgPromptsPerGame . ' avg per game')
-                    ->color('primary'),
-
-                Stat::make('Active Last 7 Days', number_format($activeLastWeek))
-                    ->description('Users who played a game')
-                    ->descriptionColor($activeLastWeek > 0 ? 'success' : 'gray')
-                    ->color('success'),
-
-                Stat::make('Published Stories', number_format($stories))
-                    ->description('Available to play')
-                    ->color('gray'),
-            ];
-        } catch (\Throwable) {
-            return [];
-        }
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Users',
+                    'data' => [
+                        User::whereHas('games')->count(),
+                        User::whereHas('bookmarkedStories')->count(),
+                        User::whereHas('comments')->count(),
+                        User::whereHas('games', fn ($q) => $q->where('created_at', '>=', Carbon::now()->subDays(7)))->count(),
+                    ],
+                    'backgroundColor' => 'rgba(34, 197, 94, 0.8)',
+                ],
+                [
+                    'label' => 'Totals',
+                    'data' => [
+                        $gameCount,
+                        DB::table('bookmarks')->count(),
+                        DB::table('comments')->count(),
+                        $totalPrompts,
+                    ],
+                    'backgroundColor' => 'rgba(147, 51, 234, 0.8)',
+                ],
+            ],
+            'labels' => [
+                'Games',
+                'Bookmarks',
+                'Comments',
+                'Active (7d) / Prompts',
+            ],
+        ];
     }
 }

@@ -44,7 +44,6 @@ final class ManagerPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\PlatformStatsOverview::class,
                 Widgets\SignupChart::class,
-                Widgets\RecentUsersTable::class,
                 Widgets\EngagementStats::class,
             ])
             ->middleware([
