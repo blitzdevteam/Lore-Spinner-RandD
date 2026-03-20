@@ -6,7 +6,6 @@ namespace App\Providers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Override;
 use Throwable;
@@ -33,27 +32,7 @@ final class AppServiceProvider extends ServiceProvider
             Artisan::call('storage:link');
         }
 
-        $this->fixFreep1Name();
         $this->generateMissingCovers();
-    }
-
-    private function fixFreep1Name(): void
-    {
-        $flag = storage_path('app/freep1-renamed.flag');
-
-        if (file_exists($flag)) {
-            return;
-        }
-
-        try {
-            DB::table('creators')
-                ->where('email', 'freep@lorespinner.com')
-                ->update(['first_name' => 'FREEP1']);
-
-            file_put_contents($flag, now()->toDateTimeString());
-        } catch (Throwable) {
-            //
-        }
     }
 
     private function generateMissingCovers(): void
