@@ -37,7 +37,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function generateMissingCovers(): void
     {
-        $flag = storage_path('app/covers-generated-v4.flag');
+        $flag = storage_path('app/covers-generated-v5.flag');
 
         if (file_exists($flag)) {
             return;

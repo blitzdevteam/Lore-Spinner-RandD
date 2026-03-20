@@ -9,6 +9,7 @@ use App\Jobs\Story\StoryCoverGeneratorJob;
 use App\Models\Chapter;
 use App\Models\Story;
 use Illuminate\Database\Seeder;
+use Throwable;
 
 final class ImageRepairSeeder extends Seeder
 {
@@ -35,8 +36,13 @@ final class ImageRepairSeeder extends Seeder
         $this->command->info("Generating covers for {$stories->count()} stories...");
 
         foreach ($stories as $story) {
-            $this->command->info("  -> Story cover: {$story->title}");
-            StoryCoverGeneratorJob::dispatchSync($story);
+            try {
+                $this->command->info("  -> Story cover: {$story->title}");
+                StoryCoverGeneratorJob::dispatchSync($story);
+                $this->command->info('     Done.');
+            } catch (Throwable $e) {
+                $this->command->error("     Failed: {$e->getMessage()}");
+            }
         }
     }
 
@@ -50,8 +56,12 @@ final class ImageRepairSeeder extends Seeder
         $this->command->info("Generating covers for {$chapters->count()} chapters...");
 
         foreach ($chapters as $chapter) {
-            $this->command->info("  -> Chapter cover: {$chapter->title} ({$chapter->story?->title})");
-            ChapterCoverGeneratorJob::dispatchSync($chapter);
+            try {
+                $this->command->info("  -> Chapter cover: {$chapter->title} ({$chapter->story?->title})");
+                ChapterCoverGeneratorJob::dispatchSync($chapter);
+            } catch (Throwable $e) {
+                $this->command->error("     Failed: {$e->getMessage()}");
+            }
         }
     }
 }
