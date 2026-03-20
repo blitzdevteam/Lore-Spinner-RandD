@@ -34,8 +34,31 @@ final class AppServiceProvider extends ServiceProvider
             Artisan::call('storage:link');
         }
 
+        $this->updateManagerProfile();
         $this->repairCreatorAvatars();
         $this->repairMissingImages();
+    }
+
+    private function updateManagerProfile(): void
+    {
+        $flag = storage_path('app/manager-profile-updated.flag');
+
+        if (file_exists($flag)) {
+            return;
+        }
+
+        try {
+            \Illuminate\Support\Facades\DB::table('managers')
+                ->where('email', env('MANAGER_EMAIL', 'admin@lorespinner.com'))
+                ->update([
+                    'first_name' => 'Daniel N',
+                    'last_name' => 'Rahimi',
+                ]);
+
+            file_put_contents($flag, now()->toDateTimeString());
+        } catch (Throwable) {
+            //
+        }
     }
 
     private function repairMissingImages(): void
