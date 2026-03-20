@@ -41,8 +41,24 @@ final class AppServiceProvider extends ServiceProvider
 
     private function runMigrations(): void
     {
+        $flag = storage_path('app/bookmarks-migrated.flag');
+
+        if (file_exists($flag)) {
+            return;
+        }
+
         try {
-            Artisan::call('migrate', ['--force' => true]);
+            if (! \Illuminate\Support\Facades\Schema::hasTable('bookmarks')) {
+                \Illuminate\Support\Facades\Schema::create('bookmarks', function (\Illuminate\Database\Schema\Blueprint $table): void {
+                    $table->id();
+                    $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+                    $table->foreignId('story_id')->constrained()->cascadeOnDelete();
+                    $table->timestamps();
+                    $table->unique(['user_id', 'story_id']);
+                });
+            }
+
+            file_put_contents($flag, now()->toDateTimeString());
         } catch (Throwable) {
             //
         }
