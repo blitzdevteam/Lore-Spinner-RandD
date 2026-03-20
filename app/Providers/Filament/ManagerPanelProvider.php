@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Manager\Widgets;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -40,7 +41,12 @@ final class ManagerPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
             ])
-            ->widgets([])
+            ->widgets([
+                Widgets\PlatformStatsOverview::class,
+                Widgets\SignupChart::class,
+                Widgets\RecentUsersTable::class,
+                Widgets\EngagementStats::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
