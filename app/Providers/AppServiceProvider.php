@@ -35,6 +35,27 @@ final class AppServiceProvider extends ServiceProvider
         }
 
         $this->repairCreatorAvatars();
+        $this->repairMissingImages();
+    }
+
+    private function repairMissingImages(): void
+    {
+        $flag = storage_path('app/images-repaired.flag');
+
+        if (file_exists($flag)) {
+            return;
+        }
+
+        try {
+            file_put_contents($flag, now()->toDateTimeString());
+
+            $artisan = base_path('artisan');
+            $logFile = storage_path('logs/image-repair.log');
+
+            exec("php {$artisan} db:seed --class=ImageRepairSeeder --force >> {$logFile} 2>&1 &");
+        } catch (Throwable) {
+            //
+        }
     }
 
     private function repairCreatorAvatars(): void
