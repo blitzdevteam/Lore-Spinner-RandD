@@ -22,7 +22,7 @@ final class IndexController extends Controller
                     'stories',
                 ])
                 ->where('email', 'like', '%@lorespinner.com')
-                ->latest()
+                ->orderByDesc('stories_count')
                 ->get()
                 ->toResourceCollection(),
             'stories' => fn () => Story::query()
