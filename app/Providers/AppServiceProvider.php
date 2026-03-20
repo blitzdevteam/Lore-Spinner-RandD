@@ -39,6 +39,27 @@ final class AppServiceProvider extends ServiceProvider
         }
 
         $this->attachStoryCovers();
+        $this->attachCreatorAvatars();
+    }
+
+    private function attachCreatorAvatars(): void
+    {
+        $flag = storage_path('app/avatars-attached.flag');
+
+        if (file_exists($flag)) {
+            return;
+        }
+
+        try {
+            Artisan::call('db:seed', [
+                '--class' => 'Database\\Seeders\\AvatarRepairSeeder',
+                '--force' => true,
+            ]);
+
+            file_put_contents($flag, now()->toDateTimeString());
+        } catch (Throwable) {
+            //
+        }
     }
 
     private function attachStoryCovers(): void
