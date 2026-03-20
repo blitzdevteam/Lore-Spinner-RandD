@@ -63,7 +63,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function repairMissingImages(): void
     {
-        $flag = storage_path('app/images-repaired.flag');
+        $flag = storage_path('app/images-repaired-v2.flag');
 
         if (file_exists($flag)) {
             return;
