@@ -4,64 +4,58 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Jobs\Chapter\ChapterCoverGeneratorJob;
-use App\Jobs\Story\StoryCoverGeneratorJob;
-use App\Models\Chapter;
 use App\Models\Story;
 use Illuminate\Database\Seeder;
-use Throwable;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 final class ImageRepairSeeder extends Seeder
 {
     public function run(): void
     {
-        $previousQueue = config('queue.default');
-        config(['queue.default' => 'sync']);
+        $coverMap = [
+            "Hemingway's War" => 'hemingways-war.png',
+            'High Stakes' => 'high-stakes.png',
+            'Pieces of Eight' => 'pieces-of-eight.png',
+            'Time Machine' => 'time-machine.png',
+            'B.U.G.S.' => 'bugs.png',
+            'Dream Police' => 'dream-police.png',
+            'Necropolis' => 'necropolis.png',
+            "PJ's" => 'pjs.png',
+            'Wasteland' => 'wasteland.png',
+        ];
 
-        try {
-            $this->generateStoryCovers();
-            $this->generateChapterCovers();
-            $this->command->info('Image repair complete.');
-        } finally {
-            config(['queue.default' => $previousQueue]);
-        }
-    }
+        foreach ($coverMap as $title => $filename) {
+            $story = Story::where('title', $title)->first();
 
-    private function generateStoryCovers(): void
-    {
-        $stories = Story::query()
-            ->whereDoesntHave('media', fn ($q) => $q->where('collection_name', 'cover'))
-            ->get();
+            if (! $story) {
+                $this->command->warn("Story not found: {$title}");
 
-        $this->command->info("Generating covers for {$stories->count()} stories...");
-
-        foreach ($stories as $story) {
-            try {
-                $this->command->info("  -> Story cover: {$story->title}");
-                StoryCoverGeneratorJob::dispatchSync($story);
-                $this->command->info('     Done.');
-            } catch (Throwable $e) {
-                $this->command->error("     Failed: {$e->getMessage()}");
+                continue;
             }
-        }
-    }
 
-    private function generateChapterCovers(): void
-    {
-        $chapters = Chapter::query()
-            ->with('story')
-            ->whereDoesntHave('media', fn ($q) => $q->where('collection_name', 'cover'))
-            ->get();
+            if ($story->getFirstMediaUrl('cover')) {
+                $this->command->info("Cover exists: {$title} — skipping.");
 
-        $this->command->info("Generating covers for {$chapters->count()} chapters...");
-
-        foreach ($chapters as $chapter) {
-            try {
-                $this->command->info("  -> Chapter cover: {$chapter->title} ({$chapter->story?->title})");
-                ChapterCoverGeneratorJob::dispatchSync($chapter);
-            } catch (Throwable $e) {
-                $this->command->error("     Failed: {$e->getMessage()}");
+                continue;
             }
+
+            $source = database_path('stories/covers/'.$filename);
+
+            if (! File::exists($source)) {
+                $this->command->warn("Cover file missing: {$source}");
+
+                continue;
+            }
+
+            $story->addMedia($source)
+                ->preservingOriginal()
+                ->usingFileName('cover-'.Str::slug($title).'.png')
+                ->toMediaCollection('cover', 'public');
+
+            $this->command->info("Cover attached: {$title}");
         }
+
+        $this->command->info('Image repair complete.');
     }
 }

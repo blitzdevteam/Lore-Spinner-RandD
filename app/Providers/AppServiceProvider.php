@@ -32,24 +32,30 @@ final class AppServiceProvider extends ServiceProvider
             Artisan::call('storage:link');
         }
 
-        $this->generateMissingCovers();
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+        } catch (Throwable) {
+            //
+        }
+
+        $this->attachStoryCovers();
     }
 
-    private function generateMissingCovers(): void
+    private function attachStoryCovers(): void
     {
-        $flag = storage_path('app/covers-generated-v5.flag');
+        $flag = storage_path('app/covers-attached.flag');
 
         if (file_exists($flag)) {
             return;
         }
 
         try {
+            Artisan::call('db:seed', [
+                '--class' => 'Database\\Seeders\\ImageRepairSeeder',
+                '--force' => true,
+            ]);
+
             file_put_contents($flag, now()->toDateTimeString());
-
-            $artisan = base_path('artisan');
-            $logFile = storage_path('logs/image-generation.log');
-
-            exec("php {$artisan} db:seed --class=ImageRepairSeeder --force >> {$logFile} 2>&1 &");
         } catch (Throwable) {
             //
         }
