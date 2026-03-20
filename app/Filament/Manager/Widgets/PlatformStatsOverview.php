@@ -18,66 +18,68 @@ final class PlatformStatsOverview extends StatsOverviewWidget
 {
     protected static ?int $sort = 1;
 
-    protected static bool $isLazy = false;
-
     protected ?string $heading = 'Platform Overview';
 
     protected function getStats(): array
     {
-        $now = Carbon::now();
-        $weekAgo = $now->copy()->subDays(7);
-        $monthAgo = $now->copy()->subDays(30);
+        try {
+            $now = Carbon::now();
+            $weekAgo = $now->copy()->subDays(7);
+            $monthAgo = $now->copy()->subDays(30);
 
-        $totalUsers = User::count();
-        $usersThisWeek = User::where('created_at', '>=', $weekAgo)->count();
-        $usersThisMonth = User::where('created_at', '>=', $monthAgo)->count();
+            $totalUsers = User::count();
+            $usersThisWeek = User::where('created_at', '>=', $weekAgo)->count();
+            $usersThisMonth = User::where('created_at', '>=', $monthAgo)->count();
 
-        $weeklySignupTrend = $this->getWeeklySignupTrend();
+            $weeklySignupTrend = $this->getWeeklySignupTrend();
 
-        $totalGames = Game::count();
-        $gamesThisWeek = Game::where('created_at', '>=', $weekAgo)->count();
+            $totalGames = Game::count();
+            $gamesThisWeek = Game::where('created_at', '>=', $weekAgo)->count();
 
-        $totalBookmarks = DB::table('bookmarks')->count();
-        $totalFeedback = Feedback::count();
+            $totalBookmarks = DB::table('bookmarks')->count();
+            $totalFeedback = Feedback::count();
 
-        $verifiedUsers = User::whereNotNull('email_verified_at')->count();
-        $profileCompleted = User::whereNotNull('username')->count();
+            $verifiedUsers = User::whereNotNull('email_verified_at')->count();
+            $profileCompleted = User::whereNotNull('username')->count();
 
-        return [
-            Stat::make('Total Users', number_format($totalUsers))
-                ->description($usersThisWeek . ' this week / ' . $usersThisMonth . ' this month')
-                ->descriptionColor($usersThisWeek > 0 ? 'success' : 'gray')
-                ->chart($weeklySignupTrend)
-                ->chartColor('primary')
-                ->color('primary'),
+            return [
+                Stat::make('Total Users', number_format($totalUsers))
+                    ->description($usersThisWeek . ' this week / ' . $usersThisMonth . ' this month')
+                    ->descriptionColor($usersThisWeek > 0 ? 'success' : 'gray')
+                    ->chart($weeklySignupTrend)
+                    ->chartColor('primary')
+                    ->color('primary'),
 
-            Stat::make('Verified Emails', number_format($verifiedUsers))
-                ->description($totalUsers > 0
-                    ? round(($verifiedUsers / $totalUsers) * 100) . '% of all users'
-                    : 'No users yet')
-                ->descriptionColor('info')
-                ->color('info'),
+                Stat::make('Verified Emails', number_format($verifiedUsers))
+                    ->description($totalUsers > 0
+                        ? round(($verifiedUsers / $totalUsers) * 100) . '% of all users'
+                        : 'No users yet')
+                    ->descriptionColor('info')
+                    ->color('info'),
 
-            Stat::make('Profiles Completed', number_format($profileCompleted))
-                ->description($totalUsers > 0
-                    ? round(($profileCompleted / $totalUsers) * 100) . '% completion rate'
-                    : 'No users yet')
-                ->descriptionColor('success')
-                ->color('success'),
+                Stat::make('Profiles Completed', number_format($profileCompleted))
+                    ->description($totalUsers > 0
+                        ? round(($profileCompleted / $totalUsers) * 100) . '% completion rate'
+                        : 'No users yet')
+                    ->descriptionColor('success')
+                    ->color('success'),
 
-            Stat::make('Games Played', number_format($totalGames))
-                ->description($gamesThisWeek . ' this week')
-                ->descriptionColor($gamesThisWeek > 0 ? 'success' : 'gray')
-                ->color('warning'),
+                Stat::make('Games Played', number_format($totalGames))
+                    ->description($gamesThisWeek . ' this week')
+                    ->descriptionColor($gamesThisWeek > 0 ? 'success' : 'gray')
+                    ->color('warning'),
 
-            Stat::make('Bookmarks', number_format($totalBookmarks))
-                ->description('Stories saved by users')
-                ->color('danger'),
+                Stat::make('Bookmarks', number_format($totalBookmarks))
+                    ->description('Stories saved by users')
+                    ->color('danger'),
 
-            Stat::make('Feedback', number_format($totalFeedback))
-                ->description('User submissions')
-                ->color('gray'),
-        ];
+                Stat::make('Feedback', number_format($totalFeedback))
+                    ->description('User submissions')
+                    ->color('gray'),
+            ];
+        } catch (\Throwable) {
+            return [];
+        }
     }
 
     /**
