@@ -15,6 +15,8 @@ final class RecentUsersTable extends TableWidget
 {
     protected static ?int $sort = 3;
 
+    protected static bool $isLazy = false;
+
     protected int | string | array $columnSpan = 'full';
 
     public function table(Table $table): Table

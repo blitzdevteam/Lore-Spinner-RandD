@@ -15,6 +15,8 @@ final class EngagementStats extends StatsOverviewWidget
 {
     protected static ?int $sort = 4;
 
+    protected static bool $isLazy = false;
+
     protected ?string $heading = 'Engagement Metrics';
 
     protected function getStats(): array

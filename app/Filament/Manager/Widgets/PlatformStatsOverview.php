@@ -18,6 +18,8 @@ final class PlatformStatsOverview extends StatsOverviewWidget
 {
     protected static ?int $sort = 1;
 
+    protected static bool $isLazy = false;
+
     protected ?string $heading = 'Platform Overview';
 
     protected function getStats(): array
