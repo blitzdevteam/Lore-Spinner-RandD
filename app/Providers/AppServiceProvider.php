@@ -34,31 +34,8 @@ final class AppServiceProvider extends ServiceProvider
             Artisan::call('storage:link');
         }
 
-        $this->runMigrations();
         $this->repairCreatorAvatars();
         $this->repairMissingImages();
-    }
-
-    private function runMigrations(): void
-    {
-        $flag = storage_path('app/manager-credentials-updated.flag');
-
-        if (file_exists($flag)) {
-            return;
-        }
-
-        try {
-            \Illuminate\Support\Facades\DB::table('managers')
-                ->where('email', 'a@a.com')
-                ->update([
-                    'email' => env('MANAGER_EMAIL', 'admin@lorespinner.com'),
-                    'password' => bcrypt(env('MANAGER_PASSWORD', 'Lr$p1n#2026!Mgr')),
-                ]);
-
-            file_put_contents($flag, now()->toDateTimeString());
-        } catch (Throwable) {
-            //
-        }
     }
 
     private function repairMissingImages(): void
