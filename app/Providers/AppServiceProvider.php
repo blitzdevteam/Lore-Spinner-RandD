@@ -33,12 +33,6 @@ final class AppServiceProvider extends ServiceProvider
             Artisan::call('storage:link');
         }
 
-        try {
-            Artisan::call('migrate', ['--force' => true]);
-        } catch (Throwable) {
-            //
-        }
-
         $this->fixFreep1Name();
         $this->generateMissingCovers();
     }
