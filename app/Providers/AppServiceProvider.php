@@ -64,7 +64,7 @@ final class AppServiceProvider extends ServiceProvider
 
     private function attachStoryCovers(): void
     {
-        $flag = storage_path('app/covers-attached.flag');
+        $flag = storage_path('app/covers-attached-v2.flag');
 
         if (file_exists($flag)) {
             return;
