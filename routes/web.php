@@ -68,13 +68,33 @@ Route::get('expansion-status', function () {
             ];
         });
 
-    $logFile = storage_path('logs/image-generation.log');
+    $chapters = App\Models\Chapter::select('id', 'story_id', 'position', 'title', 'teaser')
+        ->with(['story:id,title', 'media'])
+        ->whereHas('story', fn ($q) => $q->whereIn('title', [
+            "Hemingway's War", 'High Stakes', 'Pieces of Eight', 'Time Machine',
+            'B.U.G.S.', 'Dream Police', 'Necropolis', "PJ's", 'Wasteland',
+        ]))
+        ->orderBy('story_id')
+        ->orderBy('position')
+        ->get()
+        ->map(function ($ch) {
+            $cover = $ch->getFirstMedia('cover');
+
+            return [
+                'id' => $ch->id,
+                'story' => $ch->story?->title,
+                'position' => $ch->position,
+                'title' => $ch->title,
+                'teaser' => $ch->teaser,
+                'has_cover' => $cover !== null,
+            ];
+        });
 
     return response()->json([
         'symlink' => ['exists' => $symlinkExists, 'target' => $symlinkTarget],
         'storage_dir' => ['exists' => $storageDirExists, 'file_count' => $storageFiles],
-        'log_tail' => file_exists($logFile) ? implode("\n", array_slice(file($logFile), -20)) : 'NO LOG',
         'creators' => $creators,
         'stories' => $stories,
+        'chapters' => $chapters,
     ], 200, [], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 });
