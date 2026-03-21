@@ -40,6 +40,7 @@ final class AppServiceProvider extends ServiceProvider
 
         $this->attachStoryCovers();
         $this->attachCreatorAvatars();
+        $this->attachChapterCovers();
     }
 
     private function attachCreatorAvatars(): void
@@ -55,6 +56,56 @@ final class AppServiceProvider extends ServiceProvider
                 '--class' => 'Database\\Seeders\\AvatarRepairSeeder',
                 '--force' => true,
             ]);
+
+            file_put_contents($flag, now()->toDateTimeString());
+        } catch (Throwable) {
+            //
+        }
+    }
+
+    private function attachChapterCovers(): void
+    {
+        $flag = storage_path('app/chapter-covers-attached-v2.flag');
+
+        if (file_exists($flag)) {
+            return;
+        }
+
+        try {
+            $slugMap = [
+                "Hemingway's War" => 'hemingways-war',
+                'High Stakes' => 'high-stakes',
+                'Pieces of Eight' => 'pieces-of-eight',
+                'Time Machine' => 'time-machine',
+                'B.U.G.S.' => 'bugs',
+                'Dream Police' => 'dream-police',
+                'Necropolis' => 'necropolis',
+                "PJ's" => 'pjs',
+                'Wasteland' => 'wasteland',
+            ];
+
+            foreach ($slugMap as $storyTitle => $slug) {
+                $story = \App\Models\Story::where('title', $storyTitle)->first();
+
+                if (! $story) {
+                    continue;
+                }
+
+                foreach ($story->chapters()->orderBy('position')->get() as $chapter) {
+                    if ($chapter->getFirstMedia('cover')) {
+                        continue;
+                    }
+
+                    $file = database_path("stories/covers/chapters/{$slug}-ch{$chapter->position}.png");
+
+                    if (\Illuminate\Support\Facades\File::exists($file)) {
+                        $chapter->addMedia($file)
+                            ->preservingOriginal()
+                            ->usingFileName("chapter-cover-{$chapter->id}.png")
+                            ->toMediaCollection('cover', 'public');
+                    }
+                }
+            }
 
             file_put_contents($flag, now()->toDateTimeString());
         } catch (Throwable) {
