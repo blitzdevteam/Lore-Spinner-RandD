@@ -64,17 +64,43 @@ final class AppServiceProvider extends ServiceProvider
 
     private function attachStoryCovers(): void
     {
-        $flag = storage_path('app/covers-attached-v2.flag');
+        $flag = storage_path('app/covers-attached-v3.flag');
 
         if (file_exists($flag)) {
             return;
         }
 
         try {
-            Artisan::call('db:seed', [
-                '--class' => 'Database\\Seeders\\ImageRepairSeeder',
-                '--force' => true,
-            ]);
+            $coverMap = [
+                "Hemingway's War" => 'hemingways-war.png',
+                'High Stakes' => 'high-stakes.png',
+                'Pieces of Eight' => 'pieces-of-eight.png',
+                'Time Machine' => 'time-machine.png',
+                'B.U.G.S.' => 'bugs.png',
+                'Dream Police' => 'dream-police.png',
+                'Necropolis' => 'necropolis.png',
+                "PJ's" => 'pjs.png',
+                'Wasteland' => 'wasteland.png',
+            ];
+
+            foreach ($coverMap as $title => $filename) {
+                $story = \App\Models\Story::where('title', $title)->first();
+
+                if (! $story) {
+                    continue;
+                }
+
+                $story->clearMediaCollection('cover');
+
+                $source = database_path('stories/covers/'.$filename);
+
+                if (\Illuminate\Support\Facades\File::exists($source)) {
+                    $story->addMedia($source)
+                        ->preservingOriginal()
+                        ->usingFileName('cover-'.\Illuminate\Support\Str::slug($title).'.png')
+                        ->toMediaCollection('cover', 'public');
+                }
+            }
 
             file_put_contents($flag, now()->toDateTimeString());
         } catch (Throwable) {
