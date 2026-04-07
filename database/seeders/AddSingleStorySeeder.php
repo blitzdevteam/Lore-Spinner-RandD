@@ -15,6 +15,7 @@ use App\Models\Category;
 use App\Models\Creator;
 use App\Models\Story;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Smalot\PdfParser\Parser;
@@ -96,14 +97,8 @@ final class AddSingleStorySeeder extends Seeder
             return;
         }
 
-        $creator = Creator::where('email', $config['creator_email'])->first();
+        $creator = $this->ensureCreator($config);
         $category = Category::firstOrCreate(['title' => $config['category']]);
-
-        if (! $creator) {
-            $this->command->error("Creator not found: {$config['creator_email']}");
-
-            return;
-        }
 
         $this->command->info("Creating: {$config['title']}");
 
@@ -155,6 +150,46 @@ final class AddSingleStorySeeder extends Seeder
         $this->command->info('Published!');
 
         $this->attachMissingImages($story, $config['slug']);
+    }
+
+    private function ensureCreator(array $config): Creator
+    {
+        $data = $config['creator'];
+        $creator = null;
+
+        Creator::withoutEvents(function () use ($data, &$creator): void {
+            $creator = Creator::firstOrCreate(
+                ['email' => $data['email']],
+                [
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'username' => $data['username'],
+                    'password' => 'password',
+                    'bio' => $data['bio'],
+                ]
+            );
+        });
+
+        DB::table('creators')
+            ->where('id', $creator->id)
+            ->update([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'bio' => $data['bio'],
+            ]);
+
+        $avatarPath = database_path('stories/avatars/' . $data['avatar']);
+
+        if (File::exists($avatarPath) && ! $creator->getFirstMedia('avatar')) {
+            $creator->addMedia($avatarPath)
+                ->preservingOriginal()
+                ->usingFileName('avatar-' . $creator->id . '.' . pathinfo($avatarPath, PATHINFO_EXTENSION))
+                ->toMediaCollection('avatar', 'public');
+        }
+
+        $this->command->info("Creator ensured: {$data['first_name']} {$data['last_name']}");
+
+        return $creator;
     }
 
     /**
@@ -240,12 +275,19 @@ final class AddSingleStorySeeder extends Seeder
         return [
             'title' => 'The Wonderful Wizard of Oz',
             'slug' => 'the-wonderful-wizard-of-oz',
-            'creator_email' => 'classics@lorespinner.com',
             'category' => 'Fantasy Adventure',
             'script' => 'THE WONDERFUL WIZARD OF OZ_script.txt',
             'source_pdf' => 'The Wonderful Wizard of Oz.pdf',
             'teaser' => 'Swept from Kansas by a cyclone into the magical Land of Oz, a young girl and her unlikely companions must journey to the Emerald City and confront a powerful witch to find their way home.',
             'rating' => StoryRatingEnum::EVERYONE->value,
+            'creator' => [
+                'first_name' => 'The Classics, Unbound',
+                'last_name' => '',
+                'username' => 'theclassicsunbound',
+                'email' => 'classics@lorespinner.com',
+                'bio' => "Enter the world's most iconic classic stories—now immersive, interactive adventures where your choices reshape timeless legends.",
+                'avatar' => 'THE CLASSICS, UNBOUND - PROFILE PIC.jpg',
+            ],
         ];
     }
 }
