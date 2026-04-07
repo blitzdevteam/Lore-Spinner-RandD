@@ -1,0 +1,251 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Seeders;
+
+use App\Enums\Chapter\ChapterStatusEnum;
+use App\Enums\Story\StoryRatingEnum;
+use App\Enums\Story\StoryStatusEnum;
+use App\Jobs\Chapter\ChapterExtractorJob;
+use App\Jobs\Event\EventExtractorJob;
+use App\Jobs\Story\StoryOpeningGeneratorJob;
+use App\Jobs\Story\SystemPromptGeneratorJob;
+use App\Models\Category;
+use App\Models\Creator;
+use App\Models\Story;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use Smalot\PdfParser\Parser;
+use Throwable;
+
+/**
+ * Safely add a single new story without touching any existing data.
+ *
+ * - Skips if the story is already published
+ * - Attaches story cover from database/stories/covers/{slug}.png if present
+ * - Attaches chapter covers from database/stories/covers/chapters/{slug}-ch{N}.png if present
+ * - Never clears any media on existing stories
+ *
+ * Usage: php artisan db:seed --class=AddSingleStorySeeder --force
+ *
+ * To add a different story, update getStoryConfig() with the new story's data.
+ */
+final class AddSingleStorySeeder extends Seeder
+{
+    private const int MAX_RETRIES = 3;
+
+    private const int RETRY_DELAY_SECONDS = 10;
+
+    public function run(): void
+    {
+        $previousQueue = config('queue.default');
+        config(['queue.default' => 'sync']);
+
+        try {
+            $config = $this->getStoryConfig();
+            $this->processStory($config);
+        } finally {
+            config(['queue.default' => $previousQueue]);
+        }
+    }
+
+    private function processStory(array $config): void
+    {
+        $existing = Story::where('title', $config['title'])->first();
+
+        if ($existing && $existing->status === StoryStatusEnum::PUBLISHED) {
+            $this->command->info("Already published: {$config['title']}");
+            $this->attachMissingImages($existing, $config['slug']);
+
+            return;
+        }
+
+        if ($existing) {
+            $staleMinutes = $existing->updated_at->diffInMinutes(now());
+
+            if ($staleMinutes < 30) {
+                $this->command->info("In progress: {$config['title']} (updated {$staleMinutes}m ago) — skipping.");
+
+                return;
+            }
+
+            $this->command->warn("Removing stale attempt: {$config['title']}");
+            $existing->events()->delete();
+            $existing->chapters()->delete();
+            $existing->clearMediaCollection('script');
+            $existing->clearMediaCollection('cover');
+            $existing->delete();
+        }
+
+        $scriptPath = database_path('stories/' . $config['script']);
+
+        if (! File::exists($scriptPath) && isset($config['source_pdf'])) {
+            $pdfPath = database_path('stories/' . $config['source_pdf']);
+
+            if (File::exists($pdfPath)) {
+                $this->command->info("Converting PDF → TXT...");
+                $this->convertPdf($pdfPath, $scriptPath);
+            }
+        }
+
+        if (! File::exists($scriptPath)) {
+            $this->command->error("Script not found: {$config['script']}");
+
+            return;
+        }
+
+        $creator = Creator::where('email', $config['creator_email'])->first();
+        $category = Category::firstOrCreate(['title' => $config['category']]);
+
+        if (! $creator) {
+            $this->command->error("Creator not found: {$config['creator_email']}");
+
+            return;
+        }
+
+        $this->command->info("Creating: {$config['title']}");
+
+        $story = Story::create([
+            'category_id' => $category->id,
+            'creator_id' => $creator->id,
+            'title' => $config['title'],
+            'slug' => Str::slug($config['title']),
+            'teaser' => $config['teaser'],
+            'opening' => null,
+            'status' => StoryStatusEnum::AWAITING_EXTRACTING_CHAPTERS_REQUEST->value,
+            'rating' => $config['rating'],
+            'published_at' => now(),
+        ]);
+
+        $story->addMedia($scriptPath)
+            ->preservingOriginal()
+            ->toMediaCollection('script');
+
+        $this->command->info('Extracting chapters...');
+        $this->withRetry(fn () => ChapterExtractorJob::dispatchSync($story->fresh()));
+
+        $story->refresh();
+        $chapterCount = $story->chapters()->count();
+        $this->command->info("{$chapterCount} chapters extracted.");
+
+        foreach ($story->chapters()->orderBy('position')->get() as $chapter) {
+            $this->command->info("Extracting events: {$chapter->title}");
+            $this->withRetry(function () use ($chapter): void {
+                $chapter->events()->delete();
+                EventExtractorJob::dispatchSync($chapter->fresh());
+            });
+            $chapter->refresh();
+
+            if ($chapter->events()->count() === 0 && $chapter->status !== ChapterStatusEnum::READY_TO_PLAY) {
+                $chapter->update(['status' => ChapterStatusEnum::READY_TO_PLAY]);
+            }
+
+            $this->command->info("  {$chapter->events()->count()} events.");
+        }
+
+        $this->command->info('Generating system prompt...');
+        $this->withRetry(fn () => SystemPromptGeneratorJob::dispatchSync($story));
+
+        $this->command->info('Generating cinematic opening...');
+        $this->withRetry(fn () => StoryOpeningGeneratorJob::dispatchSync($story->fresh()));
+
+        $story->update(['status' => StoryStatusEnum::PUBLISHED->value]);
+        $this->command->info('Published!');
+
+        $this->attachMissingImages($story, $config['slug']);
+    }
+
+    /**
+     * Attach story cover and chapter covers from repo files — only if missing.
+     */
+    private function attachMissingImages(Story $story, string $slug): void
+    {
+        if (! $story->getFirstMedia('cover')) {
+            $coverFile = database_path("stories/covers/{$slug}.png");
+
+            if (File::exists($coverFile)) {
+                $story->addMedia($coverFile)
+                    ->preservingOriginal()
+                    ->usingFileName('cover-' . $slug . '.png')
+                    ->toMediaCollection('cover', 'public');
+                $this->command->info("Story cover attached.");
+            } else {
+                $this->command->warn("No story cover found at: covers/{$slug}.png");
+            }
+        } else {
+            $this->command->info("Story cover already exists — skipped.");
+        }
+
+        foreach ($story->chapters()->orderBy('position')->get() as $chapter) {
+            if ($chapter->getFirstMedia('cover')) {
+                continue;
+            }
+
+            $chapterFile = database_path("stories/covers/chapters/{$slug}-ch{$chapter->position}.png");
+
+            if (File::exists($chapterFile)) {
+                $chapter->addMedia($chapterFile)
+                    ->preservingOriginal()
+                    ->usingFileName("chapter-cover-{$chapter->id}.png")
+                    ->toMediaCollection('cover', 'public');
+                $this->command->info("  Chapter {$chapter->position} cover attached.");
+            }
+        }
+    }
+
+    private function convertPdf(string $pdfPath, string $txtPath): void
+    {
+        $parser = new Parser;
+        $pdf = $parser->parseFile($pdfPath);
+        $text = $pdf->getText();
+
+        $text = str_replace(["\r\n", "\r"], "\n", $text);
+        $text = preg_replace('/^\d+\.?\s*$/m', '', $text);
+        $text = preg_replace("/\n{4,}/", "\n\n\n", $text);
+        $text = implode("\n", array_map('rtrim', explode("\n", $text)));
+        $text = mb_trim($text) . "\n";
+
+        File::put($txtPath, $text);
+
+        $this->command->info('Saved: ' . basename($txtPath) . ' (' . mb_strlen($text) . ' bytes)');
+    }
+
+    private function withRetry(callable $callback): void
+    {
+        for ($attempt = 1; $attempt <= self::MAX_RETRIES; $attempt++) {
+            try {
+                $callback();
+
+                return;
+            } catch (Throwable $e) {
+                if ($attempt === self::MAX_RETRIES) {
+                    throw $e;
+                }
+
+                $delay = self::RETRY_DELAY_SECONDS * $attempt;
+                $this->command->warn("Attempt {$attempt} failed: {$e->getMessage()}");
+                $this->command->warn("Retrying in {$delay}s...");
+                sleep($delay);
+            }
+        }
+    }
+
+    // ── Story configuration ─────────────────────────────────────────
+    // Update this method to add a different story.
+
+    private function getStoryConfig(): array
+    {
+        return [
+            'title' => 'The Wonderful Wizard of Oz',
+            'slug' => 'the-wonderful-wizard-of-oz',
+            'creator_email' => 'classics@lorespinner.com',
+            'category' => 'Fantasy Adventure',
+            'script' => 'THE WONDERFUL WIZARD OF OZ_script.txt',
+            'source_pdf' => 'The Wonderful Wizard of Oz.pdf',
+            'teaser' => 'Swept from Kansas by a cyclone into the magical Land of Oz, a young girl and her unlikely companions must journey to the Emerald City and confront a powerful witch to find their way home.',
+            'rating' => StoryRatingEnum::EVERYONE->value,
+        ];
+    }
+}
